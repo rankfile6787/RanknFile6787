@@ -15,18 +15,19 @@
 --shadow: 0 18px 42px rgba(0,0,0,0.32);
 --container: 980px;
 --hero-height: 320px;
+--radius-lg: 20px;
+--radius-md: 14px;
+--radius-pill: 999px;
+--reply-indent: 18px;
 }
 
-.form-status.notice-success,
-.reply-form .form-status.notice-success {
-display: inline-block;
-padding: 10px 14px;
-border-radius: 12px;
-background: rgba(139, 207, 155, 0.14);
-border: 1px solid rgba(139, 207, 155, 0.35);
+* {
+box-sizing: border-box;
 }
 
-* { box-sizing: border-box; }
+html {
+scroll-behavior: smooth;
+}
 
 body {
 margin: 0;
@@ -35,6 +36,7 @@ radial-gradient(circle at top, rgba(178,34,34,0.10), transparent 28%),
 linear-gradient(180deg, #0c0f14 0%, #0d1015 100%);
 color: var(--text);
 font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+line-height: 1.5;
 }
 
 img {
@@ -42,7 +44,9 @@ display: block;
 max-width: 100%;
 }
 
-button, input, textarea {
+button,
+input,
+textarea {
 font: inherit;
 }
 
@@ -118,9 +122,11 @@ z-index: 3;
 }
 
 .card {
-background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--card);
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+var(--card);
 border: 1px solid var(--line);
-border-radius: 20px;
+border-radius: var(--radius-lg);
 box-shadow: var(--shadow);
 }
 
@@ -170,9 +176,16 @@ width: 100%;
 background: var(--bg-soft);
 color: var(--text);
 border: 1px solid var(--line-strong);
-border-radius: 14px;
+border-radius: var(--radius-md);
 padding: 12px 14px;
 outline: none;
+transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+border-color: rgba(209,58,58,0.65);
+background: #161d27;
 }
 
 textarea {
@@ -205,15 +218,47 @@ flex-wrap: wrap;
 
 .form-status {
 color: var(--muted);
+font-size: 0.95rem;
+}
+
+.form-status.notice-success,
+.reply-form .form-status.notice-success {
+display: inline-block;
+padding: 10px 14px;
+border-radius: 12px;
+background: rgba(139, 207, 155, 0.14);
+border: 1px solid rgba(139, 207, 155, 0.35);
+color: #d9f2df;
+}
+
+.form-status.notice-error,
+.reply-form .form-status.notice-error {
+display: inline-block;
+padding: 10px 14px;
+border-radius: 12px;
+background: rgba(255, 123, 123, 0.12);
+border: 1px solid rgba(255, 123, 123, 0.28);
+color: #ffd0d0;
 }
 
 .btn {
 appearance: none;
 border: 1px solid transparent;
-border-radius: 999px;
+border-radius: var(--radius-pill);
 padding: 11px 16px;
 font-weight: 700;
 cursor: pointer;
+transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.btn:hover {
+transform: translateY(-1px);
+}
+
+.btn:disabled {
+opacity: 0.65;
+cursor: not-allowed;
+transform: none;
 }
 
 .btn-primary {
@@ -236,13 +281,19 @@ gap: 16px;
 flex-wrap: wrap;
 }
 
+.posts-wrap {
+min-height: 200px;
+}
+
 .posts-list {
 display: grid;
 gap: 16px;
 }
 
 .post-card {
-background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)), var(--card-2);
+background:
+linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)),
+var(--card-2);
 border: 1px solid var(--line);
 border-radius: 18px;
 padding: 16px;
@@ -278,7 +329,7 @@ color: #edf1f5;
 
 .post-actions {
 display: flex;
-gap: 10px;
+gap: 12px;
 flex-wrap: wrap;
 margin-top: 14px;
 }
@@ -291,6 +342,12 @@ color: #ffb3b3;
 cursor: pointer;
 padding: 0;
 font-weight: 700;
+line-height: 1.2;
+}
+
+.link-btn:hover {
+color: #ffd1d1;
+text-decoration: underline;
 }
 
 .reply-block {
@@ -306,11 +363,21 @@ margin-top: 14px;
 }
 
 .reply-card {
+position: relative;
 background: var(--reply);
 border: 1px solid var(--line);
 border-radius: 14px;
 padding: 12px;
-margin-left: 18px;
+}
+
+.reply-card::before {
+content: "";
+position: absolute;
+left: -10px;
+top: 16px;
+width: 8px;
+height: 2px;
+background: rgba(255,255,255,0.12);
 }
 
 .reply-top {
@@ -319,6 +386,7 @@ margin-bottom: 8px;
 
 .reply-author {
 font-weight: 700;
+color: #f3f6fb;
 }
 
 .reply-time {
@@ -330,6 +398,7 @@ margin-top: 3px;
 .reply-body {
 white-space: pre-wrap;
 word-wrap: break-word;
+color: #e8edf4;
 }
 
 .reply-form {
@@ -342,6 +411,10 @@ background: rgba(255,255,255,0.02);
 
 .reply-form textarea {
 min-height: 110px;
+}
+
+.reply-form .form-actions {
+margin-top: 4px;
 }
 
 .empty-state {
@@ -376,15 +449,36 @@ font-weight: 700;
 .page-btn.active {
 background: linear-gradient(180deg, var(--accent-2), var(--accent));
 border-color: transparent;
-color: white;
+color: #fff;
 }
 
-.notice-success { color: var(--success); }
-.notice-error { color: var(--danger); }
+.page-btn:disabled {
+opacity: 0.55;
+cursor: not-allowed;
+}
+
+.notice-success {
+color: var(--success);
+}
+
+.notice-error {
+color: var(--danger);
+}
+
+/* Slightly tighten very deep nested threads */
+.reply-card .reply-card {
+background: rgba(20, 25, 34, 0.92);
+}
+
+/* Better spacing between nested forms and nested replies */
+.reply-card .reply-form + .reply-list {
+margin-top: 12px;
+}
 
 @media (max-width: 700px) {
-.hero {
-height: 280px;
+:root {
+--hero-height: 280px;
+--reply-indent: 12px;
 }
 
 .hero-content {
@@ -395,12 +489,34 @@ padding: 28px 16px 22px;
 padding: 16px 14px 42px;
 }
 
+.form-card {
+padding: 16px;
+}
+
 .post-top {
 flex-direction: column;
 align-items: stretch;
 }
 
 .reply-card {
-margin-left: 10px;
+padding: 11px;
+}
+
+.reply-card::before {
+left: -7px;
+width: 5px;
+}
+
+.form-actions {
+align-items: stretch;
+}
+
+.btn {
+width: 100%;
+text-align: center;
+}
+
+.post-actions {
+gap: 14px;
 }
 }
