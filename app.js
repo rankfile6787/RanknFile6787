@@ -1,307 +1,397 @@
-(() => {
-  const config = window.FORUM_CONFIG || {};
-  const POSTS_PER_PAGE = Number(config.postsPerPage || 20);
-  const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
-  const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
-  const SUBMIT_ENDPOINT = config.submitEndpoint || '';
-  const UPVOTE_ENDPOINT = config.upvoteEndpoint || '';
-  const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
+:root {
+--bg: #0d0f13;
+--bg-soft: #141922;
+--card: #171c25;
+--card-2: #1d2430;
+--reply: #141922;
+--line: rgba(255,255,255,0.09);
+--line-strong: rgba(255,255,255,0.16);
+--text: #eef2f7;
+--muted: #a9b3c2;
+--accent: #b22222;
+--accent-2: #d13a3a;
+--success: #8bcf9b;
+--danger: #ff7b7b;
+--shadow: 0 18px 42px rgba(0,0,0,0.32);
+--container: 980px;
+--hero-height: 320px;
+}
 
-  const postForm = document.getElementById('postForm');
-  const displayNameInput = document.getElementById('display_name');
-  const commentInput = document.getElementById('comment');
-  const websiteInput = document.getElementById('website');
-  const charCount = document.getElementById('charCount');
-  const formStatus = document.getElementById('formStatus');
-  const submitBtn = document.getElementById('submitBtn');
-  const refreshBtn = document.getElementById('refreshBtn');
-  const postsList = document.getElementById('postsList');
-  const pagination = document.getElementById('pagination');
+* { box-sizing: border-box; }
 
-  let allPosts = [];
-  let currentPage = 1;
+body {
+margin: 0;
+background:
+radial-gradient(circle at top, rgba(178,34,34,0.10), transparent 28%),
+linear-gradient(180deg, #0c0f14 0%, #0d1015 100%);
+color: var(--text);
+font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
 
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, (m) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[m]));
-  }
+img {
+display: block;
+max-width: 100%;
+}
 
-  function formatDateTime(isoString) {
-    if (!isoString) return 'Unknown date';
-    const dt = new Date(isoString);
-    if (Number.isNaN(dt.getTime())) return isoString;
+button, input, textarea {
+font: inherit;
+}
 
-    return new Intl.DateTimeFormat(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
-    }).format(dt);
-  }
+.hero {
+position: relative;
+height: var(--hero-height);
+overflow: hidden;
+border-bottom: 1px solid var(--line);
+background: #0b0d11;
+}
 
-  function getStoredVoteMap() {
-    try {
-      return JSON.parse(localStorage.getItem('rf6787_votes') || '{}');
-    } catch {
-      return {};
-    }
-  }
+.hero-image {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+filter: grayscale(100%) contrast(1.06) brightness(0.48);
+}
 
-  function setStoredVote(postId) {
-    const map = getStoredVoteMap();
-    map[postId] = true;
-    localStorage.setItem('rf6787_votes', JSON.stringify(map));
-  }
+.hero-overlay {
+position: absolute;
+inset: 0;
+background:
+linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.70) 100%),
+linear-gradient(90deg, rgba(178,34,34,0.18), rgba(0,0,0,0.04));
+z-index: 1;
+}
 
-  function hasVoted(postId) {
-    return !!getStoredVoteMap()[postId];
-  }
+.hero-content {
+position: relative;
+z-index: 2;
+max-width: var(--container);
+margin: 0 auto;
+padding: 42px 20px 30px;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: end;
+}
 
-  function normalizePosts(posts) {
-    return [...posts]
-      .map((p) => ({
-        id: p.id || cryptoRandomFallback(),
-        timestamp: p.timestamp || '',
-        display_name: (p.display_name || '').trim() || DEFAULT_NAME,
-        comment: p.comment || '',
-        upvotes: Number(p.upvotes || 0)
-      }))
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  }
+.eyebrow {
+margin: 0 0 6px;
+color: #c8d0db;
+font-size: 0.84rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+}
 
-  function cryptoRandomFallback() {
-    return 'post_' + Math.random().toString(36).slice(2, 11);
-  }
+.hero h1 {
+margin: 0;
+font-size: clamp(2rem, 4vw, 3.25rem);
+line-height: 1.05;
+}
 
-  async function fetchPosts(silent = false) {
-    try {
-      const bust = `t=${Date.now()}`;
-      const url = COMMENTS_JSON_URL.includes('?')
-        ? `${COMMENTS_JSON_URL}&${bust}`
-        : `${COMMENTS_JSON_URL}?${bust}`;
+.hero-text {
+margin: 10px 0 0;
+max-width: 680px;
+color: #d7dde7;
+}
 
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+.container {
+max-width: var(--container);
+margin: 0 auto;
+padding: 22px 20px 60px;
+}
 
-      const data = await res.json();
-      allPosts = normalizePosts(Array.isArray(data) ? data : []);
-      render();
-      if (!silent) setStatus('Posts updated.', 'success', true);
-    } catch (err) {
-      console.error(err);
-      if (!silent) setStatus('Could not load posts right now.', 'error', true);
-      if (!allPosts.length) {
-        postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
-      }
-    }
-  }
+.compose-bar {
+margin-top: -24px;
+margin-bottom: 16px;
+position: relative;
+z-index: 3;
+}
 
-  function render() {
-    const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
-    if (currentPage > totalPages) currentPage = totalPages;
+.card {
+background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--card);
+border: 1px solid var(--line);
+border-radius: 20px;
+box-shadow: var(--shadow);
+}
 
-    const start = (currentPage - 1) * POSTS_PER_PAGE;
-    const pagePosts = allPosts.slice(start, start + POSTS_PER_PAGE);
+.form-card {
+padding: 20px;
+margin-bottom: 24px;
+}
 
-    if (!pagePosts.length) {
-      postsList.innerHTML = `<div class="empty-state">No posts have been published yet.</div>`;
-    } else {
-      postsList.innerHTML = pagePosts.map((post) => {
-        const voted = hasVoted(post.id);
-        return `
-          <article class="post-card" data-post-id="${escapeHtml(post.id)}">
-            <div class="post-top">
-              <div class="post-author-wrap">
-                <div class="post-author">${escapeHtml(post.display_name || DEFAULT_NAME)}</div>
-                <div class="post-time">${escapeHtml(formatDateTime(post.timestamp))}</div>
-              </div>
+.is-hidden {
+display: none;
+}
 
-              <div class="post-score">
-                <button
-                  class="vote-btn ${voted ? 'voted' : ''}"
-                  type="button"
-                  data-vote-id="${escapeHtml(post.id)}"
-                  ${voted ? 'disabled' : ''}
-                  aria-label="Upvote this post"
-                >▲ Upvote</button>
-                <span class="vote-count">${post.upvotes}</span>
-              </div>
-            </div>
+.section-head {
+margin-bottom: 16px;
+}
 
-            <div class="post-body">${escapeHtml(post.comment)}</div>
-          </article>
-        `;
-      }).join('');
-    }
+.section-head h2,
+.feed-toolbar h2 {
+margin: 0;
+font-size: 1.3rem;
+}
 
-    renderPagination(totalPages);
-    bindVoteButtons();
-  }
+.section-head p,
+.muted {
+margin: 6px 0 0;
+color: var(--muted);
+}
 
-  function renderPagination(totalPages) {
-    if (totalPages <= 1) {
-      pagination.innerHTML = '';
-      return;
-    }
+.field {
+margin-bottom: 16px;
+}
 
-    const buttons = [];
+.field label {
+display: block;
+margin-bottom: 8px;
+color: #dfe5ee;
+font-weight: 600;
+}
 
-    buttons.push(`
-      <button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
-        Prev
-      </button>
-    `);
+.required {
+color: #ff9b9b;
+}
 
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(`
-        <button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">
-          ${i}
-        </button>
-      `);
-    }
+input[type="text"],
+textarea {
+width: 100%;
+background: var(--bg-soft);
+color: var(--text);
+border: 1px solid var(--line-strong);
+border-radius: 14px;
+padding: 12px 14px;
+outline: none;
+}
 
-    buttons.push(`
-      <button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
-        Next
-      </button>
-    `);
+textarea {
+min-height: 160px;
+resize: vertical;
+}
 
-    pagination.innerHTML = buttons.join('');
+.char-row {
+display: flex;
+justify-content: flex-end;
+margin-top: 8px;
+color: var(--muted);
+font-size: 0.92rem;
+}
 
-    pagination.querySelectorAll('[data-page]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const nextPage = Number(btn.dataset.page);
-        if (!nextPage || nextPage < 1 || nextPage > totalPages) return;
-        currentPage = nextPage;
-        render();
-        window.scrollTo({ top: document.querySelector('.feed-toolbar').offsetTop - 10, behavior: 'smooth' });
-      });
-    });
-  }
+.hp-wrap {
+position: absolute !important;
+left: -9999px !important;
+width: 1px !important;
+height: 1px !important;
+overflow: hidden !important;
+}
 
-  function bindVoteButtons() {
-    document.querySelectorAll('[data-vote-id]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const postId = btn.dataset.voteId;
-        if (!postId || hasVoted(postId)) return;
+.form-actions {
+display: flex;
+gap: 12px;
+align-items: center;
+flex-wrap: wrap;
+}
 
-        btn.disabled = true;
+.form-status {
+color: var(--muted);
+}
 
-        try {
-          if (!UPVOTE_ENDPOINT) {
-            throw new Error('Upvote endpoint missing.');
-          }
+.btn {
+appearance: none;
+border: 1px solid transparent;
+border-radius: 999px;
+padding: 11px 16px;
+font-weight: 700;
+cursor: pointer;
+}
 
-          const res = await fetch(UPVOTE_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              action: 'upvote',
-              id: postId
-            })
-          });
+.btn-primary {
+background: linear-gradient(180deg, var(--accent-2), var(--accent));
+color: #fff;
+}
 
-          const data = await res.json();
-          if (!data.ok) throw new Error(data.message || 'Upvote failed.');
+.btn-secondary {
+background: transparent;
+color: var(--text);
+border-color: var(--line-strong);
+}
 
-          setStoredVote(postId);
+.feed-toolbar {
+margin: 28px 0 14px;
+display: flex;
+justify-content: space-between;
+align-items: end;
+gap: 16px;
+flex-wrap: wrap;
+}
 
-          const post = allPosts.find((p) => p.id === postId);
-          if (post) post.upvotes = Number(post.upvotes || 0) + 1;
+.posts-list {
+display: grid;
+gap: 16px;
+}
 
-          render();
-        } catch (err) {
-          console.error(err);
-          btn.disabled = false;
-          setStatus('Unable to upvote right now.', 'error', true);
-        }
-      });
-    });
-  }
+.post-card {
+background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)), var(--card-2);
+border: 1px solid var(--line);
+border-radius: 18px;
+padding: 16px;
+box-shadow: var(--shadow);
+}
 
-  function setStatus(message, type = '', autoClear = false) {
-    formStatus.textContent = message;
-    formStatus.className = 'form-status';
+.post-top {
+display: flex;
+justify-content: space-between;
+gap: 16px;
+align-items: start;
+margin-bottom: 12px;
+}
 
-    if (type === 'success') formStatus.classList.add('notice-success');
-    if (type === 'error') formStatus.classList.add('notice-error');
+.post-author {
+font-size: 1rem;
+font-weight: 800;
+color: #f7f9fb;
+word-break: break-word;
+}
 
-    if (autoClear) {
-      window.clearTimeout(setStatus._timer);
-      setStatus._timer = window.setTimeout(() => {
-        formStatus.textContent = '';
-        formStatus.className = 'form-status';
-      }, 3000);
-    }
-  }
+.post-time {
+margin-top: 4px;
+color: var(--muted);
+font-size: 0.9rem;
+}
 
-  function updateCharCount() {
-    const len = commentInput.value.length;
-    charCount.textContent = `${len} / 3000`;
-  }
+.post-body {
+white-space: pre-wrap;
+word-wrap: break-word;
+color: #edf1f5;
+}
 
-  async function submitPost(e) {
-    e.preventDefault();
+.post-actions {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+margin-top: 14px;
+}
 
-    const displayName = displayNameInput.value.trim();
-    const comment = commentInput.value.trim();
-    const website = websiteInput.value.trim();
+.link-btn {
+appearance: none;
+background: transparent;
+border: none;
+color: #ffb3b3;
+cursor: pointer;
+padding: 0;
+font-weight: 700;
+}
 
-    if (!comment) {
-      setStatus('Comment is required.', 'error');
-      return;
-    }
+.reply-block {
+margin-top: 14px;
+padding-top: 14px;
+border-top: 1px solid var(--line);
+}
 
-    if (comment.length > 3000) {
-      setStatus('Comment exceeds 3000 characters.', 'error');
-      return;
-    }
+.reply-list {
+display: grid;
+gap: 10px;
+margin-top: 14px;
+}
 
-    if (!SUBMIT_ENDPOINT) {
-      setStatus('Submit endpoint is not configured yet.', 'error');
-      return;
-    }
+.reply-card {
+background: var(--reply);
+border: 1px solid var(--line);
+border-radius: 14px;
+padding: 12px;
+margin-left: 18px;
+}
 
-    submitBtn.disabled = true;
-    setStatus('Sending...', '');
+.reply-top {
+margin-bottom: 8px;
+}
 
-    try {
-      const res = await fetch(SUBMIT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({
-          action: 'submit',
-          display_name: displayName,
-          comment,
-          website
-        })
-      });
+.reply-author {
+font-weight: 700;
+}
 
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || 'Submission failed.');
+.reply-time {
+color: var(--muted);
+font-size: 0.88rem;
+margin-top: 3px;
+}
 
-      postForm.reset();
-      updateCharCount();
-      setStatus('Post submitted for review.', 'success');
-    } catch (err) {
-      console.error(err);
-      setStatus('Could not submit post right now.', 'error');
-    } finally {
-      submitBtn.disabled = false;
-    }
-  }
+.reply-body {
+white-space: pre-wrap;
+word-wrap: break-word;
+}
 
-  commentInput.addEventListener('input', updateCharCount);
-  postForm.addEventListener('submit', submitPost);
-  refreshBtn.addEventListener('click', () => fetchPosts());
+.reply-form {
+margin-top: 12px;
+padding: 12px;
+border: 1px solid var(--line);
+border-radius: 14px;
+background: rgba(255,255,255,0.02);
+}
 
-  updateCharCount();
-  fetchPosts(true);
-  window.setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
-})();
+.reply-form textarea {
+min-height: 110px;
+}
+
+.empty-state {
+padding: 26px;
+text-align: center;
+border: 1px dashed var(--line-strong);
+border-radius: 18px;
+color: var(--muted);
+background: rgba(255,255,255,0.02);
+}
+
+.pagination {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+justify-content: center;
+margin-top: 24px;
+}
+
+.page-btn {
+appearance: none;
+min-width: 42px;
+border: 1px solid var(--line-strong);
+background: transparent;
+color: var(--text);
+border-radius: 12px;
+padding: 10px 12px;
+cursor: pointer;
+font-weight: 700;
+}
+
+.page-btn.active {
+background: linear-gradient(180deg, var(--accent-2), var(--accent));
+border-color: transparent;
+color: white;
+}
+
+.notice-success { color: var(--success); }
+.notice-error { color: var(--danger); }
+
+@media (max-width: 700px) {
+.hero {
+height: 280px;
+}
+
+.hero-content {
+padding: 28px 16px 22px;
+}
+
+.container {
+padding: 16px 14px 42px;
+}
+
+.post-top {
+flex-direction: column;
+align-items: stretch;
+}
+
+.reply-card {
+margin-left: 10px;
+}
+}
