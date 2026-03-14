@@ -314,7 +314,7 @@ parent_id: parentId
 postForm.reset();
 parentIdInput.value = '';
 updateCharCount();
-setStatus('Post submitted for review.', 'success');
+setStatus('Your post was accepted and will appear soon!', 'success');
 hideMainComposer();
 } catch (err) {
 console.error(err);
