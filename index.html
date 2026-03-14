@@ -1,100 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>USW 6787 Rank & File</title>
-  <meta name="description" content="USW 6787 Rank & File - share information, stay informed, speak freely." />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>USW 6787 Rank & File</title>
+<meta name="description" content="USW 6787 Rank & File - share information, stay informed, speak freely." />
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="site-shell">
-    <header class="hero">
-      <div class="hero-overlay"></div>
-      <img class="hero-image" src="assets/solidarity.jpg" alt="Solidarity banner" />
-      <div class="hero-content">
-        <p class="eyebrow">Independent Member Information Board</p>
-        <h1>USW 6787 Rank &amp; File</h1>
-        <p class="hero-text">
-          Share information. Stay informed. Speak freely.
-        </p>
-      </div>
-    </header>
+<div class="site-shell">
+<header class="hero">
+<div class="hero-overlay"></div>
+<img class="hero-image" src="assets/solidarity.jpg" alt="Solidarity banner" />
+<div class="hero-content">
+<p class="eyebrow">Independent Member Information Board</p>
+<h1>USW 6787 Rank &amp; File</h1>
+<p class="hero-text">Share information. Stay informed. Speak freely.</p>
+</div>
+</header>
 
-    <main class="container">
-      <section class="card form-card">
-        <div class="section-head">
-          <h2>Submit a Post</h2>
-          <p>Posts are reviewed before they go live.</p>
-        </div>
+<main class="container">
+<section class="compose-bar">
+<button id="toggleMainComposer" class="btn btn-primary" type="button">Make a Post</button>
+</section>
 
-        <form id="postForm" novalidate>
-          <div class="field">
-            <label for="display_name">Name (optional)</label>
-            <input
-              id="display_name"
-              name="display_name"
-              type="text"
-              maxlength="80"
-              placeholder="Leave blank to post as Rank & File"
-            />
-          </div>
+<section id="mainComposerCard" class="card form-card is-hidden">
+<div class="section-head">
+<h2>Submit a Post</h2>
+<p>Posts are reviewed before they go live.</p>
+</div>
 
-          <div class="field">
-            <label for="comment">Comment <span class="required">*</span></label>
-            <textarea
-              id="comment"
-              name="comment"
-              maxlength="3000"
-              placeholder="Write your post here..."
-              required
-            ></textarea>
-            <div class="char-row">
-              <span id="charCount">0 / 3000</span>
-            </div>
-          </div>
+<form id="postForm" novalidate>
+<input type="hidden" id="parent_id" name="parent_id" value="" />
 
-          <!-- Honeypot -->
-          <div class="hp-wrap" aria-hidden="true">
-            <label for="website">Website</label>
-            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-          </div>
+<div class="field">
+<label for="display_name">Name (optional)</label>
+<input
+id="display_name"
+name="display_name"
+type="text"
+maxlength="80"
+placeholder="Leave blank to post as Rank & File"
+/>
+</div>
 
-          <div class="form-actions">
-            <button id="submitBtn" type="submit" class="btn btn-primary">Send Post</button>
-            <span id="formStatus" class="form-status" aria-live="polite"></span>
-          </div>
-        </form>
-      </section>
+<div class="field">
+<label for="comment">Comment <span class="required">*</span></label>
+<textarea
+id="comment"
+name="comment"
+maxlength="3000"
+placeholder="Write your post here..."
+required
+></textarea>
+<div class="char-row">
+<span id="charCount">0 / 3000</span>
+</div>
+</div>
 
-      <section class="feed-toolbar">
-        <div>
-          <h2>Latest Posts</h2>
-          <p class="muted">Newest first • 20 posts per page</p>
-        </div>
-        <div class="toolbar-actions">
-          <button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
-        </div>
-      </section>
+<div class="hp-wrap" aria-hidden="true">
+<label for="website">Website</label>
+<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+</div>
 
-      <section id="postsWrap" class="posts-wrap">
-        <div id="postsList" class="posts-list"></div>
-      </section>
+<div class="form-actions">
+<button id="submitBtn" type="submit" class="btn btn-primary">Send Post</button>
+<button id="cancelMainComposer" type="button" class="btn btn-secondary">Cancel</button>
+<span id="formStatus" class="form-status" aria-live="polite"></span>
+</div>
+</form>
+</section>
 
-      <nav id="pagination" class="pagination" aria-label="Pagination"></nav>
-    </main>
-  </div>
+<section class="feed-toolbar">
+<div>
+<h2>Latest Posts</h2>
+<p class="muted">Newest first • 20 posts per page</p>
+</div>
+<div class="toolbar-actions">
+<button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
+</div>
+</section>
 
-  <script>
-    window.FORUM_CONFIG = {
-      commentsJsonUrl: './comments.json',
-      submitEndpoint: 'https://script.google.com/macros/s/AKfycbzHJV9IMOyLW0DAr_Tw8KeGMibjkRHcngP-MlnkUXYIGKlfKIjJ6xRDVoaMQzZj9X2gGQ/exec',
-      upvoteEndpoint: 'https://script.google.com/macros/s/AKfycbzHJV9IMOyLW0DAr_Tw8KeGMibjkRHcngP-MlnkUXYIGKlfKIjJ6xRDVoaMQzZj9X2gGQ/exec',
-      postsPerPage: 20,
-      defaultDisplayName: 'Rank & File',
-      liveRefreshMs: 30000
-    };
-  </script>
-  <script src="app.js"></script>
+<section id="postsWrap" class="posts-wrap">
+<div id="postsList" class="posts-list"></div>
+</section>
+
+<nav id="pagination" class="pagination" aria-label="Pagination"></nav>
+</main>
+</div>
+
+<script>
+window.FORUM_CONFIG = {
+commentsJsonUrl: './comments.json',
+submitEndpoint: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
+postsPerPage: 20,
+defaultDisplayName: 'Rank & File',
+liveRefreshMs: 30000
+};
+</script>
+<script src="app.js"></script>
 </body>
 </html>
