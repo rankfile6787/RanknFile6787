@@ -424,6 +424,8 @@ formData.append('image_base64', payload.image_base64 || '');
 formData.append('image_mime_type', payload.image_mime_type || '');
 formData.append('image_name', payload.image_name || '');
 
+console.log('Sending to submit endpoint:', SUBMIT_ENDPOINT);
+
 await fetch(SUBMIT_ENDPOINT, {
 method: 'POST',
 mode: 'no-cors',
@@ -476,7 +478,15 @@ if (submitBtn) submitBtn.disabled = true;
 setMainStatus('Sending...', '');
 
 try {
-const imagePayload = await buildImagePayload(imageFile);
+let imagePayload = {
+image_base64: '',
+image_mime_type: '',
+image_name: ''
+};
+
+if (imageFile) {
+imagePayload = await buildImagePayload(imageFile);
+}
 
 await sendSubmission({
 display_name: displayName,
@@ -494,7 +504,7 @@ updateCharCount();
 setMainStatus('Post submitted will appear shortly.', 'success', true);
 hideMainComposer();
 } catch (err) {
-console.error(err);
+console.error('submitPost error:', err);
 setMainStatus(err.message || 'Could not submit post right now.', 'error');
 } finally {
 if (submitBtn) submitBtn.disabled = false;
@@ -653,7 +663,6 @@ clearReplyPreview(recordId);
 function showMainComposer() {
 if (!mainComposerCard || !toggleMainComposer) return;
 mainComposerCard.classList.remove('is-hidden');
-toggleMainComposer.style.display = '';
 toggleMainComposer.style.display = 'none';
 if (displayNameInput) displayNameInput.focus();
 }
