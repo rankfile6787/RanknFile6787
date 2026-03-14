@@ -141,7 +141,7 @@ return `
 <div class="field">
 <label>Image (optional)</label>
 <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif" />
-<p class="field-help">Allowed: JPG, PNG, WEBP, GIF • Max 4 MB</p>
+<p class="field-help">Allowed: JPG, PNG, WEBP, GIF • Max 250 KB</p>
 <div class="image-preview-wrap is-hidden" data-reply-preview-wrap="${escapeHtml(recordId)}">
 <img class="image-preview" data-reply-preview-img="${escapeHtml(recordId)}" alt="Selected image preview" />
 <button type="button" class="btn btn-secondary btn-small" data-reply-clear-image="${escapeHtml(recordId)}">Remove Image</button>
