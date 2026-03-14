@@ -5,6 +5,8 @@ const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
 const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
 const SUBMIT_ENDPOINT = config.submitEndpoint || '';
 const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
+const MAX_COMMENT_LENGTH = 3000;
+const MAX_VISUAL_DEPTH = 3;
 
 const postForm = document.getElementById('postForm');
 const displayNameInput = document.getElementById('display_name');
@@ -24,10 +26,10 @@ const cancelMainComposer = document.getElementById('cancelMainComposer');
 let allRecords = [];
 let currentPage = 1;
 
-// Tracks which posts have their replies expanded
-const expandedReplies = new Set();
+// Tracks which threads are expanded.
+const expandedThreads = new Set();
 
-// Tracks which posts have their reply form open
+// Tracks which specific record IDs have an open reply form.
 const openReplyForms = new Set();
 
 function escapeHtml(str) {
@@ -58,11 +60,11 @@ minute: '2-digit'
 function normalizeRecords(records) {
 return [...records]
 .map((record) => ({
-id: record.id || `post_${Math.random().toString(36).slice(2, 11)}`,
+id: String(record.id || `post_${Math.random().toString(36).slice(2, 11)}`),
 parent_id: String(record.parent_id || '').trim(),
-timestamp: record.timestamp || '',
+timestamp: String(record.timestamp || ''),
 display_name: String(record.display_name || '').trim() || DEFAULT_NAME,
-comment: record.comment || ''
+comment: String(record.comment || '')
 }))
 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
@@ -71,10 +73,21 @@ function getTopLevelPosts() {
 return allRecords.filter((record) => !record.parent_id);
 }
 
-function getReplies(parentId) {
+function getChildren(parentId) {
 return allRecords
 .filter((record) => record.parent_id === parentId)
 .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+}
+
+function countAllDescendants(parentId) {
+const children = getChildren(parentId);
+let total = children.length;
+
+for (const child of children) {
+total += countAllDescendants(child.id);
+}
+
+return total;
 }
 
 async function fetchPosts(silent = false) {
@@ -85,22 +98,20 @@ const url = COMMENTS_JSON_URL.includes('?')
 : `${COMMENTS_JSON_URL}?${cacheBust}`;
 
 const res = await fetch(url, { cache: 'no-store' });
-if (!res.ok) {
-throw new Error(`Failed to load posts (${res.status})`);
-}
+if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
 
 const data = await res.json();
 allRecords = normalizeRecords(Array.isArray(data) ? data : []);
 render();
 
 if (!silent) {
-setStatus('Posts updated.', 'success', true);
+setMainStatus('Posts updated.', 'success', true);
 }
 } catch (err) {
 console.error(err);
 
 if (!silent) {
-setStatus('Could not load posts right now.', 'error', true);
+setMainStatus('Could not load posts right now.', 'error', true);
 }
 
 if (!allRecords.length && postsList) {
@@ -115,9 +126,7 @@ if (!postsList || !pagination) return;
 const topPosts = getTopLevelPosts();
 const totalPages = Math.max(1, Math.ceil(topPosts.length / POSTS_PER_PAGE));
 
-if (currentPage > totalPages) {
-currentPage = totalPages;
-}
+if (currentPage > totalPages) currentPage = totalPages;
 
 const start = (currentPage - 1) * POSTS_PER_PAGE;
 const pagePosts = topPosts.slice(start, start + POSTS_PER_PAGE);
@@ -125,16 +134,16 @@ const pagePosts = topPosts.slice(start, start + POSTS_PER_PAGE);
 if (!pagePosts.length) {
 postsList.innerHTML = `<div class="empty-state">No posts have been published yet.</div>`;
 } else {
-postsList.innerHTML = pagePosts.map(renderPostCard).join('');
+postsList.innerHTML = pagePosts.map(renderTopLevelPostCard).join('');
 }
 
 renderPagination(totalPages);
-bindPostButtons();
+bindThreadButtons();
 }
 
-function renderPostCard(post) {
-const replies = getReplies(post.id);
-const isExpanded = expandedReplies.has(post.id);
+function renderTopLevelPostCard(post) {
+const descendantsCount = countAllDescendants(post.id);
+const isExpanded = expandedThreads.has(post.id);
 const isReplyFormOpen = openReplyForms.has(post.id);
 
 return `
@@ -154,12 +163,35 @@ ${isReplyFormOpen ? 'Cancel Reply' : 'Reply'}
 </button>
 
 <button class="link-btn" type="button" data-thread-toggle="${escapeHtml(post.id)}">
-${isExpanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
+${isExpanded ? 'Hide Replies' : `Show Replies (${descendantsCount})`}
 </button>
 </div>
 
-<div class="reply-block" ${isExpanded || isReplyFormOpen ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
-<form class="reply-form" data-reply-form="${escapeHtml(post.id)}" ${isReplyFormOpen ? '' : 'style="display:none;"'} novalidate>
+<div class="reply-block" ${isExpanded || isReplyFormOpen ? '' : 'style="display:none;"'}>
+${renderReplyForm(post.id, isReplyFormOpen, true)}
+
+${
+isExpanded
+? `
+<div class="reply-list">
+${renderNestedChildren(post.id, 1)}
+</div>
+`
+: ''
+}
+</div>
+</article>
+`;
+}
+
+function renderReplyForm(recordId, isOpen, isTopLevel = false) {
+return `
+<form
+class="reply-form"
+data-reply-form="${escapeHtml(recordId)}"
+${isOpen ? '' : 'style="display:none;"'}
+novalidate
+>
 <div class="field">
 <label>Name (optional)</label>
 <input
@@ -171,10 +203,10 @@ placeholder="Leave blank to reply as ${escapeHtml(DEFAULT_NAME)}"
 </div>
 
 <div class="field">
-<label>Reply <span class="required">*</span></label>
+<label>${isTopLevel ? 'Reply' : 'Reply'} <span class="required">*</span></label>
 <textarea
 name="comment"
-maxlength="3000"
+maxlength="${MAX_COMMENT_LENGTH}"
 placeholder="Write your reply..."
 required
 ></textarea>
@@ -187,35 +219,61 @@ required
 
 <div class="form-actions">
 <button type="submit" class="btn btn-primary">Send Reply</button>
-<span class="form-status" data-reply-status="${escapeHtml(post.id)}" aria-live="polite"></span>
+<span class="form-status" data-reply-status="${escapeHtml(recordId)}" aria-live="polite"></span>
 </div>
 </form>
-
-${
-isExpanded
-? `
-<div class="reply-list">
-${replies.length
-? replies.map(renderReplyCard).join('')
-: `<div class="muted">No replies yet.</div>`
-}
-</div>
-`
-: ''
-}
-</div>
-</article>
 `;
 }
 
-function renderReplyCard(reply) {
+function renderNestedChildren(parentId, depth) {
+const children = getChildren(parentId);
+
+if (!children.length) {
+if (depth === 1) return `<div class="muted">No replies yet.</div>`;
+return '';
+}
+
+return children.map((child) => renderNestedReplyCard(child, depth)).join('');
+}
+
+function renderNestedReplyCard(reply, depth) {
+const childCount = countAllDescendants(reply.id);
+const isReplyFormOpen = openReplyForms.has(reply.id);
+const safeDepth = Math.min(depth, MAX_VISUAL_DEPTH);
+
 return `
-<article class="reply-card">
+<article
+class="reply-card"
+data-reply-id="${escapeHtml(reply.id)}"
+style="margin-left:${safeDepth * 18}px;"
+>
 <div class="reply-top">
 <div class="reply-author">${escapeHtml(reply.display_name)}</div>
 <div class="reply-time">${escapeHtml(formatDateTime(reply.timestamp))}</div>
 </div>
+
 <div class="reply-body">${escapeHtml(reply.comment)}</div>
+
+<div class="post-actions">
+<button class="link-btn" type="button" data-reply-toggle="${escapeHtml(reply.id)}">
+${isReplyFormOpen ? 'Cancel Reply' : 'Reply'}
+</button>
+${
+childCount > 0
+? `<button class="link-btn" type="button" data-thread-toggle="${escapeHtml(reply.id)}">
+${expandedThreads.has(reply.id) ? 'Hide Replies' : `Show Replies (${childCount})`}
+</button>`
+: ''
+}
+</div>
+
+${renderReplyForm(reply.id, isReplyFormOpen, false)}
+
+${
+expandedThreads.has(reply.id)
+? `<div class="reply-list">${renderNestedChildren(reply.id, depth + 1)}</div>`
+: ''
+}
 </article>
 `;
 }
@@ -269,16 +327,16 @@ behavior: 'smooth'
 });
 }
 
-function bindPostButtons() {
+function bindThreadButtons() {
 document.querySelectorAll('[data-thread-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
-const postId = btn.dataset.threadToggle;
-if (!postId) return;
+const recordId = btn.dataset.threadToggle;
+if (!recordId) return;
 
-if (expandedReplies.has(postId)) {
-expandedReplies.delete(postId);
+if (expandedThreads.has(recordId)) {
+expandedThreads.delete(recordId);
 } else {
-expandedReplies.add(postId);
+expandedThreads.add(recordId);
 }
 
 render();
@@ -287,21 +345,21 @@ render();
 
 document.querySelectorAll('[data-reply-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
-const postId = btn.dataset.replyToggle;
-if (!postId) return;
+const recordId = btn.dataset.replyToggle;
+if (!recordId) return;
 
-if (openReplyForms.has(postId)) {
-openReplyForms.delete(postId);
+if (openReplyForms.has(recordId)) {
+openReplyForms.delete(recordId);
 } else {
-openReplyForms.add(postId);
+openReplyForms.add(recordId);
 }
 
 render();
 
-if (openReplyForms.has(postId)) {
+if (openReplyForms.has(recordId)) {
 window.setTimeout(() => {
 const textarea = document.querySelector(
-`[data-reply-form="${CSS.escape(postId)}"] textarea`
+`[data-reply-form="${CSS.escape(recordId)}"] textarea`
 );
 if (textarea) textarea.focus();
 }, 30);
@@ -314,7 +372,7 @@ form.addEventListener('submit', handleReplySubmit);
 });
 }
 
-function setStatus(message, type = '', autoClear = false) {
+function setMainStatus(message, type = '', autoClear = false) {
 if (!formStatus) return;
 
 formStatus.textContent = message;
@@ -324,8 +382,8 @@ if (type === 'success') formStatus.classList.add('notice-success');
 if (type === 'error') formStatus.classList.add('notice-error');
 
 if (autoClear) {
-window.clearTimeout(setStatus._timer);
-setStatus._timer = window.setTimeout(() => {
+window.clearTimeout(setMainStatus._timer);
+setMainStatus._timer = window.setTimeout(() => {
 formStatus.textContent = '';
 formStatus.className = 'form-status';
 }, 3500);
@@ -334,7 +392,7 @@ formStatus.className = 'form-status';
 
 function updateCharCount() {
 if (!charCount || !commentInput) return;
-charCount.textContent = `${commentInput.value.length} / 3000`;
+charCount.textContent = `${commentInput.value.length} / ${MAX_COMMENT_LENGTH}`;
 }
 
 async function sendSubmission(payload) {
@@ -364,23 +422,23 @@ const website = websiteInput ? websiteInput.value.trim() : '';
 const parentId = parentIdInput ? parentIdInput.value.trim() : '';
 
 if (!comment) {
-setStatus('Please fill out this field.', 'error');
+setMainStatus('Please fill out this field.', 'error');
 if (commentInput) commentInput.focus();
 return;
 }
 
-if (comment.length > 3000) {
-setStatus('Post exceeds 3000 characters.', 'error');
+if (comment.length > MAX_COMMENT_LENGTH) {
+setMainStatus(`Post exceeds ${MAX_COMMENT_LENGTH} characters.`, 'error');
 return;
 }
 
 if (!SUBMIT_ENDPOINT) {
-setStatus('Submit endpoint is not configured yet.', 'error');
+setMainStatus('Submit endpoint is not configured yet.', 'error');
 return;
 }
 
 if (submitBtn) submitBtn.disabled = true;
-setStatus('Sending...', '');
+setMainStatus('Sending...', '');
 
 try {
 await sendSubmission({
@@ -394,12 +452,11 @@ if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
 updateCharCount();
 
-setStatus('Post submitted will appear shortly.', 'success', true);
-
+setMainStatus('Post submitted will appear shortly.', 'success', true);
 hideMainComposer();
 } catch (err) {
 console.error(err);
-setStatus('Could not submit post right now.', 'error');
+setMainStatus('Could not submit post right now.', 'error');
 } finally {
 if (submitBtn) submitBtn.disabled = false;
 }
@@ -409,8 +466,8 @@ async function handleReplySubmit(e) {
 e.preventDefault();
 
 const form = e.currentTarget;
-const postId = form.dataset.replyForm;
-const statusEl = form.querySelector(`[data-reply-status="${postId}"]`);
+const recordId = form.dataset.replyForm;
+const statusEl = form.querySelector(`[data-reply-status="${recordId}"]`);
 const displayName = form.querySelector('input[name="display_name"]').value.trim();
 const comment = form.querySelector('textarea[name="comment"]').value.trim();
 const website = form.querySelector('input[name="website"]').value.trim();
@@ -426,9 +483,9 @@ if (textarea) textarea.focus();
 return;
 }
 
-if (comment.length > 3000) {
+if (comment.length > MAX_COMMENT_LENGTH) {
 if (statusEl) {
-statusEl.textContent = 'Reply exceeds 3000 characters.';
+statusEl.textContent = `Reply exceeds ${MAX_COMMENT_LENGTH} characters.`;
 statusEl.className = 'form-status notice-error';
 }
 return;
@@ -445,7 +502,7 @@ await sendSubmission({
 display_name: displayName,
 comment,
 website,
-parent_id: postId
+parent_id: recordId
 });
 
 form.reset();
@@ -455,10 +512,11 @@ statusEl.textContent = 'Reply submitted will appear shortly.';
 statusEl.className = 'form-status notice-success';
 }
 
-expandedReplies.add(postId);
+// Make sure the parent thread stays open after a reply submission.
+expandedThreads.add(recordId);
 
 window.setTimeout(() => {
-openReplyForms.delete(postId);
+openReplyForms.delete(recordId);
 render();
 }, 1200);
 } catch (err) {
