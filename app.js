@@ -47,7 +47,6 @@ return String(str).replace(/[&<>"']/g, (m) => ({
 
 function formatDateTime(isoString) {
 if (!isoString) return 'Unknown date';
-
 const dt = new Date(isoString);
 if (Number.isNaN(dt.getTime())) return isoString;
 
@@ -86,11 +85,7 @@ return allRecords
 function countAllDescendants(parentId) {
 const children = getChildren(parentId);
 let total = children.length;
-
-for (const child of children) {
-total += countAllDescendants(child.id);
-}
-
+for (const child of children) total += countAllDescendants(child.id);
 return total;
 }
 
@@ -108,16 +103,10 @@ const data = await res.json();
 allRecords = normalizeRecords(Array.isArray(data) ? data : []);
 render();
 
-if (!silent) {
-setMainStatus('Posts updated.', 'success', true);
-}
+if (!silent) setMainStatus('Posts updated.', 'success', true);
 } catch (err) {
 console.error(err);
-
-if (!silent) {
-setMainStatus('Could not load posts right now.', 'error', true);
-}
-
+if (!silent) setMainStatus('Could not load posts right now.', 'error', true);
 if (!allRecords.length && postsList) {
 postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
 }
@@ -129,7 +118,6 @@ if (!postsList || !pagination) return;
 
 const topPosts = getTopLevelPosts();
 const totalPages = Math.max(1, Math.ceil(topPosts.length / POSTS_PER_PAGE));
-
 if (currentPage > totalPages) currentPage = totalPages;
 
 const start = (currentPage - 1) * POSTS_PER_PAGE;
@@ -160,7 +148,6 @@ return `
 </div>
 
 <div class="post-body">${escapeHtml(post.comment)}</div>
-
 ${renderImage(post.image_url)}
 
 <div class="post-actions">
@@ -178,11 +165,7 @@ ${renderReplyForm(post.id, isReplyFormOpen)}
 
 ${
 isExpanded
-? `
-<div class="reply-list">
-${renderNestedChildren(post.id, 1)}
-</div>
-`
+? `<div class="reply-list">${renderNestedChildren(post.id, 1)}</div>`
 : ''
 }
 </div>
@@ -192,39 +175,20 @@ ${renderNestedChildren(post.id, 1)}
 
 function renderReplyForm(recordId, isOpen) {
 return `
-<form
-class="reply-form"
-data-reply-form="${escapeHtml(recordId)}"
-${isOpen ? '' : 'style="display:none;"'}
-novalidate
->
+<form class="reply-form" data-reply-form="${escapeHtml(recordId)}" ${isOpen ? '' : 'style="display:none;"'} novalidate>
 <div class="field">
 <label>Name (optional)</label>
-<input
-type="text"
-name="display_name"
-maxlength="80"
-placeholder="Leave blank to reply as ${escapeHtml(DEFAULT_NAME)}"
-/>
+<input type="text" name="display_name" maxlength="80" placeholder="Leave blank to reply as ${escapeHtml(DEFAULT_NAME)}" />
 </div>
 
 <div class="field">
 <label>Reply <span class="required">*</span></label>
-<textarea
-name="comment"
-maxlength="${MAX_COMMENT_LENGTH}"
-placeholder="Write your reply..."
-required
-></textarea>
+<textarea name="comment" maxlength="${MAX_COMMENT_LENGTH}" placeholder="Write your reply..." required></textarea>
 </div>
 
 <div class="field">
 <label>Image (optional)</label>
-<input
-type="file"
-name="image_file"
-accept="image/jpeg,image/png,image/webp,image/gif"
-/>
+<input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif" />
 <p class="field-help">Allowed: JPG, PNG, WEBP, GIF • Max 4 MB</p>
 <div class="image-preview-wrap is-hidden" data-reply-preview-wrap="${escapeHtml(recordId)}">
 <img class="image-preview" data-reply-preview-img="${escapeHtml(recordId)}" alt="Selected image preview" />
@@ -247,12 +211,10 @@ accept="image/jpeg,image/png,image/webp,image/gif"
 
 function renderNestedChildren(parentId, depth) {
 const children = getChildren(parentId);
-
 if (!children.length) {
 if (depth === 1) return `<div class="muted">No replies yet.</div>`;
 return '';
 }
-
 return children.map((child) => renderNestedReplyCard(child, depth)).join('');
 }
 
@@ -262,18 +224,13 @@ const isReplyFormOpen = openReplyForms.has(reply.id);
 const safeDepth = Math.min(depth, MAX_VISUAL_DEPTH);
 
 return `
-<article
-class="reply-card"
-data-reply-id="${escapeHtml(reply.id)}"
-style="margin-left:${safeDepth * 18}px;"
->
+<article class="reply-card" data-reply-id="${escapeHtml(reply.id)}" style="margin-left:${safeDepth * 18}px;">
 <div class="reply-top">
 <div class="reply-author">${escapeHtml(reply.display_name)}</div>
 <div class="reply-time">${escapeHtml(formatDateTime(reply.timestamp))}</div>
 </div>
 
 <div class="reply-body">${escapeHtml(reply.comment)}</div>
-
 ${renderImage(reply.image_url)}
 
 <div class="post-actions">
@@ -318,26 +275,13 @@ return;
 }
 
 const buttons = [];
-
-buttons.push(`
-<button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
-Prev
-</button>
-`);
+buttons.push(`<button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`);
 
 for (let i = 1; i <= totalPages; i++) {
-buttons.push(`
-<button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">
-${i}
-</button>
-`);
+buttons.push(`<button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">${i}</button>`);
 }
 
-buttons.push(`
-<button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
-Next
-</button>
-`);
+buttons.push(`<button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`);
 
 pagination.innerHTML = buttons.join('');
 
@@ -345,16 +289,12 @@ pagination.querySelectorAll('[data-page]').forEach((btn) => {
 btn.addEventListener('click', () => {
 const nextPage = Number(btn.dataset.page);
 if (!nextPage || nextPage < 1 || nextPage > totalPages) return;
-
 currentPage = nextPage;
 render();
 
 const toolbar = document.querySelector('.feed-toolbar');
 if (toolbar) {
-window.scrollTo({
-top: toolbar.offsetTop - 10,
-behavior: 'smooth'
-});
+window.scrollTo({ top: toolbar.offsetTop - 10, behavior: 'smooth' });
 }
 });
 });
@@ -365,13 +305,8 @@ document.querySelectorAll('[data-thread-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
 const recordId = btn.dataset.threadToggle;
 if (!recordId) return;
-
-if (expandedThreads.has(recordId)) {
-expandedThreads.delete(recordId);
-} else {
-expandedThreads.add(recordId);
-}
-
+if (expandedThreads.has(recordId)) expandedThreads.delete(recordId);
+else expandedThreads.add(recordId);
 render();
 });
 });
@@ -380,20 +315,13 @@ document.querySelectorAll('[data-reply-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
 const recordId = btn.dataset.replyToggle;
 if (!recordId) return;
-
-if (openReplyForms.has(recordId)) {
-openReplyForms.delete(recordId);
-} else {
-openReplyForms.add(recordId);
-}
-
+if (openReplyForms.has(recordId)) openReplyForms.delete(recordId);
+else openReplyForms.add(recordId);
 render();
 
 if (openReplyForms.has(recordId)) {
 window.setTimeout(() => {
-const textarea = document.querySelector(
-`[data-reply-form="${CSS.escape(recordId)}"] textarea`
-);
+const textarea = document.querySelector(`[data-reply-form="${CSS.escape(recordId)}"] textarea`);
 if (textarea) textarea.focus();
 }, 30);
 }
@@ -415,10 +343,8 @@ btn.addEventListener('click', handleReplyClearImage);
 
 function setMainStatus(message, type = '', autoClear = false) {
 if (!formStatus) return;
-
 formStatus.textContent = message;
 formStatus.className = 'form-status';
-
 if (type === 'success') formStatus.classList.add('notice-success');
 if (type === 'error') formStatus.classList.add('notice-error');
 
@@ -461,7 +387,6 @@ if (commaIndex === -1) {
 reject(new Error('Could not read image.'));
 return;
 }
-
 resolve(result.slice(commaIndex + 1));
 };
 
@@ -640,7 +565,6 @@ render();
 }, 1200);
 } catch (err) {
 console.error(err);
-
 if (statusEl) {
 statusEl.textContent = err.message || 'Could not submit reply right now.';
 statusEl.className = 'form-status notice-error';
@@ -652,7 +576,6 @@ if (submitButton) submitButton.disabled = false;
 
 function handleMainImagePreview() {
 const file = imageFileInput && imageFileInput.files ? imageFileInput.files[0] : null;
-
 if (!file) {
 clearMainImagePreview();
 return;
@@ -729,52 +652,29 @@ clearReplyPreview(recordId);
 
 function showMainComposer() {
 if (!mainComposerCard || !toggleMainComposer) return;
-
 mainComposerCard.classList.remove('is-hidden');
+toggleMainComposer.style.display = '';
 toggleMainComposer.style.display = 'none';
-
 if (displayNameInput) displayNameInput.focus();
 }
 
 function hideMainComposer() {
 if (!mainComposerCard || !toggleMainComposer) return;
-
 mainComposerCard.classList.add('is-hidden');
 toggleMainComposer.style.display = '';
-
 if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
 clearMainImagePreview();
 updateCharCount();
 }
 
-if (toggleMainComposer) {
-toggleMainComposer.addEventListener('click', showMainComposer);
-}
-
-if (cancelMainComposer) {
-cancelMainComposer.addEventListener('click', hideMainComposer);
-}
-
-if (commentInput) {
-commentInput.addEventListener('input', updateCharCount);
-}
-
-if (postForm) {
-postForm.addEventListener('submit', submitPost);
-}
-
-if (refreshBtn) {
-refreshBtn.addEventListener('click', () => fetchPosts());
-}
-
-if (imageFileInput) {
-imageFileInput.addEventListener('change', handleMainImagePreview);
-}
-
-if (clearImageBtn) {
-clearImageBtn.addEventListener('click', clearMainImagePreview);
-}
+if (toggleMainComposer) toggleMainComposer.addEventListener('click', showMainComposer);
+if (cancelMainComposer) cancelMainComposer.addEventListener('click', hideMainComposer);
+if (commentInput) commentInput.addEventListener('input', updateCharCount);
+if (postForm) postForm.addEventListener('submit', submitPost);
+if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
+if (imageFileInput) imageFileInput.addEventListener('change', handleMainImagePreview);
+if (clearImageBtn) clearImageBtn.addEventListener('click', clearMainImagePreview);
 
 updateCharCount();
 fetchPosts(true);
