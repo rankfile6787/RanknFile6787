@@ -1,118 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Union Resources | Rank & File 6787</title>
-
-<link rel="icon" type="image/x-icon" href="../solidarityico.ico">
-<link rel="stylesheet" href="../style.css">
-
+<meta name="description" content="Union resources, agreements, bylaws, forms, and case references for Rank & File 6787." />
+<link rel="icon" type="image/x-icon" href="../solidarityico.ico" />
+<link rel="stylesheet" href="../style.css" />
 <style>
-
-.resources-wrap{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
+.resources-shell{
+max-width:1100px;
+margin:0 auto;
+padding:32px 20px 60px;
 }
 
-.resource-card{
-background:#171c25;
-border:1px solid rgba(255,255,255,.08);
+.resources-hero{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:28px;
+box-shadow:0 18px 42px rgba(0,0,0,0.32);
+margin-bottom:22px;
+}
+
+.resources-hero p{
+color:#a9b3c2;
+margin:10px 0 0;
+max-width:760px;
+line-height:1.65;
+}
+
+.resources-toplinks{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:18px;
+}
+
+.resources-grid{
+display:grid;
+grid-template-columns:repeat(2, minmax(0, 1fr));
+gap:18px;
+}
+
+.resource-tile{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
 padding:22px;
-margin-bottom:18px;
-border-radius:14px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+display:flex;
+flex-direction:column;
+gap:12px;
 }
 
-.resource-card h3{
-margin-top:0;
+.resource-kicker{
+font-size:.82rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#a9b3c2;
+}
+
+.resource-tile h2{
+margin:0;
+font-size:1.35rem;
+color:#eef2f7;
+}
+
+.resource-tile p{
+margin:0;
+color:#d7dee8;
+line-height:1.6;
+}
+
+.resource-links{
+display:grid;
+gap:10px;
+margin-top:4px;
 }
 
 .resource-link{
-display:inline-block;
-margin-top:8px;
-padding:10px 16px;
-border-radius:8px;
-background:#b22222;
-color:white;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:12px 14px;
+border-radius:12px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+color:#eef2f7;
 text-decoration:none;
-font-weight:600;
+font-weight:700;
+transition:transform .18s ease, border-color .18s ease, background .18s ease;
 }
 
 .resource-link:hover{
-opacity:.9;
+transform:translateY(-1px);
+border-color:rgba(209,58,58,0.45);
+background:rgba(255,255,255,0.05);
 }
 
-.page-header{
+.resource-link small{
+font-weight:600;
+color:#a9b3c2;
+}
+
+.resources-footer{
+margin-top:26px;
 text-align:center;
-margin-bottom:40px;
 }
 
+.resource-note{
+margin-top:18px;
+color:#a9b3c2;
+line-height:1.6;
+}
+
+@media (max-width: 800px){
+.resources-grid{
+grid-template-columns:1fr;
+}
+
+.resources-shell{
+padding:18px 14px 40px;
+}
+
+.resources-hero,
+.resource-tile{
+padding:18px;
+}
+}
 </style>
 </head>
-
-<body>
-
-<div class="resources-wrap">
-
-<div class="page-header">
+<body class="home-body">
+<main class="resources-shell">
+<section class="resources-hero">
+<p class="home-eyebrow">Union Information • Member Resources • Easy Access</p>
 <h1>Union Resources</h1>
-<p>Helpful documents and information for members.</p>
+<p>
+This page is here to make important union documents easier to find and share.
+Instead of passing around long raw URLs, members can use clear links for agreements,
+bylaws, constitutions, arbitration references, and downloadable forms.
+</p>
+
+<div class="resources-toplinks">
+<a class="home-btn home-btn-primary" href="/forum/">Go to Forum</a>
+<a class="home-btn home-btn-secondary" href="/">Return Home</a>
 </div>
+</section>
 
-
-<div class="resource-card">
-<h3>Basic Labor Agreement</h3>
-<p>The current BLA governing our contract.</p>
-<a class="resource-link" href="PASTE_LINK_HERE" target="_blank">
-View Basic Labor Agreement
+<section class="resources-grid">
+<article class="resource-tile">
+<div class="resource-kicker">Contracts & Agreements</div>
+<h2>Basic Labor Agreement</h2>
+<p>
+Quick access to the current basic labor agreement and related contract materials.
+</p>
+<div class="resource-links">
+<a class="resource-link" href="PASTE_BLA_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Basic Labor Agreement</span>
+<small>Open</small>
+</a>
+<a class="resource-link" href="PASTE_SUPPLEMENTAL_AGREEMENT_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Supplemental Agreement</span>
+<small>Open</small>
 </a>
 </div>
+</article>
 
-
-<div class="resource-card">
-<h3>Local Union Constitution</h3>
-<p>Constitution and governing rules of the union.</p>
-<a class="resource-link" href="PASTE_LINK_HERE" target="_blank">
-View Constitution
+<article class="resource-tile">
+<div class="resource-kicker">Rules & Governance</div>
+<h2>Bylaws & Constitution</h2>
+<p>
+Reference copies of governing documents, internal rules, and member guidance materials.
+</p>
+<div class="resource-links">
+<a class="resource-link" href="PASTE_BYLAWS_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Local Bylaws</span>
+<small>Open</small>
+</a>
+<a class="resource-link" href="PASTE_CONSTITUTION_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Union Constitution</span>
+<small>Open</small>
 </a>
 </div>
+</article>
 
-
-<div class="resource-card">
-<h3>Arbitration Decisions</h3>
-<p>Important arbitration rulings and case outcomes.</p>
-<a class="resource-link" href="PASTE_LINK_HERE" target="_blank">
-View Arbitration Cases
+<article class="resource-tile">
+<div class="resource-kicker">Case References</div>
+<h2>Arbitration Cases</h2>
+<p>
+Important arbitration decisions, case references, and other materials useful for research and preparation.
+</p>
+<div class="resource-links">
+<a class="resource-link" href="PASTE_ARBITRATION_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Arbitration Decisions</span>
+<small>Open</small>
+</a>
+<a class="resource-link" href="PASTE_CASE_LIBRARY_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Case Library</span>
+<small>Open</small>
 </a>
 </div>
+</article>
 
-
-<div class="resource-card">
-<h3>Union Forms</h3>
-<p>Downloadable grievance forms and other documents.</p>
-<a class="resource-link" href="PASTE_LINK_HERE" target="_blank">
-View Forms
+<article class="resource-tile">
+<div class="resource-kicker">Forms & Downloads</div>
+<h2>Downloadable Forms</h2>
+<p>
+Helpful forms and member documents in one place for easier access and sharing.
+</p>
+<div class="resource-links">
+<a class="resource-link" href="PASTE_GRIEVANCE_FORM_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Grievance Form</span>
+<small>Open</small>
+</a>
+<a class="resource-link" href="PASTE_OTHER_FORM_LINK_HERE" target="_blank" rel="noopener noreferrer">
+<span>Additional Forms</span>
+<small>Open</small>
 </a>
 </div>
+</article>
+</section>
 
-
-<div class="resource-card">
-<h3>Contract Resources</h3>
-<p>Additional documents related to contract language and rights.</p>
-<a class="resource-link" href="PASTE_LINK_HERE" target="_blank">
-View Resources
-</a>
-</div>
-
-
-<div style="margin-top:40px;text-align:center;">
-<a class="home-btn home-btn-secondary" href="/">
-Return to Home
-</a>
-</div>
-
-</div>
-
+<section class="resources-footer">
+<p class="resource-note">
+These links point to documents hosted elsewhere. This page is simply a cleaner access point
+so members can find and share key materials without dealing with long messy URLs.
+</p>
+</section>
+</main>
 </body>
 </html>
