@@ -11,7 +11,7 @@
 <div class="site-shell">
 <header class="hero">
 <div class="hero-overlay"></div>
-<img class="hero-image" src="solidarity.jpg" alt="Solidarity banner" />
+<img class="hero-image" src="assets/solidarity.jpg" alt="Solidarity banner" />
 <div class="hero-content">
 <p class="eyebrow">Independent Member Information Board</p>
 <h1>USW 6787 Rank &amp; File</h1>
@@ -40,7 +40,7 @@ id="display_name"
 name="display_name"
 type="text"
 maxlength="80"
-placeholder="Leave blank to post as Rank & File"
+placeholder="Leave blank to post as Rank &amp; File"
 />
 </div>
 
@@ -55,6 +55,21 @@ required
 ></textarea>
 <div class="char-row">
 <span id="charCount">0 / 3000</span>
+</div>
+</div>
+
+<div class="field">
+<label for="image_file">Image (optional)</label>
+<input
+id="image_file"
+name="image_file"
+type="file"
+accept="image/jpeg,image/png,image/webp,image/gif"
+/>
+<p class="field-help">Allowed: JPG, PNG, WEBP, GIF • Max 4 MB</p>
+<div id="imagePreviewWrap" class="image-preview-wrap is-hidden">
+<img id="imagePreview" class="image-preview" alt="Selected image preview" />
+<button id="clearImageBtn" class="btn btn-secondary btn-small" type="button">Remove Image</button>
 </div>
 </div>
 
@@ -92,10 +107,11 @@ required
 <script>
 window.FORUM_CONFIG = {
 commentsJsonUrl: './comments.json',
-submitEndpoint: 'https://script.google.com/macros/s/AKfycbzHJV9IMOyLW0DAr_Tw8KeGMibjkRHcngP-MlnkUXYIGKlfKIjJ6xRDVoaMQzZj9X2gGQ/exec',
+submitEndpoint: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
 postsPerPage: 20,
 defaultDisplayName: 'Rank & File',
-liveRefreshMs: 30000
+liveRefreshMs: 30000,
+maxImageBytes: 4194304
 };
 </script>
 <script src="app.js"></script>
