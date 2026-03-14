@@ -360,7 +360,7 @@ parent_id: postId
 });
 
 form.reset();
-statusEl.textContent = 'Reply submitted for review.';
+statusEl.textContent = 'Reply submitted will appear shortly.';
 statusEl.className = 'form-status notice-success';
 } catch (err) {
 console.error(err);
