@@ -17,6 +17,15 @@
 --hero-height: 320px;
 }
 
+.form-status.notice-success,
+.reply-form .form-status.notice-success {
+display: inline-block;
+padding: 10px 14px;
+border-radius: 12px;
+background: rgba(139, 207, 155, 0.14);
+border: 1px solid rgba(139, 207, 155, 0.35);
+}
+
 * { box-sizing: border-box; }
 
 body {
