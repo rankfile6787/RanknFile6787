@@ -1,397 +1,394 @@
-:root {
---bg: #0d0f13;
---bg-soft: #141922;
---card: #171c25;
---card-2: #1d2430;
---reply: #141922;
---line: rgba(255,255,255,0.09);
---line-strong: rgba(255,255,255,0.16);
---text: #eef2f7;
---muted: #a9b3c2;
---accent: #b22222;
---accent-2: #d13a3a;
---success: #8bcf9b;
---danger: #ff7b7b;
---shadow: 0 18px 42px rgba(0,0,0,0.32);
---container: 980px;
---hero-height: 320px;
+(() => {
+const config = window.FORUM_CONFIG || {};
+const POSTS_PER_PAGE = Number(config.postsPerPage || 20);
+const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
+const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
+const SUBMIT_ENDPOINT = config.submitEndpoint || '';
+const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
+
+const postForm = document.getElementById('postForm');
+const displayNameInput = document.getElementById('display_name');
+const commentInput = document.getElementById('comment');
+const parentIdInput = document.getElementById('parent_id');
+const websiteInput = document.getElementById('website');
+const charCount = document.getElementById('charCount');
+const formStatus = document.getElementById('formStatus');
+const submitBtn = document.getElementById('submitBtn');
+const refreshBtn = document.getElementById('refreshBtn');
+const postsList = document.getElementById('postsList');
+const pagination = document.getElementById('pagination');
+const toggleMainComposer = document.getElementById('toggleMainComposer');
+const mainComposerCard = document.getElementById('mainComposerCard');
+const cancelMainComposer = document.getElementById('cancelMainComposer');
+
+let allRecords = [];
+let currentPage = 1;
+const expandedReplies = new Set();
+
+function escapeHtml(str) {
+return String(str).replace(/[&<>"']/g, (m) => ({
+'&': '&amp;',
+'<': '&lt;',
+'>': '&gt;',
+'"': '&quot;',
+"'": '&#39;'
+}[m]));
 }
 
-* { box-sizing: border-box; }
+function formatDateTime(isoString) {
+if (!isoString) return 'Unknown date';
+const dt = new Date(isoString);
+if (Number.isNaN(dt.getTime())) return isoString;
 
-body {
-margin: 0;
-background:
-radial-gradient(circle at top, rgba(178,34,34,0.10), transparent 28%),
-linear-gradient(180deg, #0c0f14 0%, #0d1015 100%);
-color: var(--text);
-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+return new Intl.DateTimeFormat(undefined, {
+year: 'numeric',
+month: 'short',
+day: 'numeric',
+hour: 'numeric',
+minute: '2-digit'
+}).format(dt);
 }
 
-img {
-display: block;
-max-width: 100%;
+function normalizeRecords(records) {
+return [...records]
+.map((p) => ({
+id: p.id || ('post_' + Math.random().toString(36).slice(2, 11)),
+parent_id: p.parent_id || '',
+timestamp: p.timestamp || '',
+display_name: (p.display_name || '').trim() || DEFAULT_NAME,
+comment: p.comment || ''
+}))
+.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
-button, input, textarea {
-font: inherit;
+async function fetchPosts(silent = false) {
+try {
+const bust = `t=${Date.now()}`;
+const url = COMMENTS_JSON_URL.includes('?')
+? `${COMMENTS_JSON_URL}&${bust}`
+: `${COMMENTS_JSON_URL}?${bust}`;
+
+const res = await fetch(url, { cache: 'no-store' });
+if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+
+const data = await res.json();
+allRecords = normalizeRecords(Array.isArray(data) ? data : []);
+render();
+if (!silent) setStatus('Posts updated.', 'success', true);
+} catch (err) {
+console.error(err);
+if (!silent) setStatus('Could not load posts right now.', 'error', true);
+if (!allRecords.length) {
+postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
+}
+}
 }
 
-.hero {
-position: relative;
-height: var(--hero-height);
-overflow: hidden;
-border-bottom: 1px solid var(--line);
-background: #0b0d11;
+function getTopLevelPosts() {
+return allRecords.filter(r => !r.parent_id);
 }
 
-.hero-image {
-position: absolute;
-inset: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-filter: grayscale(100%) contrast(1.06) brightness(0.48);
+function getReplies(parentId) {
+return allRecords
+.filter(r => r.parent_id === parentId)
+.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 }
 
-.hero-overlay {
-position: absolute;
-inset: 0;
-background:
-linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.70) 100%),
-linear-gradient(90deg, rgba(178,34,34,0.18), rgba(0,0,0,0.04));
-z-index: 1;
+function render() {
+const topPosts = getTopLevelPosts();
+const totalPages = Math.max(1, Math.ceil(topPosts.length / POSTS_PER_PAGE));
+if (currentPage > totalPages) currentPage = totalPages;
+
+const start = (currentPage - 1) * POSTS_PER_PAGE;
+const pagePosts = topPosts.slice(start, start + POSTS_PER_PAGE);
+
+if (!pagePosts.length) {
+postsList.innerHTML = `<div class="empty-state">No posts have been published yet.</div>`;
+} else {
+postsList.innerHTML = pagePosts.map(renderPostCard).join('');
 }
 
-.hero-content {
-position: relative;
-z-index: 2;
-max-width: var(--container);
-margin: 0 auto;
-padding: 42px 20px 30px;
-height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: end;
+renderPagination(totalPages);
+bindPostButtons();
 }
 
-.eyebrow {
-margin: 0 0 6px;
-color: #c8d0db;
-font-size: 0.84rem;
-letter-spacing: 0.12em;
-text-transform: uppercase;
+function renderPostCard(post) {
+const replies = getReplies(post.id);
+const expanded = expandedReplies.has(post.id);
+
+return `
+<article class="post-card" data-post-id="${escapeHtml(post.id)}">
+<div class="post-top">
+<div>
+<div class="post-author">${escapeHtml(post.display_name)}</div>
+<div class="post-time">${escapeHtml(formatDateTime(post.timestamp))}</div>
+</div>
+</div>
+
+<div class="post-body">${escapeHtml(post.comment)}</div>
+
+<div class="post-actions">
+<button class="link-btn" type="button" data-reply-toggle="${escapeHtml(post.id)}">Reply</button>
+<button class="link-btn" type="button" data-thread-toggle="${escapeHtml(post.id)}">
+${expanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
+</button>
+</div>
+
+<div class="reply-block" ${expanded ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
+<form class="reply-form" data-reply-form="${escapeHtml(post.id)}">
+<div class="field">
+<label>Name (optional)</label>
+<input type="text" name="display_name" maxlength="80" placeholder="Leave blank to reply as Rank & File" />
+</div>
+
+<div class="field">
+<label>Reply <span class="required">*</span></label>
+<textarea name="comment" maxlength="3000" placeholder="Write your reply..." required></textarea>
+</div>
+
+<div class="hp-wrap" aria-hidden="true">
+<label>Website</label>
+<input type="text" name="website" tabindex="-1" autocomplete="off" />
+</div>
+
+<div class="form-actions">
+<button type="submit" class="btn btn-primary">Send Reply</button>
+<span class="form-status" data-reply-status="${escapeHtml(post.id)}"></span>
+</div>
+</form>
+
+<div class="reply-list">
+${replies.length ? replies.map(renderReplyCard).join('') : `<div class="muted">No replies yet.</div>`}
+</div>
+</div>
+</article>
+`;
 }
 
-.hero h1 {
-margin: 0;
-font-size: clamp(2rem, 4vw, 3.25rem);
-line-height: 1.05;
+function renderReplyCard(reply) {
+return `
+<article class="reply-card">
+<div class="reply-top">
+<div class="reply-author">${escapeHtml(reply.display_name)}</div>
+<div class="reply-time">${escapeHtml(formatDateTime(reply.timestamp))}</div>
+</div>
+<div class="reply-body">${escapeHtml(reply.comment)}</div>
+</article>
+`;
 }
 
-.hero-text {
-margin: 10px 0 0;
-max-width: 680px;
-color: #d7dde7;
+function renderPagination(totalPages) {
+if (totalPages <= 1) {
+pagination.innerHTML = '';
+return;
 }
 
-.container {
-max-width: var(--container);
-margin: 0 auto;
-padding: 22px 20px 60px;
+const buttons = [];
+buttons.push(`<button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`);
+
+for (let i = 1; i <= totalPages; i++) {
+buttons.push(`<button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">${i}</button>`);
 }
 
-.compose-bar {
-margin-top: -24px;
-margin-bottom: 16px;
-position: relative;
-z-index: 3;
+buttons.push(`<button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`);
+
+pagination.innerHTML = buttons.join('');
+
+pagination.querySelectorAll('[data-page]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const nextPage = Number(btn.dataset.page);
+if (!nextPage || nextPage < 1 || nextPage > totalPages) return;
+currentPage = nextPage;
+render();
+window.scrollTo({ top: document.querySelector('.feed-toolbar').offsetTop - 10, behavior: 'smooth' });
+});
+});
 }
 
-.card {
-background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), var(--card);
-border: 1px solid var(--line);
-border-radius: 20px;
-box-shadow: var(--shadow);
+function bindPostButtons() {
+document.querySelectorAll('[data-thread-toggle]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const postId = btn.dataset.threadToggle;
+if (!postId) return;
+
+if (expandedReplies.has(postId)) {
+expandedReplies.delete(postId);
+} else {
+expandedReplies.add(postId);
+}
+render();
+});
+});
+
+document.querySelectorAll('[data-reply-toggle]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const postId = btn.dataset.replyToggle;
+if (!postId) return;
+expandedReplies.add(postId);
+render();
+
+setTimeout(() => {
+const form = document.querySelector(`[data-reply-form="${CSS.escape(postId)}"] textarea`);
+if (form) form.focus();
+}, 30);
+});
+});
+
+document.querySelectorAll('[data-reply-form]').forEach((form) => {
+form.addEventListener('submit', handleReplySubmit);
+});
 }
 
-.form-card {
-padding: 20px;
-margin-bottom: 24px;
+function setStatus(message, type = '', autoClear = false) {
+formStatus.textContent = message;
+formStatus.className = 'form-status';
+if (type === 'success') formStatus.classList.add('notice-success');
+if (type === 'error') formStatus.classList.add('notice-error');
+
+if (autoClear) {
+window.clearTimeout(setStatus._timer);
+setStatus._timer = window.setTimeout(() => {
+formStatus.textContent = '';
+formStatus.className = 'form-status';
+}, 3000);
+}
 }
 
-.is-hidden {
-display: none;
+function updateCharCount() {
+const len = commentInput.value.length;
+charCount.textContent = `${len} / 3000`;
 }
 
-.section-head {
-margin-bottom: 16px;
+async function sendSubmission(payload) {
+const formData = new URLSearchParams();
+formData.append('action', 'submit');
+formData.append('display_name', payload.display_name || '');
+formData.append('comment', payload.comment || '');
+formData.append('website', payload.website || '');
+formData.append('parent_id', payload.parent_id || '');
+
+await fetch(SUBMIT_ENDPOINT, {
+method: 'POST',
+mode: 'no-cors',
+headers: {
+'Content-Type': 'application/x-www-form-urlencoded'
+},
+body: formData.toString()
+});
 }
 
-.section-head h2,
-.feed-toolbar h2 {
-margin: 0;
-font-size: 1.3rem;
+async function submitPost(e) {
+e.preventDefault();
+
+const displayName = displayNameInput.value.trim();
+const comment = commentInput.value.trim();
+const website = websiteInput.value.trim();
+const parentId = parentIdInput.value.trim();
+
+if (!comment) {
+setStatus('Comment is required.', 'error');
+return;
 }
 
-.section-head p,
-.muted {
-margin: 6px 0 0;
-color: var(--muted);
+if (comment.length > 3000) {
+setStatus('Comment exceeds 3000 characters.', 'error');
+return;
 }
 
-.field {
-margin-bottom: 16px;
+if (!SUBMIT_ENDPOINT) {
+setStatus('Submit endpoint is not configured yet.', 'error');
+return;
 }
 
-.field label {
-display: block;
-margin-bottom: 8px;
-color: #dfe5ee;
-font-weight: 600;
+submitBtn.disabled = true;
+setStatus('Sending...', '');
+
+try {
+await sendSubmission({
+display_name: displayName,
+comment,
+website,
+parent_id: parentId
+});
+
+postForm.reset();
+parentIdInput.value = '';
+updateCharCount();
+setStatus('Post submitted for review.', 'success');
+hideMainComposer();
+} catch (err) {
+console.error(err);
+setStatus('Could not submit post right now.', 'error');
+} finally {
+submitBtn.disabled = false;
+}
 }
 
-.required {
-color: #ff9b9b;
+async function handleReplySubmit(e) {
+e.preventDefault();
+
+const form = e.currentTarget;
+const postId = form.dataset.replyForm;
+const statusEl = form.querySelector(`[data-reply-status="${postId}"]`);
+const displayName = form.querySelector('input[name="display_name"]').value.trim();
+const comment = form.querySelector('textarea[name="comment"]').value.trim();
+const website = form.querySelector('input[name="website"]').value.trim();
+const submitButton = form.querySelector('button[type="submit"]');
+
+if (!comment) {
+statusEl.textContent = 'Reply is required.';
+statusEl.className = 'form-status notice-error';
+return;
 }
 
-input[type="text"],
-textarea {
-width: 100%;
-background: var(--bg-soft);
-color: var(--text);
-border: 1px solid var(--line-strong);
-border-radius: 14px;
-padding: 12px 14px;
-outline: none;
+if (comment.length > 3000) {
+statusEl.textContent = 'Reply exceeds 3000 characters.';
+statusEl.className = 'form-status notice-error';
+return;
 }
 
-textarea {
-min-height: 160px;
-resize: vertical;
+submitButton.disabled = true;
+statusEl.textContent = 'Sending...';
+statusEl.className = 'form-status';
+
+try {
+await sendSubmission({
+display_name: displayName,
+comment,
+website,
+parent_id: postId
+});
+
+form.reset();
+statusEl.textContent = 'Reply submitted for review.';
+statusEl.className = 'form-status notice-success';
+} catch (err) {
+console.error(err);
+statusEl.textContent = 'Could not submit reply right now.';
+statusEl.className = 'form-status notice-error';
+} finally {
+submitButton.disabled = false;
+}
 }
 
-.char-row {
-display: flex;
-justify-content: flex-end;
-margin-top: 8px;
-color: var(--muted);
-font-size: 0.92rem;
+function showMainComposer() {
+mainComposerCard.classList.remove('is-hidden');
+toggleMainComposer.style.display = 'none';
+displayNameInput.focus();
 }
 
-.hp-wrap {
-position: absolute !important;
-left: -9999px !important;
-width: 1px !important;
-height: 1px !important;
-overflow: hidden !important;
+function hideMainComposer() {
+mainComposerCard.classList.add('is-hidden');
+toggleMainComposer.style.display = '';
 }
 
-.form-actions {
-display: flex;
-gap: 12px;
-align-items: center;
-flex-wrap: wrap;
-}
+toggleMainComposer.addEventListener('click', showMainComposer);
+cancelMainComposer.addEventListener('click', hideMainComposer);
+commentInput.addEventListener('input', updateCharCount);
+postForm.addEventListener('submit', submitPost);
+refreshBtn.addEventListener('click', () => fetchPosts());
 
-.form-status {
-color: var(--muted);
-}
-
-.btn {
-appearance: none;
-border: 1px solid transparent;
-border-radius: 999px;
-padding: 11px 16px;
-font-weight: 700;
-cursor: pointer;
-}
-
-.btn-primary {
-background: linear-gradient(180deg, var(--accent-2), var(--accent));
-color: #fff;
-}
-
-.btn-secondary {
-background: transparent;
-color: var(--text);
-border-color: var(--line-strong);
-}
-
-.feed-toolbar {
-margin: 28px 0 14px;
-display: flex;
-justify-content: space-between;
-align-items: end;
-gap: 16px;
-flex-wrap: wrap;
-}
-
-.posts-list {
-display: grid;
-gap: 16px;
-}
-
-.post-card {
-background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01)), var(--card-2);
-border: 1px solid var(--line);
-border-radius: 18px;
-padding: 16px;
-box-shadow: var(--shadow);
-}
-
-.post-top {
-display: flex;
-justify-content: space-between;
-gap: 16px;
-align-items: start;
-margin-bottom: 12px;
-}
-
-.post-author {
-font-size: 1rem;
-font-weight: 800;
-color: #f7f9fb;
-word-break: break-word;
-}
-
-.post-time {
-margin-top: 4px;
-color: var(--muted);
-font-size: 0.9rem;
-}
-
-.post-body {
-white-space: pre-wrap;
-word-wrap: break-word;
-color: #edf1f5;
-}
-
-.post-actions {
-display: flex;
-gap: 10px;
-flex-wrap: wrap;
-margin-top: 14px;
-}
-
-.link-btn {
-appearance: none;
-background: transparent;
-border: none;
-color: #ffb3b3;
-cursor: pointer;
-padding: 0;
-font-weight: 700;
-}
-
-.reply-block {
-margin-top: 14px;
-padding-top: 14px;
-border-top: 1px solid var(--line);
-}
-
-.reply-list {
-display: grid;
-gap: 10px;
-margin-top: 14px;
-}
-
-.reply-card {
-background: var(--reply);
-border: 1px solid var(--line);
-border-radius: 14px;
-padding: 12px;
-margin-left: 18px;
-}
-
-.reply-top {
-margin-bottom: 8px;
-}
-
-.reply-author {
-font-weight: 700;
-}
-
-.reply-time {
-color: var(--muted);
-font-size: 0.88rem;
-margin-top: 3px;
-}
-
-.reply-body {
-white-space: pre-wrap;
-word-wrap: break-word;
-}
-
-.reply-form {
-margin-top: 12px;
-padding: 12px;
-border: 1px solid var(--line);
-border-radius: 14px;
-background: rgba(255,255,255,0.02);
-}
-
-.reply-form textarea {
-min-height: 110px;
-}
-
-.empty-state {
-padding: 26px;
-text-align: center;
-border: 1px dashed var(--line-strong);
-border-radius: 18px;
-color: var(--muted);
-background: rgba(255,255,255,0.02);
-}
-
-.pagination {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-justify-content: center;
-margin-top: 24px;
-}
-
-.page-btn {
-appearance: none;
-min-width: 42px;
-border: 1px solid var(--line-strong);
-background: transparent;
-color: var(--text);
-border-radius: 12px;
-padding: 10px 12px;
-cursor: pointer;
-font-weight: 700;
-}
-
-.page-btn.active {
-background: linear-gradient(180deg, var(--accent-2), var(--accent));
-border-color: transparent;
-color: white;
-}
-
-.notice-success { color: var(--success); }
-.notice-error { color: var(--danger); }
-
-@media (max-width: 700px) {
-.hero {
-height: 280px;
-}
-
-.hero-content {
-padding: 28px 16px 22px;
-}
-
-.container {
-padding: 16px 14px 42px;
-}
-
-.post-top {
-flex-direction: column;
-align-items: stretch;
-}
-
-.reply-card {
-margin-left: 10px;
-}
-}
+updateCharCount();
+fetchPosts(true);
+window.setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
+})();
