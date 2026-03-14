@@ -3,102 +3,86 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>USW 6787 Rank & File</title>
-  <link rel="icon" type="image/x-icon" href="./solidarityico.ico">
-<meta name="description" content="USW 6787 Rank & File - share information, stay informed, speak freely." />
-<link rel="stylesheet" href="style.css" />
+<title>Rank & File 6787</title>
+<meta name="description" content="Rank & File 6787 - union solidarity, independent information, free speech, and rank-and-file control." />
+<link rel="icon" type="image/x-icon" href="./solidarityico.ico" />
+<link rel="stylesheet" href="./style.css" />
 </head>
-<body>
-<div class="site-shell">
-<header class="hero">
-<div class="hero-overlay"></div>
-<img class="hero-image" src="solidarity.jpg" alt="Solidarity banner" />
-<div class="hero-content">
-<p class="eyebrow">Independent Member Information Board</p>
-<h1>USW 6787 Rank &amp; File</h1>
-<p class="hero-text">Share information. Stay informed. Speak freely.</p>
+<body class="home-body">
+<header class="home-hero">
+<div class="home-hero-overlay"></div>
+<img class="home-hero-image" src="./solidarity.jpg" alt="Solidarity banner" />
+<div class="home-hero-content">
+<p class="home-eyebrow">Union Solidarity • Independent Information • Free Speech</p>
+<h1>Rank &amp; File 6787</h1>
+<p class="home-subtitle">
+A place for workers to share information, speak freely, and strengthen rank-and-file voice.
+</p>
+<div class="home-actions">
+<a class="home-btn home-btn-primary" href="/forum/">Enter the Forum</a>
+<a class="home-btn home-btn-secondary" href="#about">Learn More</a>
+</div>
 </div>
 </header>
 
-<main class="container">
-<section class="compose-bar">
-<button id="toggleMainComposer" class="btn btn-primary" type="button">Make a Post</button>
+<main class="home-main">
+<section class="home-section home-card">
+<h2>Welcome</h2>
+<p>
+Welcome to Rank &amp; File 6787 — an independent member space built around union solidarity,
+open discussion, shared information, and rank-and-file power.
+</p>
+<p>
+This site exists to give working people a place to stay informed, raise concerns, share ideas,
+and speak honestly without leadership gatekeeping.
+</p>
 </section>
 
-<section id="mainComposerCard" class="card form-card is-hidden">
-<div class="section-head">
-<h2>Submit a Post</h2>
-<p>Posts are reviewed before they go live.</p>
-</div>
-
-<form id="postForm" novalidate>
-<input type="hidden" id="parent_id" name="parent_id" value="" />
-
-<div class="field">
-<label for="display_name">Name (optional)</label>
-<input
-id="display_name"
-name="display_name"
-type="text"
-maxlength="80"
-placeholder="Leave blank to post as Rank &amp; File"
-/>
-</div>
-
-<div class="field">
-<label for="comment">Comment <span class="required">*</span></label>
-<textarea
-id="comment"
-name="comment"
-maxlength="3000"
-placeholder="Write your post here..."
-required
-></textarea>
-<div class="char-row">
-<span id="charCount">0 / 3000</span>
-</div>
-</div>
-
-<div class="hp-wrap" aria-hidden="true">
-<label for="website">Website</label>
-<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
-</div>
-
-<div class="form-actions">
-<button id="submitBtn" type="submit" class="btn btn-primary">Send Post</button>
-<button id="cancelMainComposer" type="button" class="btn btn-secondary">Cancel</button>
-<span id="formStatus" class="form-status" aria-live="polite"></span>
-</div>
-</form>
+<section id="about" class="home-section home-card">
+<h2>About This Space</h2>
+<p>
+Rank &amp; File 6787 is built on the belief that strong unions come from informed members,
+active participation, and open communication from the bottom up.
+</p>
+<p>
+The goal is simple: support worker-to-worker communication, preserve free speech,
+and encourage rank-and-file control over the direction, priorities, and future of the union.
+</p>
+<p>
+Whether members are sharing updates, asking questions, discussing workplace issues,
+or building solidarity, this space is here to serve the membership.
+</p>
 </section>
 
-<section class="feed-toolbar">
-<div>
-<h2>Latest Posts</h2>
-<p class="muted">Newest first • 20 posts per page</p>
+<section class="home-section home-card">
+<h2>What You’ll Find</h2>
+<div class="home-grid">
+<div class="home-feature">
+<h3>Solidarity</h3>
+<p>Built for worker unity, mutual support, and shared purpose.</p>
 </div>
-<div class="toolbar-actions">
-<button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
+<div class="home-feature">
+<h3>Information</h3>
+<p>A place to share updates, concerns, and useful workplace knowledge.</p>
+</div>
+<div class="home-feature">
+<h3>Free Speech</h3>
+<p>Open discussion with rank-and-file voices at the center.</p>
+</div>
+<div class="home-feature">
+<h3>Member Control</h3>
+<p>Encouraging bottom-up involvement, accountability, and worker power.</p>
+</div>
 </div>
 </section>
 
-<section id="postsWrap" class="posts-wrap">
-<div id="postsList" class="posts-list"></div>
+<section class="home-section home-card home-center">
+<h2>Enter the Forum</h2>
+<p>
+Ready to join the conversation?
+</p>
+<a class="home-btn home-btn-primary" href="/forum/">Go to the Forum</a>
 </section>
-
-<nav id="pagination" class="pagination" aria-label="Pagination"></nav>
 </main>
-</div>
-
-<script>
-window.FORUM_CONFIG = {
-commentsJsonUrl: './comments.json',
-submitEndpoint: 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE',
-postsPerPage: 20,
-defaultDisplayName: 'Rank & File',
-liveRefreshMs: 30000
-};
-</script>
-<script src="app.js"></script>
 </body>
 </html>
