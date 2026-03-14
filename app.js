@@ -90,6 +90,30 @@ for (const child of children) total += countAllDescendants(child.id);
 return total;
 }
 
+async function fetchPosts(silent = false) {
+try {
+const cacheBust = `t=${Date.now()}`;
+const url = COMMENTS_JSON_URL.includes('?')
+? `${COMMENTS_JSON_URL}&${cacheBust}`
+: `${COMMENTS_JSON_URL}?${cacheBust}`;
+
+const res = await fetch(url, { cache: 'no-store' });
+if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+
+const data = await res.json();
+allRecords = normalizeRecords(Array.isArray(data) ? data : []);
+render();
+
+if (!silent) setMainStatus('Posts updated.', 'success', true);
+} catch (err) {
+console.error(err);
+if (!silent) setMainStatus('Could not load posts right now.', 'error', true);
+if (!allRecords.length && postsList) {
+postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
+}
+}
+}
+
 function renderImage(imageUrl) {
 if (!imageUrl) return '';
 return `
