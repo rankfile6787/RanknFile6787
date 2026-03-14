@@ -205,3 +205,45 @@ align-items: stretch;
 width: 100%;
 }
 }
+/* NAVBAR */
+
+.site-nav{
+position:sticky;
+top:0;
+z-index:50;
+background:#0c0f14;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 20px;
+}
+
+.nav-logo{
+font-weight:800;
+font-size:1.1rem;
+letter-spacing:.5px;
+color:#eef2f7;
+}
+
+.nav-links{
+display:flex;
+gap:20px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:#d7dee8;
+font-weight:600;
+font-size:.95rem;
+transition:opacity .2s;
+}
+
+.nav-links a:hover{
+opacity:.7;
+}
