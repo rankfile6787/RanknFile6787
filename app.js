@@ -24,6 +24,7 @@ const cancelMainComposer = document.getElementById('cancelMainComposer');
 let allRecords = [];
 let currentPage = 1;
 const expandedReplies = new Set();
+  const openReplyForms = new Set();
 
 function escapeHtml(str) {
 return String(str).replace(/[&<>"']/g, (m) => ({
@@ -115,6 +116,7 @@ bindPostButtons();
 function renderPostCard(post) {
 const replies = getReplies(post.id);
 const expanded = expandedReplies.has(post.id);
+const replyFormOpen = openReplyForms.has(post.id);
 
 return `
 <article class="post-card" data-post-id="${escapeHtml(post.id)}">
@@ -128,14 +130,17 @@ return `
 <div class="post-body">${escapeHtml(post.comment)}</div>
 
 <div class="post-actions">
-<button class="link-btn" type="button" data-reply-toggle="${escapeHtml(post.id)}">Reply</button>
+<button class="link-btn" type="button" data-reply-toggle="${escapeHtml(post.id)}">
+${replyFormOpen ? 'Cancel Reply' : 'Reply'}
+</button>
+
 <button class="link-btn" type="button" data-thread-toggle="${escapeHtml(post.id)}">
 ${expanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
 </button>
 </div>
 
-<div class="reply-block" ${expanded ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
-<form class="reply-form" data-reply-form="${escapeHtml(post.id)}">
+<div class="reply-block" ${expanded || replyFormOpen ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
+<form class="reply-form" data-reply-form="${escapeHtml(post.id)}" ${replyFormOpen ? '' : 'style="display:none;"'}>
 <div class="field">
 <label>Name (optional)</label>
 <input type="text" name="display_name" maxlength="80" placeholder="Leave blank to reply as Rank & File" />
@@ -157,9 +162,13 @@ ${expanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
 </div>
 </form>
 
-<div class="reply-list">
+${
+expanded
+? `<div class="reply-list">
 ${replies.length ? replies.map(renderReplyCard).join('') : `<div class="muted">No replies yet.</div>`}
-</div>
+</div>`
+: ''
+}
 </div>
 </article>
 `;
