@@ -388,23 +388,22 @@ image_name: file.name || 'upload'
 }
 
 async function sendSubmission(payload) {
-const formData = new URLSearchParams();
-formData.append('action', 'submit');
-formData.append('display_name', payload.display_name || '');
-formData.append('comment', payload.comment || '');
-formData.append('website', payload.website || '');
-formData.append('parent_id', payload.parent_id || '');
-formData.append('image_base64', payload.image_base64 || '');
-formData.append('image_mime_type', payload.image_mime_type || '');
-formData.append('image_name', payload.image_name || '');
-
 await fetch(SUBMIT_ENDPOINT, {
 method: 'POST',
 mode: 'no-cors',
 headers: {
-'Content-Type': 'application/x-www-form-urlencoded'
+'Content-Type': 'text/plain;charset=utf-8'
 },
-body: formData.toString()
+body: JSON.stringify({
+action: 'submit',
+display_name: payload.display_name || '',
+comment: payload.comment || '',
+website: payload.website || '',
+parent_id: payload.parent_id || '',
+image_base64: payload.image_base64 || '',
+image_mime_type: payload.image_mime_type || '',
+image_name: payload.image_name || ''
+})
 });
 }
 
