@@ -23,8 +23,12 @@ const cancelMainComposer = document.getElementById('cancelMainComposer');
 
 let allRecords = [];
 let currentPage = 1;
+
+// Tracks which posts have their replies expanded
 const expandedReplies = new Set();
-  const openReplyForms = new Set();
+
+// Tracks which posts have their reply form open
+const openReplyForms = new Set();
 
 function escapeHtml(str) {
 return String(str).replace(/[&<>"']/g, (m) => ({
@@ -38,6 +42,7 @@ return String(str).replace(/[&<>"']/g, (m) => ({
 
 function formatDateTime(isoString) {
 if (!isoString) return 'Unknown date';
+
 const dt = new Date(isoString);
 if (Number.isNaN(dt.getTime())) return isoString;
 
@@ -52,53 +57,67 @@ minute: '2-digit'
 
 function normalizeRecords(records) {
 return [...records]
-.map((p) => ({
-id: p.id || ('post_' + Math.random().toString(36).slice(2, 11)),
-parent_id: p.parent_id || '',
-timestamp: p.timestamp || '',
-display_name: (p.display_name || '').trim() || DEFAULT_NAME,
-comment: p.comment || ''
+.map((record) => ({
+id: record.id || `post_${Math.random().toString(36).slice(2, 11)}`,
+parent_id: String(record.parent_id || '').trim(),
+timestamp: record.timestamp || '',
+display_name: String(record.display_name || '').trim() || DEFAULT_NAME,
+comment: record.comment || ''
 }))
 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
+function getTopLevelPosts() {
+return allRecords.filter((record) => !record.parent_id);
+}
+
+function getReplies(parentId) {
+return allRecords
+.filter((record) => record.parent_id === parentId)
+.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+}
+
 async function fetchPosts(silent = false) {
 try {
-const bust = `t=${Date.now()}`;
+const cacheBust = `t=${Date.now()}`;
 const url = COMMENTS_JSON_URL.includes('?')
-? `${COMMENTS_JSON_URL}&${bust}`
-: `${COMMENTS_JSON_URL}?${bust}`;
+? `${COMMENTS_JSON_URL}&${cacheBust}`
+: `${COMMENTS_JSON_URL}?${cacheBust}`;
 
 const res = await fetch(url, { cache: 'no-store' });
-if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+if (!res.ok) {
+throw new Error(`Failed to load posts (${res.status})`);
+}
 
 const data = await res.json();
 allRecords = normalizeRecords(Array.isArray(data) ? data : []);
 render();
-if (!silent) setStatus('Posts updated.', 'success', true);
+
+if (!silent) {
+setStatus('Posts updated.', 'success', true);
+}
 } catch (err) {
 console.error(err);
-if (!silent) setStatus('Could not load posts right now.', 'error', true);
-if (!allRecords.length) {
+
+if (!silent) {
+setStatus('Could not load posts right now.', 'error', true);
+}
+
+if (!allRecords.length && postsList) {
 postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
 }
 }
 }
 
-function getTopLevelPosts() {
-return allRecords.filter(r => !r.parent_id);
-}
-
-function getReplies(parentId) {
-return allRecords
-.filter(r => r.parent_id === parentId)
-.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-}
-
 function render() {
+if (!postsList || !pagination) return;
+
 const topPosts = getTopLevelPosts();
 const totalPages = Math.max(1, Math.ceil(topPosts.length / POSTS_PER_PAGE));
-if (currentPage > totalPages) currentPage = totalPages;
+
+if (currentPage > totalPages) {
+currentPage = totalPages;
+}
 
 const start = (currentPage - 1) * POSTS_PER_PAGE;
 const pagePosts = topPosts.slice(start, start + POSTS_PER_PAGE);
@@ -115,8 +134,8 @@ bindPostButtons();
 
 function renderPostCard(post) {
 const replies = getReplies(post.id);
-const expanded = expandedReplies.has(post.id);
-const replyFormOpen = openReplyForms.has(post.id);
+const isExpanded = expandedReplies.has(post.id);
+const isReplyFormOpen = openReplyForms.has(post.id);
 
 return `
 <article class="post-card" data-post-id="${escapeHtml(post.id)}">
@@ -131,24 +150,34 @@ return `
 
 <div class="post-actions">
 <button class="link-btn" type="button" data-reply-toggle="${escapeHtml(post.id)}">
-${replyFormOpen ? 'Cancel Reply' : 'Reply'}
+${isReplyFormOpen ? 'Cancel Reply' : 'Reply'}
 </button>
 
 <button class="link-btn" type="button" data-thread-toggle="${escapeHtml(post.id)}">
-${expanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
+${isExpanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
 </button>
 </div>
 
-<div class="reply-block" ${expanded || replyFormOpen ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
-<form class="reply-form" data-reply-form="${escapeHtml(post.id)}" ${replyFormOpen ? '' : 'style="display:none;"'}>
+<div class="reply-block" ${isExpanded || isReplyFormOpen ? '' : 'style="display:none;"'} id="reply-block-${escapeHtml(post.id)}">
+<form class="reply-form" data-reply-form="${escapeHtml(post.id)}" ${isReplyFormOpen ? '' : 'style="display:none;"'} novalidate>
 <div class="field">
 <label>Name (optional)</label>
-<input type="text" name="display_name" maxlength="80" placeholder="Leave blank to reply as Rank & File" />
+<input
+type="text"
+name="display_name"
+maxlength="80"
+placeholder="Leave blank to reply as ${escapeHtml(DEFAULT_NAME)}"
+/>
 </div>
 
 <div class="field">
 <label>Reply <span class="required">*</span></label>
-<textarea name="comment" maxlength="3000" placeholder="Write your reply..." required></textarea>
+<textarea
+name="comment"
+maxlength="3000"
+placeholder="Write your reply..."
+required
+></textarea>
 </div>
 
 <div class="hp-wrap" aria-hidden="true">
@@ -158,15 +187,20 @@ ${expanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
 
 <div class="form-actions">
 <button type="submit" class="btn btn-primary">Send Reply</button>
-<span class="form-status" data-reply-status="${escapeHtml(post.id)}"></span>
+<span class="form-status" data-reply-status="${escapeHtml(post.id)}" aria-live="polite"></span>
 </div>
 </form>
 
 ${
-expanded
-? `<div class="reply-list">
-${replies.length ? replies.map(renderReplyCard).join('') : `<div class="muted">No replies yet.</div>`}
-</div>`
+isExpanded
+? `
+<div class="reply-list">
+${replies.length
+? replies.map(renderReplyCard).join('')
+: `<div class="muted">No replies yet.</div>`
+}
+</div>
+`
 : ''
 }
 </div>
@@ -193,13 +227,26 @@ return;
 }
 
 const buttons = [];
-buttons.push(`<button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`);
+
+buttons.push(`
+<button class="page-btn" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
+Prev
+</button>
+`);
 
 for (let i = 1; i <= totalPages; i++) {
-buttons.push(`<button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">${i}</button>`);
+buttons.push(`
+<button class="page-btn ${i === currentPage ? 'active' : ''}" type="button" data-page="${i}">
+${i}
+</button>
+`);
 }
 
-buttons.push(`<button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`);
+buttons.push(`
+<button class="page-btn" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
+Next
+</button>
+`);
 
 pagination.innerHTML = buttons.join('');
 
@@ -207,9 +254,17 @@ pagination.querySelectorAll('[data-page]').forEach((btn) => {
 btn.addEventListener('click', () => {
 const nextPage = Number(btn.dataset.page);
 if (!nextPage || nextPage < 1 || nextPage > totalPages) return;
+
 currentPage = nextPage;
 render();
-window.scrollTo({ top: document.querySelector('.feed-toolbar').offsetTop - 10, behavior: 'smooth' });
+
+const toolbar = document.querySelector('.feed-toolbar');
+if (toolbar) {
+window.scrollTo({
+top: toolbar.offsetTop - 10,
+behavior: 'smooth'
+});
+}
 });
 });
 }
@@ -225,6 +280,7 @@ expandedReplies.delete(postId);
 } else {
 expandedReplies.add(postId);
 }
+
 render();
 });
 });
@@ -233,13 +289,23 @@ document.querySelectorAll('[data-reply-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
 const postId = btn.dataset.replyToggle;
 if (!postId) return;
-expandedReplies.add(postId);
+
+if (openReplyForms.has(postId)) {
+openReplyForms.delete(postId);
+} else {
+openReplyForms.add(postId);
+}
+
 render();
 
-setTimeout(() => {
-const form = document.querySelector(`[data-reply-form="${CSS.escape(postId)}"] textarea`);
-if (form) form.focus();
+if (openReplyForms.has(postId)) {
+window.setTimeout(() => {
+const textarea = document.querySelector(
+`[data-reply-form="${CSS.escape(postId)}"] textarea`
+);
+if (textarea) textarea.focus();
 }, 30);
+}
 });
 });
 
@@ -249,8 +315,11 @@ form.addEventListener('submit', handleReplySubmit);
 }
 
 function setStatus(message, type = '', autoClear = false) {
+if (!formStatus) return;
+
 formStatus.textContent = message;
 formStatus.className = 'form-status';
+
 if (type === 'success') formStatus.classList.add('notice-success');
 if (type === 'error') formStatus.classList.add('notice-error');
 
@@ -259,13 +328,13 @@ window.clearTimeout(setStatus._timer);
 setStatus._timer = window.setTimeout(() => {
 formStatus.textContent = '';
 formStatus.className = 'form-status';
-}, 3000);
+}, 3500);
 }
 }
 
 function updateCharCount() {
-const len = commentInput.value.length;
-charCount.textContent = `${len} / 3000`;
+if (!charCount || !commentInput) return;
+charCount.textContent = `${commentInput.value.length} / 3000`;
 }
 
 async function sendSubmission(payload) {
@@ -289,18 +358,19 @@ body: formData.toString()
 async function submitPost(e) {
 e.preventDefault();
 
-const displayName = displayNameInput.value.trim();
-const comment = commentInput.value.trim();
-const website = websiteInput.value.trim();
-const parentId = parentIdInput.value.trim();
+const displayName = displayNameInput ? displayNameInput.value.trim() : '';
+const comment = commentInput ? commentInput.value.trim() : '';
+const website = websiteInput ? websiteInput.value.trim() : '';
+const parentId = parentIdInput ? parentIdInput.value.trim() : '';
 
 if (!comment) {
-setStatus('Comment is required.', 'error');
+setStatus('Please fill out this field.', 'error');
+if (commentInput) commentInput.focus();
 return;
 }
 
 if (comment.length > 3000) {
-setStatus('Comment exceeds 3000 characters.', 'error');
+setStatus('Post exceeds 3000 characters.', 'error');
 return;
 }
 
@@ -309,7 +379,7 @@ setStatus('Submit endpoint is not configured yet.', 'error');
 return;
 }
 
-submitBtn.disabled = true;
+if (submitBtn) submitBtn.disabled = true;
 setStatus('Sending...', '');
 
 try {
@@ -320,16 +390,18 @@ website,
 parent_id: parentId
 });
 
-postForm.reset();
-parentIdInput.value = '';
+if (postForm) postForm.reset();
+if (parentIdInput) parentIdInput.value = '';
 updateCharCount();
-setStatus('Your post was accepted and will appear soon!', 'success');
+
+setStatus('Post submitted will appear shortly.', 'success', true);
+
 hideMainComposer();
 } catch (err) {
 console.error(err);
 setStatus('Could not submit post right now.', 'error');
 } finally {
-submitBtn.disabled = false;
+if (submitBtn) submitBtn.disabled = false;
 }
 }
 
@@ -345,20 +417,28 @@ const website = form.querySelector('input[name="website"]').value.trim();
 const submitButton = form.querySelector('button[type="submit"]');
 
 if (!comment) {
-statusEl.textContent = 'Reply is required.';
+if (statusEl) {
+statusEl.textContent = 'Please fill out this field.';
 statusEl.className = 'form-status notice-error';
+}
+const textarea = form.querySelector('textarea[name="comment"]');
+if (textarea) textarea.focus();
 return;
 }
 
 if (comment.length > 3000) {
+if (statusEl) {
 statusEl.textContent = 'Reply exceeds 3000 characters.';
 statusEl.className = 'form-status notice-error';
+}
 return;
 }
 
-submitButton.disabled = true;
+if (submitButton) submitButton.disabled = true;
+if (statusEl) {
 statusEl.textContent = 'Sending...';
 statusEl.className = 'form-status';
+}
 
 try {
 await sendSubmission({
@@ -369,33 +449,69 @@ parent_id: postId
 });
 
 form.reset();
+
+if (statusEl) {
 statusEl.textContent = 'Reply submitted will appear shortly.';
 statusEl.className = 'form-status notice-success';
+}
+
+expandedReplies.add(postId);
+
+window.setTimeout(() => {
+openReplyForms.delete(postId);
+render();
+}, 1200);
 } catch (err) {
 console.error(err);
+
+if (statusEl) {
 statusEl.textContent = 'Could not submit reply right now.';
 statusEl.className = 'form-status notice-error';
+}
 } finally {
-submitButton.disabled = false;
+if (submitButton) submitButton.disabled = false;
 }
 }
 
 function showMainComposer() {
+if (!mainComposerCard || !toggleMainComposer) return;
+
 mainComposerCard.classList.remove('is-hidden');
 toggleMainComposer.style.display = 'none';
-displayNameInput.focus();
+
+if (displayNameInput) displayNameInput.focus();
 }
 
 function hideMainComposer() {
+if (!mainComposerCard || !toggleMainComposer) return;
+
 mainComposerCard.classList.add('is-hidden');
 toggleMainComposer.style.display = '';
+
+if (postForm) postForm.reset();
+if (parentIdInput) parentIdInput.value = '';
+updateCharCount();
 }
 
+if (toggleMainComposer) {
 toggleMainComposer.addEventListener('click', showMainComposer);
+}
+
+if (cancelMainComposer) {
 cancelMainComposer.addEventListener('click', hideMainComposer);
+}
+
+if (commentInput) {
 commentInput.addEventListener('input', updateCharCount);
+}
+
+if (postForm) {
 postForm.addEventListener('submit', submitPost);
+}
+
+if (refreshBtn) {
 refreshBtn.addEventListener('click', () => fetchPosts());
+}
 
 updateCharCount();
 fetchPosts(true);
