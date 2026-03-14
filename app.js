@@ -1,6 +1,4 @@
 (() => {
-console.log('app.js loaded');
-
 const config = window.FORUM_CONFIG || {};
 const POSTS_PER_PAGE = Number(config.postsPerPage || 20);
 const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
@@ -8,18 +6,12 @@ const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
 const SUBMIT_ENDPOINT = config.submitEndpoint || '';
 const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
 const MAX_COMMENT_LENGTH = 3000;
-const MAX_IMAGE_BYTES = Number(config.maxImageBytes || 4194304);
-const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 const postForm = document.getElementById('postForm');
 const displayNameInput = document.getElementById('display_name');
 const commentInput = document.getElementById('comment');
 const parentIdInput = document.getElementById('parent_id');
 const websiteInput = document.getElementById('website');
-const imageFileInput = document.getElementById('image_file');
-const imagePreviewWrap = document.getElementById('imagePreviewWrap');
-const imagePreview = document.getElementById('imagePreview');
-const clearImageBtn = document.getElementById('clearImageBtn');
 const charCount = document.getElementById('charCount');
 const formStatus = document.getElementById('formStatus');
 const submitBtn = document.getElementById('submitBtn');
@@ -67,8 +59,7 @@ id: String(record.id || `post_${Math.random().toString(36).slice(2, 11)}`),
 parent_id: String(record.parent_id || '').trim(),
 timestamp: String(record.timestamp || ''),
 display_name: String(record.display_name || '').trim() || DEFAULT_NAME,
-comment: String(record.comment || ''),
-image_url: String(record.image_url || '').trim()
+comment: String(record.comment || '')
 }))
 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
@@ -114,17 +105,6 @@ postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.<
 }
 }
 
-function renderImage(imageUrl) {
-if (!imageUrl) return '';
-return `
-<div class="post-image-wrap">
-<a href="${escapeHtml(imageUrl)}" target="_blank" rel="noopener noreferrer">
-<img class="post-image" src="${escapeHtml(imageUrl)}" alt="User uploaded image" loading="lazy" />
-</a>
-</div>
-`;
-}
-
 function renderReplyForm(recordId, isOpen) {
 return `
 <form class="reply-form" data-reply-form="${escapeHtml(recordId)}" ${isOpen ? '' : 'style="display:none;"'} novalidate>
@@ -136,16 +116,6 @@ return `
 <div class="field">
 <label>Reply <span class="required">*</span></label>
 <textarea name="comment" maxlength="${MAX_COMMENT_LENGTH}" placeholder="Write your reply..." required></textarea>
-</div>
-
-<div class="field">
-<label>Image (optional)</label>
-<input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif" />
-<p class="field-help">Allowed: JPG, PNG, WEBP, GIF • Max 250 KB</p>
-<div class="image-preview-wrap is-hidden" data-reply-preview-wrap="${escapeHtml(recordId)}">
-<img class="image-preview" data-reply-preview-img="${escapeHtml(recordId)}" alt="Selected image preview" />
-<button type="button" class="btn btn-secondary btn-small" data-reply-clear-image="${escapeHtml(recordId)}">Remove Image</button>
-</div>
 </div>
 
 <div class="hp-wrap" aria-hidden="true">
@@ -183,7 +153,6 @@ return `
 </div>
 
 <div class="reply-body">${escapeHtml(reply.comment)}</div>
-${renderImage(reply.image_url)}
 
 <div class="post-actions">
 <button class="link-btn" type="button" data-reply-toggle="${escapeHtml(reply.id)}">
@@ -224,7 +193,6 @@ return `
 </div>
 
 <div class="post-body">${escapeHtml(post.comment)}</div>
-${renderImage(post.image_url)}
 
 <div class="post-actions">
 <button class="link-btn" type="button" data-reply-toggle="${escapeHtml(post.id)}">
@@ -294,14 +262,6 @@ render();
 document.querySelectorAll('[data-reply-form]').forEach((form) => {
 form.addEventListener('submit', handleReplySubmit);
 });
-
-document.querySelectorAll('.reply-form input[type="file"]').forEach((input) => {
-input.addEventListener('change', handleReplyImagePreview);
-});
-
-document.querySelectorAll('[data-reply-clear-image]').forEach((btn) => {
-btn.addEventListener('click', handleReplyClearImage);
-});
 }
 
 function render() {
@@ -345,48 +305,6 @@ if (!charCount || !commentInput) return;
 charCount.textContent = `${commentInput.value.length} / ${MAX_COMMENT_LENGTH}`;
 }
 
-function validateImageFile(file) {
-if (!file) return null;
-if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-throw new Error('Unsupported image type. Use JPG, PNG, WEBP, or GIF.');
-}
-if (file.size > MAX_IMAGE_BYTES) {
-throw new Error('Image exceeds 4 MB.');
-}
-return true;
-}
-
-function readFileAsBase64(file) {
-return new Promise((resolve, reject) => {
-const reader = new FileReader();
-reader.onload = () => {
-const result = String(reader.result || '');
-const commaIndex = result.indexOf(',');
-if (commaIndex === -1) {
-reject(new Error('Could not read image.'));
-return;
-}
-resolve(result.slice(commaIndex + 1));
-};
-reader.onerror = () => reject(new Error('Could not read image.'));
-reader.readAsDataURL(file);
-});
-}
-
-async function buildImagePayload(file) {
-if (!file) {
-return { image_base64: '', image_mime_type: '', image_name: '' };
-}
-
-validateImageFile(file);
-
-return {
-image_base64: await readFileAsBase64(file),
-image_mime_type: file.type,
-image_name: file.name || 'upload'
-};
-}
-
 async function sendSubmission(payload) {
 await fetch(SUBMIT_ENDPOINT, {
 method: 'POST',
@@ -399,24 +317,9 @@ action: 'submit',
 display_name: payload.display_name || '',
 comment: payload.comment || '',
 website: payload.website || '',
-parent_id: payload.parent_id || '',
-image_base64: payload.image_base64 || '',
-image_mime_type: payload.image_mime_type || '',
-image_name: payload.image_name || ''
+parent_id: payload.parent_id || ''
 })
 });
-}
-
-function showMainImagePreview(file) {
-if (!imagePreviewWrap || !imagePreview || !file) return;
-imagePreview.src = URL.createObjectURL(file);
-imagePreviewWrap.classList.remove('is-hidden');
-}
-
-function clearMainImagePreview() {
-if (imageFileInput) imageFileInput.value = '';
-if (imagePreview) imagePreview.src = '';
-if (imagePreviewWrap) imagePreviewWrap.classList.add('is-hidden');
 }
 
 async function submitPost(e) {
@@ -426,7 +329,6 @@ const displayName = displayNameInput ? displayNameInput.value.trim() : '';
 const comment = commentInput ? commentInput.value.trim() : '';
 const website = websiteInput ? websiteInput.value.trim() : '';
 const parentId = parentIdInput ? parentIdInput.value.trim() : '';
-const imageFile = imageFileInput && imageFileInput.files ? imageFileInput.files[0] : null;
 
 if (!comment) {
 setMainStatus('Please fill out this field.', 'error');
@@ -442,19 +344,15 @@ if (submitBtn) submitBtn.disabled = true;
 setMainStatus('Sending...', '');
 
 try {
-const imagePayload = await buildImagePayload(imageFile);
-
 await sendSubmission({
 display_name: displayName,
 comment,
 website,
-parent_id: parentId,
-...imagePayload
+parent_id: parentId
 });
 
 if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
-clearMainImagePreview();
 updateCharCount();
 
 setMainStatus('Post submitted will appear shortly.', 'success', true);
@@ -476,8 +374,6 @@ const statusEl = form.querySelector(`[data-reply-status="${recordId}"]`);
 const displayName = form.querySelector('input[name="display_name"]').value.trim();
 const comment = form.querySelector('textarea[name="comment"]').value.trim();
 const website = form.querySelector('input[name="website"]').value.trim();
-const imageInput = form.querySelector('input[name="image_file"]');
-const imageFile = imageInput && imageInput.files ? imageInput.files[0] : null;
 const submitButton = form.querySelector('button[type="submit"]');
 
 if (!comment) {
@@ -495,18 +391,14 @@ statusEl.className = 'form-status';
 }
 
 try {
-const imagePayload = await buildImagePayload(imageFile);
-
 await sendSubmission({
 display_name: displayName,
 comment,
 website,
-parent_id: recordId,
-...imagePayload
+parent_id: recordId
 });
 
 form.reset();
-clearReplyPreview(recordId);
 
 if (statusEl) {
 statusEl.textContent = 'Reply submitted will appear shortly.';
@@ -530,81 +422,6 @@ if (submitButton) submitButton.disabled = false;
 }
 }
 
-function handleMainImagePreview() {
-const file = imageFileInput && imageFileInput.files ? imageFileInput.files[0] : null;
-if (!file) {
-clearMainImagePreview();
-return;
-}
-
-try {
-validateImageFile(file);
-showMainImagePreview(file);
-setMainStatus('', '');
-} catch (err) {
-clearMainImagePreview();
-setMainStatus(err.message, 'error');
-}
-}
-
-function handleReplyImagePreview(e) {
-const input = e.currentTarget;
-const form = input.closest('.reply-form');
-const recordId = form ? form.dataset.replyForm : '';
-const file = input.files ? input.files[0] : null;
-const statusEl = form ? form.querySelector(`[data-reply-status="${recordId}"]`) : null;
-
-if (!recordId) return;
-
-if (!file) {
-clearReplyPreview(recordId);
-return;
-}
-
-try {
-validateImageFile(file);
-showReplyPreview(recordId, file);
-if (statusEl) {
-statusEl.textContent = '';
-statusEl.className = 'form-status';
-}
-} catch (err) {
-clearReplyPreview(recordId);
-if (statusEl) {
-statusEl.textContent = err.message;
-statusEl.className = 'form-status notice-error';
-}
-}
-}
-
-function showReplyPreview(recordId, file) {
-const wrap = document.querySelector(`[data-reply-preview-wrap="${CSS.escape(recordId)}"]`);
-const img = document.querySelector(`[data-reply-preview-img="${CSS.escape(recordId)}"]`);
-if (!wrap || !img) return;
-img.src = URL.createObjectURL(file);
-wrap.classList.remove('is-hidden');
-}
-
-function clearReplyPreview(recordId) {
-const form = document.querySelector(`[data-reply-form="${CSS.escape(recordId)}"]`);
-const wrap = document.querySelector(`[data-reply-preview-wrap="${CSS.escape(recordId)}"]`);
-const img = document.querySelector(`[data-reply-preview-img="${CSS.escape(recordId)}"]`);
-
-if (form) {
-const input = form.querySelector('input[name="image_file"]');
-if (input) input.value = '';
-}
-
-if (img) img.src = '';
-if (wrap) wrap.classList.add('is-hidden');
-}
-
-function handleReplyClearImage(e) {
-const recordId = e.currentTarget.dataset.replyClearImage;
-if (!recordId) return;
-clearReplyPreview(recordId);
-}
-
 function showMainComposer() {
 if (!mainComposerCard || !toggleMainComposer) return;
 mainComposerCard.classList.remove('is-hidden');
@@ -618,7 +435,6 @@ mainComposerCard.classList.add('is-hidden');
 toggleMainComposer.style.display = '';
 if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
-clearMainImagePreview();
 updateCharCount();
 }
 
@@ -627,8 +443,6 @@ if (cancelMainComposer) cancelMainComposer.addEventListener('click', hideMainCom
 if (commentInput) commentInput.addEventListener('input', updateCharCount);
 if (postForm) postForm.addEventListener('submit', submitPost);
 if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
-if (imageFileInput) imageFileInput.addEventListener('change', handleMainImagePreview);
-if (clearImageBtn) clearImageBtn.addEventListener('click', clearMainImagePreview);
 
 updateCharCount();
 fetchPosts(true);
