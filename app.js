@@ -1,4 +1,5 @@
 (() => {
+  console.log('app.js loaded');
 const config = window.FORUM_CONFIG || {};
 const POSTS_PER_PAGE = Number(config.postsPerPage || 20);
 const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
