@@ -6,9 +6,11 @@ const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
 const SUBMIT_ENDPOINT = config.submitEndpoint || '';
 const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
 const MAX_COMMENT_LENGTH = 3000;
+const DEFAULT_CATEGORY = 'general';
 
 const postForm = document.getElementById('postForm');
 const displayNameInput = document.getElementById('display_name');
+const categoryInput = document.getElementById('category');
 const commentInput = document.getElementById('comment');
 const parentIdInput = document.getElementById('parent_id');
 const websiteInput = document.getElementById('website');
@@ -21,9 +23,11 @@ const pagination = document.getElementById('pagination');
 const toggleMainComposer = document.getElementById('toggleMainComposer');
 const mainComposerCard = document.getElementById('mainComposerCard');
 const cancelMainComposer = document.getElementById('cancelMainComposer');
+const categoryTabs = document.getElementById('categoryTabs');
 
 let allRecords = [];
 let currentPage = 1;
+let activeCategory = 'all';
 
 const expandedThreads = new Set();
 const openReplyForms = new Set();
@@ -36,6 +40,20 @@ return String(str).replace(/[&<>"']/g, (m) => ({
 '"': '&quot;',
 "'": '&#39;'
 }[m]));
+}
+
+function normalizeCategory(category) {
+const value = String(category || '').trim().toLowerCase();
+if (value === 'news') return 'news';
+if (value === 'questions') return 'questions';
+return 'general';
+}
+
+function categoryLabel(category) {
+const value = normalizeCategory(category);
+if (value === 'news') return 'News';
+if (value === 'questions') return 'Questions';
+return 'General';
 }
 
 function formatDateTime(isoString) {
@@ -59,13 +77,20 @@ id: String(record.id || `post_${Math.random().toString(36).slice(2, 11)}`),
 parent_id: String(record.parent_id || '').trim(),
 timestamp: String(record.timestamp || ''),
 display_name: String(record.display_name || '').trim() || DEFAULT_NAME,
+category: normalizeCategory(record.category || DEFAULT_CATEGORY),
 comment: String(record.comment || '')
 }))
 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
 function getTopLevelPosts() {
-return allRecords.filter((record) => !record.parent_id);
+let posts = allRecords.filter((record) => !record.parent_id);
+
+if (activeCategory !== 'all') {
+posts = posts.filter((record) => record.category === activeCategory);
+}
+
+return posts;
 }
 
 function getChildren(parentId) {
@@ -103,6 +128,12 @@ if (!allRecords.length && postsList) {
 postsList.innerHTML = `<div class="empty-state">Unable to load posts right now.</div>`;
 }
 }
+}
+
+function renderCategoryBadge(category) {
+const normalized = normalizeCategory(category);
+const label = categoryLabel(normalized);
+return `<span class="category-badge category-${normalized}">${escapeHtml(label)}</span>`;
 }
 
 function renderReplyForm(recordId, isOpen) {
@@ -148,8 +179,10 @@ const safeDepth = Math.min(depth, 3);
 return `
 <article class="reply-card" style="margin-left:${safeDepth * 18}px;">
 <div class="reply-top">
+<div class="reply-meta">
 <div class="reply-author">${escapeHtml(reply.display_name)}</div>
 <div class="reply-time">${escapeHtml(formatDateTime(reply.timestamp))}</div>
+</div>
 </div>
 
 <div class="reply-body">${escapeHtml(reply.comment)}</div>
@@ -186,9 +219,12 @@ const isReplyFormOpen = openReplyForms.has(post.id);
 return `
 <article class="post-card">
 <div class="post-top">
-<div>
+<div class="post-head-left">
 <div class="post-author">${escapeHtml(post.display_name)}</div>
 <div class="post-time">${escapeHtml(formatDateTime(post.timestamp))}</div>
+</div>
+<div class="post-head-right">
+${renderCategoryBadge(post.category)}
 </div>
 </div>
 
@@ -238,6 +274,14 @@ render();
 });
 }
 
+function renderTabs() {
+if (!categoryTabs) return;
+categoryTabs.querySelectorAll('[data-category]').forEach((btn) => {
+const category = btn.dataset.category;
+btn.classList.toggle('active', category === activeCategory);
+});
+}
+
 function bindThreadButtons() {
 document.querySelectorAll('[data-thread-toggle]').forEach((btn) => {
 btn.addEventListener('click', () => {
@@ -264,6 +308,19 @@ form.addEventListener('submit', handleReplySubmit);
 });
 }
 
+function bindCategoryTabs() {
+if (!categoryTabs) return;
+categoryTabs.querySelectorAll('[data-category]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const category = btn.dataset.category || 'all';
+activeCategory = category;
+currentPage = 1;
+renderTabs();
+render();
+});
+});
+}
+
 function render() {
 if (!postsList || !pagination) return;
 
@@ -275,11 +332,12 @@ const start = (currentPage - 1) * POSTS_PER_PAGE;
 const pagePosts = topPosts.slice(start, start + POSTS_PER_PAGE);
 
 if (!pagePosts.length) {
-postsList.innerHTML = `<div class="empty-state">No posts have been published yet.</div>`;
+postsList.innerHTML = `<div class="empty-state">No posts found in this category yet.</div>`;
 } else {
 postsList.innerHTML = pagePosts.map(renderTopLevelPostCard).join('');
 }
 
+renderTabs();
 renderPagination(totalPages);
 bindThreadButtons();
 }
@@ -315,6 +373,7 @@ headers: {
 body: JSON.stringify({
 action: 'submit',
 display_name: payload.display_name || '',
+category: payload.category || DEFAULT_CATEGORY,
 comment: payload.comment || '',
 website: payload.website || '',
 parent_id: payload.parent_id || ''
@@ -326,6 +385,7 @@ async function submitPost(e) {
 e.preventDefault();
 
 const displayName = displayNameInput ? displayNameInput.value.trim() : '';
+const category = categoryInput ? normalizeCategory(categoryInput.value) : DEFAULT_CATEGORY;
 const comment = commentInput ? commentInput.value.trim() : '';
 const website = websiteInput ? websiteInput.value.trim() : '';
 const parentId = parentIdInput ? parentIdInput.value.trim() : '';
@@ -346,6 +406,7 @@ setMainStatus('Sending...', '');
 try {
 await sendSubmission({
 display_name: displayName,
+category,
 comment,
 website,
 parent_id: parentId
@@ -353,6 +414,7 @@ parent_id: parentId
 
 if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
+if (categoryInput) categoryInput.value = DEFAULT_CATEGORY;
 updateCharCount();
 
 setMainStatus('Post submitted will appear shortly.', 'success', true);
@@ -393,6 +455,7 @@ statusEl.className = 'form-status';
 try {
 await sendSubmission({
 display_name: displayName,
+category: DEFAULT_CATEGORY,
 comment,
 website,
 parent_id: recordId
@@ -435,6 +498,7 @@ mainComposerCard.classList.add('is-hidden');
 toggleMainComposer.style.display = '';
 if (postForm) postForm.reset();
 if (parentIdInput) parentIdInput.value = '';
+if (categoryInput) categoryInput.value = DEFAULT_CATEGORY;
 updateCharCount();
 }
 
@@ -444,8 +508,8 @@ if (commentInput) commentInput.addEventListener('input', updateCharCount);
 if (postForm) postForm.addEventListener('submit', submitPost);
 if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
 
+bindCategoryTabs();
 updateCharCount();
 fetchPosts(true);
 setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
 })();
-
