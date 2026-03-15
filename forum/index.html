@@ -9,6 +9,17 @@
 <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+<nav class="site-nav">
+<div class="nav-inner">
+<div class="nav-logo">Rank &amp; File 6787</div>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/forum/">Forum</a>
+<a href="/resources/">Resources</a>
+</div>
+</div>
+</nav>
+
 <div class="site-shell">
 <header class="hero">
 <div class="hero-overlay"></div>
@@ -46,6 +57,15 @@ placeholder="Leave blank to post as Rank &amp; File"
 </div>
 
 <div class="field">
+<label for="category">Category <span class="required">*</span></label>
+<select id="category" name="category" required>
+<option value="news">News</option>
+<option value="questions">Questions</option>
+<option value="general" selected>General</option>
+</select>
+</div>
+
+<div class="field">
 <label for="comment">Comment <span class="required">*</span></label>
 <textarea
 id="comment"
@@ -79,6 +99,15 @@ required
 </div>
 <div class="toolbar-actions">
 <button id="refreshBtn" class="btn btn-secondary" type="button">Refresh</button>
+</div>
+</section>
+
+<section class="category-tabs-wrap">
+<div class="category-tabs" id="categoryTabs">
+<button class="tab-btn active" type="button" data-category="all">All</button>
+<button class="tab-btn" type="button" data-category="news">News</button>
+<button class="tab-btn" type="button" data-category="questions">Questions</button>
+<button class="tab-btn" type="button" data-category="general">General</button>
 </div>
 </section>
 
