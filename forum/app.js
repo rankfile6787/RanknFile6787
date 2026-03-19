@@ -4,7 +4,7 @@ const POSTS_PER_PAGE = Number(config.postsPerPage || 20);
 const DEFAULT_NAME = config.defaultDisplayName || 'Rank & File';
 const COMMENTS_JSON_URL = config.commentsJsonUrl || './comments.json';
 const SUBMIT_ENDPOINT = config.submitEndpoint || '';
-const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 30000);
+const LIVE_REFRESH_MS = Number(config.liveRefreshMs || 3000000);
 const MAX_COMMENT_LENGTH = 3000;
 const DEFAULT_CATEGORY = 'general';
 
