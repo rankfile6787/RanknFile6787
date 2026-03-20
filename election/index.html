@@ -573,7 +573,10 @@ const candidateTiles = Array.from(document.querySelectorAll('.candidate-tile'));
 const emptyElectionState = document.getElementById('emptyElectionState');
 
 toggleBtn.addEventListener('click', () => {
-formPanel.classList.toggle('open');
+window.open(
+"https://docs.google.com/forms/d/e/1FAIpQLSfZ35KK5j14fyGeA-FnstMrKfrvva9s5FREJH8dnRBRjCKTSg/viewform?usp=sharing&ouid=116069345882342360919"
+);
+});
 
 if (formPanel.classList.contains('open')) {
 toggleBtn.textContent = 'Hide Submission Form';
