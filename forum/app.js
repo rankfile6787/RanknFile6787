@@ -511,5 +511,23 @@ if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
 bindCategoryTabs();
 updateCharCount();
 fetchPosts(true);
-//setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
+let isUserTyping = false;
+
+// Detect typing in any textarea (post or reply)
+document.addEventListener('input', (e) => {
+if (e.target.tagName === 'TEXTAREA') {
+isUserTyping = true;
+
+clearTimeout(window._typingTimer);
+window._typingTimer = setTimeout(() => {
+isUserTyping = false;
+}, 10000); // stops "typing mode" after 10 seconds idle
+}
+});
+
+setInterval(() => {
+if (!isUserTyping) {
+fetchPosts(true);
+}
+}, LIVE_REFRESH_MS);
 })();
