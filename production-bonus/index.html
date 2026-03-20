@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Production Bonus | Rank & File 6787</title>
+<meta name="description" content="Production bonus information for Rank & File 6787." />
+<link rel="icon" type="image/x-icon" href="../solidarityico.ico" />
+<link rel="stylesheet" href="../style.css" />
+<style>
+.bonus-shell{
+max-width:1100px;
+margin:0 auto;
+padding:32px 20px 60px;
+text-align:center;
+}
 
+.bonus-hero{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:28px;
+box-shadow:0 18px 42px rgba(0,0,0,0.32);
+margin-bottom:22px;
+}
+
+.bonus-hero p{
+color:#a9b3c2;
+margin:10px auto 0;
+max-width:760px;
+line-height:1.65;
+}
+
+.bonus-toplinks{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:18px;
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(3, minmax(0, 1fr));
+gap:18px;
+margin-bottom:22px;
+}
+
+.summary-card{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+text-align:center;
+}
+
+.summary-label{
+font-size:.82rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#a9b3c2;
+margin-bottom:8px;
+}
+
+.summary-value{
+font-size:2rem;
+font-weight:800;
+color:#eef2f7;
+line-height:1.1;
+margin-bottom:8px;
+}
+
+.summary-week{
+color:#d7dee8;
+font-size:.95rem;
+}
+
+.bonus-tabs-wrap{
+margin-bottom:18px;
+}
+
+.bonus-tabs{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.tab-btn{
+appearance:none;
+border:1px solid rgba(255,255,255,0.16);
+background:transparent;
+color:#eef2f7;
+border-radius:999px;
+padding:10px 14px;
+cursor:pointer;
+font-weight:700;
+transition:transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.tab-btn:hover{
+transform:translateY(-1px);
+}
+
+.tab-btn.active{
+background:linear-gradient(180deg, #d13a3a, #b22222);
+color:#fff;
+border-color:transparent;
+}
+
+.bonus-table-wrap{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:20px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+overflow:auto;
+}
+
+.bonus-table{
+width:100%;
+border-collapse:collapse;
+min-width:760px;
+}
+
+.bonus-table th,
+.bonus-table td{
+padding:14px 12px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+text-align:center;
+}
+
+.bonus-table th{
+color:#eef2f7;
+font-size:.9rem;
+text-transform:uppercase;
+letter-spacing:.04em;
+}
+
+.bonus-table td{
+color:#d7dee8;
+}
+
+.bonus-table tr:last-child td{
+border-bottom:none;
+}
+
+.empty-state{
+margin-top:18px;
+padding:26px;
+text-align:center;
+border:1px dashed rgba(255,255,255,0.16);
+border-radius:18px;
+color:#a9b3c2;
+background:rgba(255,255,255,0.02);
+display:none;
+}
+
+@media (max-width: 900px){
+.summary-grid{
+grid-template-columns:repeat(2, minmax(0, 1fr));
+}
+}
+
+@media (max-width: 700px){
+.summary-grid{
+grid-template-columns:1fr;
+}
+
+.bonus-shell{
+padding:18px 14px 40px;
+}
+
+.bonus-hero,
+.summary-card,
+.bonus-table-wrap{
+padding:18px;
+}
+}
+</style>
+</head>
+<body class="home-body">
+<nav class="site-nav">
+<div class="nav-inner">
+<div class="nav-logo">Rank &amp; File 6787</div>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/forum/">Forum</a>
+<a href="/resources/">Resources</a>
+<a href="/election/">Election</a>
+<a href="/production-bonus/">Production Bonus</a>
+</div>
+</div>
+</nav>
+
+<main class="bonus-shell">
+<section class="bonus-hero">
+<p class="home-eyebrow">Production Bonus • Weekly Data • Area Comparison</p>
+<h1>Production Bonus</h1>
+<p>
+This page shows the latest production bonus values along with previous week-ending history.
+Use the filter tabs below to focus on one area or view all areas together.
+</p>
+
+<div class="bonus-toplinks">
+<a class="home-btn home-btn-primary" href="/">Return Home</a>
+<a class="home-btn home-btn-secondary" href="/forum/">Go to Forum</a>
+</div>
+</section>
+
+<section class="summary-grid" id="summaryGrid"></section>
+
+<section class="bonus-tabs-wrap">
+<div class="bonus-tabs" id="bonusTabs">
+<button class="tab-btn active" type="button" data-area="all">All</button>
+<button class="tab-btn" type="button" data-area="coke">Coke</button>
+<button class="tab-btn" type="button" data-area="primary">Primary</button>
+<button class="tab-btn" type="button" data-area="hot_roll">Hot Roll</button>
+<button class="tab-btn" type="button" data-area="finishing">Finishing</button>
+<button class="tab-btn" type="button" data-area="plate">Plate</button>
+<button class="tab-btn" type="button" data-area="plant_avg">Plant Avg</button>
+</div>
+</section>
+
+<section class="bonus-table-wrap">
+<table class="bonus-table" id="bonusTable">
+<thead id="bonusTableHead"></thead>
+<tbody id="bonusTableBody"></tbody>
+</table>
+<div class="empty-state" id="bonusEmptyState">
+No production bonus data found.
+</div>
+</section>
+</main>
+
+<script>
+const BONUS_CONFIG = {
+dataUrl: './production-bonus.json'
+};
+
+const AREA_META = {
+coke: 'Coke',
+primary: 'Primary',
+hot_roll: 'Hot Roll',
+finishing: 'Finishing',
+plate: 'Plate',
+plant_avg: 'Plant Avg'
+};
+
+const summaryGrid = document.getElementById('summaryGrid');
+const bonusTabs = document.getElementById('bonusTabs');
+const bonusTableHead = document.getElementById('bonusTableHead');
+const bonusTableBody = document.getElementById('bonusTableBody');
+const bonusEmptyState = document.getElementById('bonusEmptyState');
+
+let bonusRows = [];
+let activeArea = 'all';
+
+function escapeHtml(str) {
+return String(str).replace(/[&<>"']/g, (m) => ({
+'&': '&amp;',
+'<': '&lt;',
+'>': '&gt;',
+'"': '&quot;',
+"'": '&#39;'
+}[m]));
+}
+
+function normalizeRow(row) {
+return {
+week_ending: String(row.week_ending || '').trim(),
+coke: String(row.coke || '').trim(),
+primary: String(row.primary || '').trim(),
+hot_roll: String(row.hot_roll || '').trim(),
+finishing: String(row.finishing || '').trim(),
+plate: String(row.plate || '').trim(),
+plant_avg: String(row.plant_avg || '').trim()
+};
+}
+
+function sortRowsNewestFirst(rows) {
+return [...rows].sort((a, b) => {
+return new Date(b.week_ending) - new Date(a.week_ending);
+});
+}
+
+function renderSummaryCards() {
+if (!bonusRows.length) {
+summaryGrid.innerHTML = '';
+return;
+}
+
+const latest = bonusRows[0];
+
+const cards = Object.entries(AREA_META).map(([key, label]) => {
+return `
+<article class="summary-card">
+<div class="summary-label">${escapeHtml(label)}</div>
+<div class="summary-value">${escapeHtml(latest[key] || '-')}</div>
+<div class="summary-week">Week Ending: ${escapeHtml(latest.week_ending || '-')}</div>
+</article>
+`;
+});
+
+summaryGrid.innerHTML = cards.join('');
+}
+
+function renderTable() {
+if (!bonusRows.length) {
+bonusTableHead.innerHTML = '';
+bonusTableBody.innerHTML = '';
+bonusEmptyState.style.display = 'block';
+return;
+}
+
+bonusEmptyState.style.display = 'none';
+
+if (activeArea === 'all') {
+bonusTableHead.innerHTML = `
+<tr>
+<th>Week Ending</th>
+<th>Coke</th>
+<th>Primary</th>
+<th>Hot Roll</th>
+<th>Finishing</th>
+<th>Plate</th>
+<th>Plant Avg</th>
+</tr>
+`;
+
+bonusTableBody.innerHTML = bonusRows.map((row) => `
+<tr>
+<td>${escapeHtml(row.week_ending)}</td>
+<td>${escapeHtml(row.coke)}</td>
+<td>${escapeHtml(row.primary)}</td>
+<td>${escapeHtml(row.hot_roll)}</td>
+<td>${escapeHtml(row.finishing)}</td>
+<td>${escapeHtml(row.plate)}</td>
+<td>${escapeHtml(row.plant_avg)}</td>
+</tr>
+`).join('');
+return;
+}
+
+bonusTableHead.innerHTML = `
+<tr>
+<th>Week Ending</th>
+<th>${escapeHtml(AREA_META[activeArea] || '')}</th>
+</tr>
+`;
+
+bonusTableBody.innerHTML = bonusRows.map((row) => `
+<tr>
+<td>${escapeHtml(row.week_ending)}</td>
+<td>${escapeHtml(row[activeArea] || '')}</td>
+</tr>
+`).join('');
+}
+
+function bindTabs() {
+bonusTabs.querySelectorAll('[data-area]').forEach((btn) => {
+btn.addEventListener('click', () => {
+activeArea = btn.dataset.area || 'all';
+
+bonusTabs.querySelectorAll('[data-area]').forEach((tab) => {
+tab.classList.remove('active');
+});
+
+btn.classList.add('active');
+renderTable();
+});
+});
+}
+
+async function loadBonusData() {
+try {
+const cacheBust = `t=${Date.now()}`;
+const url = BONUS_CONFIG.dataUrl.includes('?')
+? `${BONUS_CONFIG.dataUrl}&${cacheBust}`
+: `${BONUS_CONFIG.dataUrl}?${cacheBust}`;
+
+const res = await fetch(url, { cache: 'no-store' });
+if (!res.ok) throw new Error(`Failed to load data (${res.status})`);
+
+const data = await res.json();
+bonusRows = sortRowsNewestFirst(Array.isArray(data) ? data.map(normalizeRow) : []);
+renderSummaryCards();
+renderTable();
+} catch (err) {
+console.error(err);
+summaryGrid.innerHTML = '';
+bonusTableHead.innerHTML = '';
+bonusTableBody.innerHTML = '';
+bonusEmptyState.style.display = 'block';
+}
+}
+
+bindTabs();
+loadBonusData();
+</script>
+</body>
+</html>
