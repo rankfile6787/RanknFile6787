@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Election | Rank & File 6787</title>
+<meta name="description" content="Campaign literature and election information for Rank & File 6787." />
+<link rel="icon" type="image/x-icon" href="../solidarityico.ico" />
+<link rel="stylesheet" href="../style.css" />
+<style>
+.election-shell{
+max-width:1100px;
+margin:0 auto;
+padding:32px 20px 60px;
+text-align:center;
+}
+
+.election-hero{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:28px;
+box-shadow:0 18px 42px rgba(0,0,0,0.32);
+margin-bottom:22px;
+}
+
+.election-hero p{
+color:#a9b3c2;
+margin:10px auto 0;
+max-width:760px;
+line-height:1.65;
+}
+
+.election-toplinks{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:18px;
+}
+
+.position-tabs-wrap{
+margin-bottom:18px;
+}
+
+.position-tabs{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.tab-btn{
+appearance:none;
+border:1px solid rgba(255,255,255,0.16);
+background:transparent;
+color:#eef2f7;
+border-radius:999px;
+padding:10px 14px;
+cursor:pointer;
+font-weight:700;
+transition:transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.tab-btn:hover{
+transform:translateY(-1px);
+}
+
+.tab-btn.active{
+background:linear-gradient(180deg, #d13a3a, #b22222);
+color:#fff;
+border-color:transparent;
+}
+
+.form-panel{
+margin-bottom:22px;
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:18px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+display:none;
+}
+
+.form-panel.open{
+display:block;
+}
+
+.form-panel h2{
+margin-top:0;
+}
+
+.form-panel p{
+color:#a9b3c2;
+max-width:760px;
+margin:0 auto 16px;
+line-height:1.65;
+}
+
+.form-embed{
+width:100%;
+min-height:1200px;
+border:none;
+border-radius:14px;
+background:#fff;
+}
+
+.candidate-grid{
+display:grid;
+grid-template-columns:repeat(2, minmax(0, 1fr));
+gap:18px;
+}
+
+.candidate-tile{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+display:flex;
+flex-direction:column;
+gap:12px;
+text-align:center;
+}
+
+.candidate-tile.hidden{
+display:none;
+}
+
+.candidate-kicker{
+font-size:.82rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#a9b3c2;
+}
+
+.candidate-tile h2{
+margin:0;
+font-size:1.35rem;
+color:#eef2f7;
+}
+
+.candidate-tile p{
+margin:0;
+color:#d7dee8;
+line-height:1.6;
+}
+
+.candidate-links{
+display:grid;
+gap:10px;
+margin-top:4px;
+}
+
+.candidate-link{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:12px 14px;
+border-radius:12px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+color:#eef2f7;
+text-decoration:none;
+font-weight:700;
+transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.candidate-link:hover{
+transform:translateY(-1px);
+border-color:rgba(209,58,58,0.45);
+background:rgba(255,255,255,0.05);
+}
+
+.candidate-link small{
+font-weight:600;
+color:#a9b3c2;
+}
+
+.position-badge{
+display:inline-block;
+margin:0 auto;
+border-radius:999px;
+padding:7px 10px;
+font-size:.78rem;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:.05em;
+background:rgba(178,34,34,0.18);
+color:#ffd2d2;
+border:1px solid rgba(178,34,34,0.45);
+}
+
+.empty-election-state{
+margin-top:18px;
+padding:26px;
+text-align:center;
+border:1px dashed rgba(255,255,255,0.16);
+border-radius:18px;
+color:#a9b3c2;
+background:rgba(255,255,255,0.02);
+display:none;
+}
+
+.election-footer{
+margin-top:26px;
+text-align:center;
+}
+
+.election-note{
+margin-top:18px;
+color:#a9b3c2;
+line-height:1.6;
+}
+
+@media (max-width: 800px){
+.candidate-grid{
+grid-template-columns:1fr;
+}
+
+.election-shell{
+padding:18px 14px 40px;
+}
+
+.election-hero,
+.candidate-tile,
+.form-panel{
+padding:18px;
+}
+
+.form-embed{
+min-height:1400px;
+}
+}
+</style>
+</head>
+<body class="home-body">
+<nav class="site-nav">
+<div class="nav-inner">
+<div class="nav-logo">Rank &amp; File 6787</div>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/forum/">Forum</a>
+<a href="/resources/">Resources</a>
+<a href="/election/">Election</a>
+</div>
+</div>
+</nav>
+
+<main class="election-shell">
+<section class="election-hero">
+<p class="home-eyebrow">Union Elections • Transparency • Member Awareness</p>
+<h1>Election Information</h1>
+<p>
+This page will be used to share campaign literature for future elections for all candidates.
+The goal is to help make sure the membership sees all candidates’ campaign literature in one place.
+To have your material displayed here, submit it through the form below.
+</p>
+
+<div class="election-toplinks">
+<a class="home-btn home-btn-primary" href="/forum/">Go to Forum</a>
+<a class="home-btn home-btn-secondary" href="/">Return Home</a>
+<button id="toggleCampaignForm" class="home-btn home-btn-primary" type="button">Submit Campaign Material</button>
+</div>
+</section>
+
+<section id="campaignFormPanel" class="form-panel">
+<h2>Campaign Submission Form</h2>
+<p>
+Submit campaign literature here for future local elections. Materials may be reviewed before being displayed.
+</p>
+
+<iframe
+class="form-embed"
+src="PASTE_YOUR_GOOGLE_FORM_EMBED_URL_HERE"
+loading="lazy">
+</iframe>
+</section>
+
+<section class="position-tabs-wrap">
+<div class="position-tabs" id="positionTabs">
+<button class="tab-btn active" type="button" data-position="all">All</button>
+<button class="tab-btn" type="button" data-position="president">President</button>
+<button class="tab-btn" type="button" data-position="vice-president">Vice President</button>
+<button class="tab-btn" type="button" data-position="recording-secretary">Recording Secretary</button>
+<button class="tab-btn" type="button" data-position="financial-secretary">Financial Secretary</button>
+<button class="tab-btn" type="button" data-position="grievance-chairman">Grievance Chairman</button>
+<button class="tab-btn" type="button" data-position="treasurer">Treasurer</button>
+<button class="tab-btn" type="button" data-position="guide">Guide</button>
+<button class="tab-btn" type="button" data-position="inner-guard">Inner Guard</button>
+<button class="tab-btn" type="button" data-position="outer-guard">Outer Guard</button>
+<button class="tab-btn" type="button" data-position="trustee">Trustee</button>
+<button class="tab-btn" type="button" data-position="zone-1-griever">Zone 1 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-2-griever">Zone 2 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-3-griever">Zone 3 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-4-griever">Zone 4 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-5-griever">Zone 5 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-6-griever">Zone 6 Griever</button>
+<button class="tab-btn" type="button" data-position="zone-7-griever">Zone 7 Griever</button>
+</div>
+</section>
+
+<section class="candidate-grid" id="candidateGrid">
+<article class="candidate-tile" data-position="president">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">President</div>
+<p>Campaign literature for President candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="vice-president">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Vice President</div>
+<p>Campaign literature for Vice President candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="recording-secretary">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Recording Secretary</div>
+<p>Campaign literature for Recording Secretary candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="financial-secretary">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Financial Secretary</div>
+<p>Campaign literature for Financial Secretary candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="grievance-chairman">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Grievance Chairman</div>
+<p>Campaign literature for Grievance Chairman candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="treasurer">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Treasurer</div>
+<p>Campaign literature for Treasurer candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="guide">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Guide</div>
+<p>Campaign literature for Guide candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="inner-guard">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Inner Guard</div>
+<p>Campaign literature for Inner Guard candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="outer-guard">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Outer Guard</div>
+<p>Campaign literature for Outer Guard candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="trustee">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Trustee</div>
+<p>Campaign literature for Trustee candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-1-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 1 Griever</div>
+<p>Campaign literature for Zone 1 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-2-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 2 Griever</div>
+<p>Campaign literature for Zone 2 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-3-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 3 Griever</div>
+<p>Campaign literature for Zone 3 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-4-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 4 Griever</div>
+<p>Campaign literature for Zone 4 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-5-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 5 Griever</div>
+<p>Campaign literature for Zone 5 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-6-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 6 Griever</div>
+<p>Campaign literature for Zone 6 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+
+<article class="candidate-tile" data-position="zone-7-griever">
+<div class="candidate-kicker">Candidate Material</div>
+<h2>Coming Soon</h2>
+<div class="position-badge">Zone 7 Griever</div>
+<p>Campaign literature for Zone 7 Griever candidates will appear here once submitted and reviewed.</p>
+<div class="candidate-links">
+<a class="candidate-link" href="#">
+<span>Pending Submission</span>
+<small>Pending</small>
+</a>
+</div>
+</article>
+</section>
+
+<div id="emptyElectionState" class="empty-election-state">
+No campaign materials are shown for this position yet.
+</div>
+
+<section class="election-footer">
+<p class="election-note">
+All campaign materials will be posted as submitted to help maintain transparency and fairness for all candidates.
+</p>
+</section>
+</main>
+
+<script>
+const toggleBtn = document.getElementById('toggleCampaignForm');
+const formPanel = document.getElementById('campaignFormPanel');
+const positionTabs = document.getElementById('positionTabs');
+const candidateTiles = Array.from(document.querySelectorAll('.candidate-tile'));
+const emptyElectionState = document.getElementById('emptyElectionState');
+
+toggleBtn.addEventListener('click', () => {
+formPanel.classList.toggle('open');
+
+if (formPanel.classList.contains('open')) {
+toggleBtn.textContent = 'Hide Submission Form';
+formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+} else {
+toggleBtn.textContent = 'Submit Campaign Material';
+}
+});
+
+function filterCandidates(position) {
+let visibleCount = 0;
+
+candidateTiles.forEach((tile) => {
+const tilePosition = tile.dataset.position || '';
+
+if (position === 'all' || tilePosition === position) {
+tile.classList.remove('hidden');
+visibleCount++;
+} else {
+tile.classList.add('hidden');
+}
+});
+
+emptyElectionState.style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+positionTabs.querySelectorAll('[data-position]').forEach((btn) => {
+btn.addEventListener('click', () => {
+const position = btn.dataset.position || 'all';
+
+positionTabs.querySelectorAll('[data-position]').forEach((tab) => {
+tab.classList.remove('active');
+});
+
+btn.classList.add('active');
+filterCandidates(position);
+});
+});
+
+filterCandidates('all');
+</script>
+</body>
+</html>
