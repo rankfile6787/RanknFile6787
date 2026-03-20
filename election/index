@@ -1,3 +1,32 @@
+<!-- TEMPLATE START
+<article class="candidate-tile" data-position="zone-3-griever">
+
+<div class="candidate-kicker">Candidate</div>
+
+<h2>Mike Johnson</h2>
+
+<div class="position-badge">Zone 3 Griever</div>
+
+<p>
+Focused on stronger grievance enforcement and faster resolution timelines.
+</p>
+
+<div class="candidate-links">
+
+<a class="candidate-link" href="/files/mike-johnson-flyer.pdf" target="_blank">
+<span>Campaign Flyer</span>
+<small>PDF</small>
+</a>
+
+<a class="candidate-link" href="https://youtu.be/example" target="_blank">
+<span>Intro Video</span>
+<small>Watch</small>
+</a>
+
+</div>
+
+</article>
+TEMPLATE END -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
