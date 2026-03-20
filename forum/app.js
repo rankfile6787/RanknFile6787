@@ -511,5 +511,5 @@ if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
 bindCategoryTabs();
 updateCharCount();
 fetchPosts(true);
-setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
+//setInterval(() => fetchPosts(true), LIVE_REFRESH_MS);
 })();
