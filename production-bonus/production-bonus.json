@@ -1,5 +1,14 @@
 [
   {
+    "week_ending": "2026-03-07",
+    "coke": "18.27%",
+    "primary": "20.09%",
+    "hot_roll": "23.43%",
+    "finishing": "16.40%",
+    "plate": "12.28%",
+    "plant_avg": "19.97%"
+  },
+  {
     "week_ending": "2026-02-28",
     "coke": "26.11%",
     "primary": "35.13%",
@@ -7,5 +16,4307 @@
     "finishing": "19.93%",
     "plate": "17.82%",
     "plant_avg": "24.74%"
+  },
+  {
+    "week_ending": "2026-02-21",
+    "coke": "28.52%",
+    "primary": "41.59%",
+    "hot_roll": "24.94%",
+    "finishing": "12.56%",
+    "plate": "19.26%",
+    "plant_avg": "26.36%"
+  },
+  {
+    "week_ending": "2026-02-14",
+    "coke": "",
+    "primary": "43.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2026-02-07",
+    "coke": "26.60%",
+    "primary": "37.15%",
+    "hot_roll": "27.71%",
+    "finishing": "25.83%",
+    "plate": "12.08%",
+    "plant_avg": "30.23%"
+  },
+  {
+    "week_ending": "2026-01-31",
+    "coke": "18.81%",
+    "primary": "18.84%",
+    "hot_roll": "15.14%",
+    "finishing": "22.25%",
+    "plate": "11.21%",
+    "plant_avg": "18.74%"
+  },
+  {
+    "week_ending": "2026-01-24",
+    "coke": "27.29%",
+    "primary": "37.63%",
+    "hot_roll": "22.55%",
+    "finishing": "13.42%",
+    "plate": "16.25%",
+    "plant_avg": "24.53%"
+  },
+  {
+    "week_ending": "2026-01-17",
+    "coke": "",
+    "primary": "41.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2026-01-10",
+    "coke": "24.36%",
+    "primary": "37.93%",
+    "hot_roll": "26.35%",
+    "finishing": "19.65%",
+    "plate": "23.33%",
+    "plant_avg": "27.97%"
+  },
+  {
+    "week_ending": "2026-01-03",
+    "coke": "",
+    "primary": "37.93%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-12-27",
+    "coke": "",
+    "primary": "38.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-12-20",
+    "coke": "",
+    "primary": "21.39%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-12-13",
+    "coke": "",
+    "primary": "33.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-12-06",
+    "coke": "",
+    "primary": "22.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-11-29",
+    "coke": "",
+    "primary": "39.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-11-22",
+    "coke": "",
+    "primary": "39.34%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-11-15",
+    "coke": "",
+    "primary": "23.11%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-11-08",
+    "coke": "",
+    "primary": "40.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-11-01",
+    "coke": "",
+    "primary": "40.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-10-25",
+    "coke": "",
+    "primary": "32.17%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-10-18",
+    "coke": "",
+    "primary": "31.86%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-10-11",
+    "coke": "",
+    "primary": "31.58%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-10-04",
+    "coke": "",
+    "primary": "41.21%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-09-27",
+    "coke": "",
+    "primary": "36.96%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-09-20",
+    "coke": "",
+    "primary": "44.90%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-09-13",
+    "coke": "",
+    "primary": "27.81%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-09-06",
+    "coke": "",
+    "primary": "38.64%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-08-30",
+    "coke": "",
+    "primary": "34.09%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-08-23",
+    "coke": "",
+    "primary": "25.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-08-16",
+    "coke": "",
+    "primary": "41.55%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-08-09",
+    "coke": "",
+    "primary": "39.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-08-02",
+    "coke": "",
+    "primary": "36.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-07-26",
+    "coke": "",
+    "primary": "34.85%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-07-19",
+    "coke": "",
+    "primary": "18.47%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-07-12",
+    "coke": "",
+    "primary": "38.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-07-05",
+    "coke": "",
+    "primary": "17.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-06-28",
+    "coke": "",
+    "primary": "19.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-06-21",
+    "coke": "",
+    "primary": "41.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-06-14",
+    "coke": "",
+    "primary": "36.78%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-06-07",
+    "coke": "",
+    "primary": "26.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-05-31",
+    "coke": "",
+    "primary": "37.28%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-05-24",
+    "coke": "",
+    "primary": "34.83%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-05-17",
+    "coke": "",
+    "primary": "",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-05-10",
+    "coke": "",
+    "primary": "46.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-05-03",
+    "coke": "",
+    "primary": "12.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-04-26",
+    "coke": "",
+    "primary": "17.09%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-04-19",
+    "coke": "",
+    "primary": "11.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-04-12",
+    "coke": "",
+    "primary": "15.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-04-05",
+    "coke": "",
+    "primary": "36.92%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-03-29",
+    "coke": "",
+    "primary": "44.61%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-03-22",
+    "coke": "",
+    "primary": "39.70%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-03-15",
+    "coke": "",
+    "primary": "40.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-03-08",
+    "coke": "",
+    "primary": "35.03%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-03-01",
+    "coke": "",
+    "primary": "30.32%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-02-22",
+    "coke": "",
+    "primary": "32.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-02-15",
+    "coke": "",
+    "primary": "38.82%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-02-08",
+    "coke": "",
+    "primary": "37.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-02-01",
+    "coke": "",
+    "primary": "6.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-01-25",
+    "coke": "",
+    "primary": "18.33%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-01-18",
+    "coke": "",
+    "primary": "24.47%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-01-11",
+    "coke": "",
+    "primary": "15.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2025-01-04",
+    "coke": "",
+    "primary": "22.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-12-28",
+    "coke": "",
+    "primary": "36.77%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-12-21",
+    "coke": "",
+    "primary": "26.89%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-12-14",
+    "coke": "",
+    "primary": "18.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-12-07",
+    "coke": "",
+    "primary": "22.75%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-11-30",
+    "coke": "",
+    "primary": "19.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-11-23",
+    "coke": "",
+    "primary": "31.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-11-16",
+    "coke": "",
+    "primary": "35.19%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-11-09",
+    "coke": "",
+    "primary": "21.27%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-11-02",
+    "coke": "",
+    "primary": "27.89%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-10-26",
+    "coke": "",
+    "primary": "30.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-10-19",
+    "coke": "",
+    "primary": "27.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-10-12",
+    "coke": "",
+    "primary": "27.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-10-05",
+    "coke": "",
+    "primary": "30.85%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-09-28",
+    "coke": "",
+    "primary": "19.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-09-21",
+    "coke": "",
+    "primary": "34.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-09-14",
+    "coke": "",
+    "primary": "28.56%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-09-07",
+    "coke": "",
+    "primary": "34.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-08-31",
+    "coke": "",
+    "primary": "37.51%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-08-24",
+    "coke": "",
+    "primary": "17.92%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-08-17",
+    "coke": "",
+    "primary": "28.65%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-08-10",
+    "coke": "",
+    "primary": "26.25%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-08-03",
+    "coke": "",
+    "primary": "17.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-07-27",
+    "coke": "",
+    "primary": "35.53%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-07-20",
+    "coke": "",
+    "primary": "37.55%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-07-13",
+    "coke": "",
+    "primary": "21.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-07-06",
+    "coke": "",
+    "primary": "20.14%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-06-29",
+    "coke": "",
+    "primary": "33.58%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-06-22",
+    "coke": "",
+    "primary": "20.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-06-15",
+    "coke": "",
+    "primary": "21.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-06-08",
+    "coke": "",
+    "primary": "20.44%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-06-01",
+    "coke": "",
+    "primary": "27.09%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-05-25",
+    "coke": "",
+    "primary": "31.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-05-18",
+    "coke": "",
+    "primary": "26.49%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-05-11",
+    "coke": "",
+    "primary": "34.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-05-04",
+    "coke": "",
+    "primary": "21.17%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-04-27",
+    "coke": "",
+    "primary": "37.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-04-20",
+    "coke": "",
+    "primary": "29.58%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-04-13",
+    "coke": "",
+    "primary": "22.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-04-06",
+    "coke": "",
+    "primary": "18.35%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-03-30",
+    "coke": "",
+    "primary": "38.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-03-23",
+    "coke": "",
+    "primary": "31.16%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-03-16",
+    "coke": "",
+    "primary": "19.27%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-03-09",
+    "coke": "",
+    "primary": "31.84%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-03-02",
+    "coke": "",
+    "primary": "29.34%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-02-24",
+    "coke": "",
+    "primary": "25.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-02-17",
+    "coke": "",
+    "primary": "33.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-02-10",
+    "coke": "",
+    "primary": "16.44%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-02-03",
+    "coke": "",
+    "primary": "35.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-01-27",
+    "coke": "",
+    "primary": "25.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-01-20",
+    "coke": "",
+    "primary": "29.12%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-01-13",
+    "coke": "",
+    "primary": "30.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2024-01-06",
+    "coke": "",
+    "primary": "30.69%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-12-30",
+    "coke": "",
+    "primary": "25.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-12-23",
+    "coke": "",
+    "primary": "24.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-12-16",
+    "coke": "",
+    "primary": "40.29%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-12-09",
+    "coke": "",
+    "primary": "32.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-12-02",
+    "coke": "",
+    "primary": "30.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-11-25",
+    "coke": "",
+    "primary": "41.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-11-18",
+    "coke": "",
+    "primary": "33.83%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-11-11",
+    "coke": "",
+    "primary": "27.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-11-04",
+    "coke": "",
+    "primary": "24.11%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-10-28",
+    "coke": "",
+    "primary": "30.44%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-10-21",
+    "coke": "",
+    "primary": "14.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-10-14",
+    "coke": "",
+    "primary": "28.51%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-10-07",
+    "coke": "",
+    "primary": "36.93%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-09-30",
+    "coke": "",
+    "primary": "28.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-09-23",
+    "coke": "",
+    "primary": "40.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-09-16",
+    "coke": "",
+    "primary": "34.36%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-09-09",
+    "coke": "",
+    "primary": "34.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-09-02",
+    "coke": "",
+    "primary": "28.82%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-08-26",
+    "coke": "",
+    "primary": "33.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-08-19",
+    "coke": "",
+    "primary": "25.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-08-12",
+    "coke": "",
+    "primary": "24.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-08-05",
+    "coke": "",
+    "primary": "27.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-07-29",
+    "coke": "",
+    "primary": "21.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-07-22",
+    "coke": "",
+    "primary": "35.98%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-07-15",
+    "coke": "",
+    "primary": "43.47%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-07-08",
+    "coke": "",
+    "primary": "37.61%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-07-01",
+    "coke": "",
+    "primary": "46.46%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-06-24",
+    "coke": "",
+    "primary": "45.28%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-06-17",
+    "coke": "",
+    "primary": "41.86%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-06-10",
+    "coke": "",
+    "primary": "36.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-06-03",
+    "coke": "",
+    "primary": "33.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-05-27",
+    "coke": "",
+    "primary": "40.17%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-05-20",
+    "coke": "",
+    "primary": "50.15%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-05-13",
+    "coke": "",
+    "primary": "45.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-05-06",
+    "coke": "",
+    "primary": "43.35%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-04-29",
+    "coke": "",
+    "primary": "22.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-04-22",
+    "coke": "",
+    "primary": "28.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-04-15",
+    "coke": "",
+    "primary": "33.70%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-04-08",
+    "coke": "",
+    "primary": "29.33%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-04-01",
+    "coke": "",
+    "primary": "50.61%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-03-25",
+    "coke": "",
+    "primary": "46.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-03-18",
+    "coke": "",
+    "primary": "36.52%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-03-11",
+    "coke": "",
+    "primary": "39.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-03-04",
+    "coke": "",
+    "primary": "29.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-02-25",
+    "coke": "",
+    "primary": "30.28%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-02-18",
+    "coke": "",
+    "primary": "27.43%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-02-11",
+    "coke": "",
+    "primary": "36.33%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-02-04",
+    "coke": "",
+    "primary": "37.16%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-01-28",
+    "coke": "",
+    "primary": "29.84%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-01-21",
+    "coke": "",
+    "primary": "31.04%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-01-14",
+    "coke": "",
+    "primary": "34.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2023-01-07",
+    "coke": "",
+    "primary": "30.31%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-12-31",
+    "coke": "",
+    "primary": "18.03%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-12-24",
+    "coke": "",
+    "primary": "21.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-12-17",
+    "coke": "",
+    "primary": "15.98%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-12-10",
+    "coke": "",
+    "primary": "32.29%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-12-03",
+    "coke": "",
+    "primary": "32.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-11-26",
+    "coke": "",
+    "primary": "35.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-11-19",
+    "coke": "",
+    "primary": "25.64%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-11-12",
+    "coke": "",
+    "primary": "22.30%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-11-05",
+    "coke": "",
+    "primary": "19.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-10-29",
+    "coke": "",
+    "primary": "11.50%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-10-22",
+    "coke": "",
+    "primary": "13.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-10-15",
+    "coke": "",
+    "primary": "33.35%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-10-08",
+    "coke": "",
+    "primary": "19.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-10-01",
+    "coke": "",
+    "primary": "22.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-09-24",
+    "coke": "",
+    "primary": "21.12%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-09-17",
+    "coke": "",
+    "primary": "7.85%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-09-10",
+    "coke": "",
+    "primary": "28.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-09-03",
+    "coke": "",
+    "primary": "20.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-08-27",
+    "coke": "",
+    "primary": "20.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-08-20",
+    "coke": "",
+    "primary": "22.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-08-13",
+    "coke": "",
+    "primary": "24.36%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-08-06",
+    "coke": "",
+    "primary": "28.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-07-30",
+    "coke": "",
+    "primary": "26.32%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-07-23",
+    "coke": "",
+    "primary": "17.12%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-07-16",
+    "coke": "",
+    "primary": "31.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-07-09",
+    "coke": "",
+    "primary": "18.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-07-02",
+    "coke": "",
+    "primary": "7.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-06-25",
+    "coke": "",
+    "primary": "29.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-06-18",
+    "coke": "",
+    "primary": "22.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-06-11",
+    "coke": "",
+    "primary": "24.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-06-04",
+    "coke": "",
+    "primary": "22.26%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-05-28",
+    "coke": "",
+    "primary": "42.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-05-21",
+    "coke": "",
+    "primary": "30.99%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-05-14",
+    "coke": "",
+    "primary": "6.57%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-05-07",
+    "coke": "",
+    "primary": "19.67%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-04-30",
+    "coke": "",
+    "primary": "31.61%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-04-23",
+    "coke": "",
+    "primary": "25.99%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-04-16",
+    "coke": "",
+    "primary": "26.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-04-09",
+    "coke": "",
+    "primary": "27.58%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-04-02",
+    "coke": "",
+    "primary": "26.56%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-03-26",
+    "coke": "",
+    "primary": "20.84%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-03-19",
+    "coke": "",
+    "primary": "22.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-03-12",
+    "coke": "",
+    "primary": "30.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-03-05",
+    "coke": "",
+    "primary": "24.27%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-02-26",
+    "coke": "",
+    "primary": "6.47%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-02-19",
+    "coke": "",
+    "primary": "33.98%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-02-12",
+    "coke": "",
+    "primary": "28.89%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-02-05",
+    "coke": "",
+    "primary": "15.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-01-29",
+    "coke": "",
+    "primary": "28.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-01-22",
+    "coke": "",
+    "primary": "26.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-01-15",
+    "coke": "",
+    "primary": "32.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-01-08",
+    "coke": "",
+    "primary": "21.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2022-01-01",
+    "coke": "",
+    "primary": "18.56%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-12-25",
+    "coke": "",
+    "primary": "15.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-12-18",
+    "coke": "",
+    "primary": "23.52%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-12-11",
+    "coke": "",
+    "primary": "23.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-12-04",
+    "coke": "",
+    "primary": "26.75%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-11-27",
+    "coke": "",
+    "primary": "26.65%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-11-20",
+    "coke": "",
+    "primary": "14.27%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-11-13",
+    "coke": "",
+    "primary": "22.49%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-11-06",
+    "coke": "",
+    "primary": "35.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-10-30",
+    "coke": "",
+    "primary": "33.46%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-10-23",
+    "coke": "",
+    "primary": "28.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-10-16",
+    "coke": "",
+    "primary": "28.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-10-09",
+    "coke": "",
+    "primary": "23.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-10-02",
+    "coke": "",
+    "primary": "31.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-09-25",
+    "coke": "",
+    "primary": "21.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-09-18",
+    "coke": "",
+    "primary": "29.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-09-11",
+    "coke": "",
+    "primary": "28.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-09-04",
+    "coke": "",
+    "primary": "24.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-08-28",
+    "coke": "",
+    "primary": "26.76%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-08-21",
+    "coke": "",
+    "primary": "38.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-08-14",
+    "coke": "",
+    "primary": "26.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-08-07",
+    "coke": "",
+    "primary": "32.70%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-07-31",
+    "coke": "",
+    "primary": "28.93%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-07-24",
+    "coke": "",
+    "primary": "38.21%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-07-17",
+    "coke": "",
+    "primary": "19.31%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-07-10",
+    "coke": "",
+    "primary": "21.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-07-03",
+    "coke": "",
+    "primary": "20.74%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-06-26",
+    "coke": "",
+    "primary": "26.91%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-06-19",
+    "coke": "",
+    "primary": "24.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-06-12",
+    "coke": "",
+    "primary": "15.35%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-06-05",
+    "coke": "",
+    "primary": "22.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-05-29",
+    "coke": "",
+    "primary": "24.96%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-05-22",
+    "coke": "",
+    "primary": "21.43%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-05-15",
+    "coke": "",
+    "primary": "6.88%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-05-08",
+    "coke": "",
+    "primary": "5.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-05-01",
+    "coke": "",
+    "primary": "33.23%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-04-24",
+    "coke": "",
+    "primary": "35.87%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-04-17",
+    "coke": "",
+    "primary": "33.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-04-10",
+    "coke": "",
+    "primary": "30.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-04-03",
+    "coke": "",
+    "primary": "33.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-03-27",
+    "coke": "",
+    "primary": "31.81%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-03-20",
+    "coke": "",
+    "primary": "41.53%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-03-13",
+    "coke": "",
+    "primary": "37.65%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-03-06",
+    "coke": "",
+    "primary": "22.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-02-27",
+    "coke": "",
+    "primary": "20.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-02-20",
+    "coke": "",
+    "primary": "9.65%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-02-13",
+    "coke": "",
+    "primary": "18.74%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-02-06",
+    "coke": "",
+    "primary": "33.77%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-01-30",
+    "coke": "",
+    "primary": "34.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-01-23",
+    "coke": "",
+    "primary": "46.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-01-16",
+    "coke": "",
+    "primary": "17.98%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-01-09",
+    "coke": "",
+    "primary": "30.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2021-01-02",
+    "coke": "",
+    "primary": "30.15%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-12-26",
+    "coke": "",
+    "primary": "28.81%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-12-19",
+    "coke": "",
+    "primary": "38.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-12-12",
+    "coke": "",
+    "primary": "28.96%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-12-05",
+    "coke": "",
+    "primary": "36.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-11-28",
+    "coke": "",
+    "primary": "3.77%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-11-21",
+    "coke": "",
+    "primary": "17.76%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-11-14",
+    "coke": "",
+    "primary": "4.89%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-11-07",
+    "coke": "",
+    "primary": "21.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-10-31",
+    "coke": "",
+    "primary": "25.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-10-24",
+    "coke": "",
+    "primary": "26.54%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-10-17",
+    "coke": "",
+    "primary": "27.78%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-10-10",
+    "coke": "",
+    "primary": "32.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-10-03",
+    "coke": "",
+    "primary": "32.93%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-09-26",
+    "coke": "",
+    "primary": "17.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-09-19",
+    "coke": "",
+    "primary": "36.87%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-09-12",
+    "coke": "",
+    "primary": "19.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-09-05",
+    "coke": "",
+    "primary": "23.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-08-29",
+    "coke": "",
+    "primary": "8.11%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-08-22",
+    "coke": "",
+    "primary": "8.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-08-15",
+    "coke": "",
+    "primary": "8.19%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-08-08",
+    "coke": "",
+    "primary": "5.34%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-08-01",
+    "coke": "",
+    "primary": "6.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-07-25",
+    "coke": "",
+    "primary": "21.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-07-18",
+    "coke": "",
+    "primary": "12.86%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-07-11",
+    "coke": "",
+    "primary": "15.61%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-07-04",
+    "coke": "",
+    "primary": "10.03%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-06-27",
+    "coke": "",
+    "primary": "4.50%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-06-20",
+    "coke": "",
+    "primary": "15.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-06-13",
+    "coke": "",
+    "primary": "19.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-06-06",
+    "coke": "",
+    "primary": "10.30%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-05-30",
+    "coke": "",
+    "primary": "17.19%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-05-23",
+    "coke": "",
+    "primary": "13.56%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-05-16",
+    "coke": "",
+    "primary": "9.53%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-05-09",
+    "coke": "",
+    "primary": "8.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-05-02",
+    "coke": "",
+    "primary": "7.46%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-04-25",
+    "coke": "",
+    "primary": "7.85%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-04-18",
+    "coke": "",
+    "primary": "7.40%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-04-11",
+    "coke": "",
+    "primary": "7.67%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-04-04",
+    "coke": "",
+    "primary": "10.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-03-28",
+    "coke": "",
+    "primary": "19.89%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-03-21",
+    "coke": "",
+    "primary": "19.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-03-14",
+    "coke": "",
+    "primary": "19.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-03-07",
+    "coke": "",
+    "primary": "35.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-02-29",
+    "coke": "",
+    "primary": "35.90%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-02-22",
+    "coke": "",
+    "primary": "44.98%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-02-15",
+    "coke": "",
+    "primary": "23.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-02-08",
+    "coke": "",
+    "primary": "33.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-02-01",
+    "coke": "",
+    "primary": "38.92%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-01-25",
+    "coke": "",
+    "primary": "29.37%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-01-18",
+    "coke": "",
+    "primary": "27.65%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-01-11",
+    "coke": "",
+    "primary": "29.17%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2020-01-04",
+    "coke": "",
+    "primary": "43.55%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-12-28",
+    "coke": "",
+    "primary": "27.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-12-21",
+    "coke": "",
+    "primary": "35.36%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-12-14",
+    "coke": "",
+    "primary": "28.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-12-07",
+    "coke": "",
+    "primary": "42.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-11-30",
+    "coke": "",
+    "primary": "26.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-11-23",
+    "coke": "",
+    "primary": "28.32%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-11-16",
+    "coke": "",
+    "primary": "23.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-11-09",
+    "coke": "",
+    "primary": "18.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-11-02",
+    "coke": "",
+    "primary": "18.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-10-26",
+    "coke": "",
+    "primary": "22.16%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-10-19",
+    "coke": "",
+    "primary": "29.64%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-10-12",
+    "coke": "",
+    "primary": "18.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-10-05",
+    "coke": "",
+    "primary": "23.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-09-28",
+    "coke": "",
+    "primary": "28.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-09-21",
+    "coke": "",
+    "primary": "39.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-09-14",
+    "coke": "",
+    "primary": "33.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-09-07",
+    "coke": "",
+    "primary": "41.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-08-31",
+    "coke": "",
+    "primary": "27.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-08-24",
+    "coke": "",
+    "primary": "28.49%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-08-17",
+    "coke": "",
+    "primary": "22.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-08-10",
+    "coke": "",
+    "primary": "26.95%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-08-03",
+    "coke": "",
+    "primary": "25.50%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-07-27",
+    "coke": "",
+    "primary": "15.75%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-07-20",
+    "coke": "",
+    "primary": "14.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-07-13",
+    "coke": "",
+    "primary": "13.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-07-06",
+    "coke": "",
+    "primary": "18.12%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-06-29",
+    "coke": "",
+    "primary": "18.37%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-06-22",
+    "coke": "",
+    "primary": "16.15%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-06-15",
+    "coke": "",
+    "primary": "33.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-06-08",
+    "coke": "",
+    "primary": "25.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-06-01",
+    "coke": "",
+    "primary": "28.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-05-25",
+    "coke": "",
+    "primary": "18.97%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-05-18",
+    "coke": "",
+    "primary": "18.92%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-05-11",
+    "coke": "",
+    "primary": "30.04%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-05-04",
+    "coke": "",
+    "primary": "38.04%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-04-27",
+    "coke": "",
+    "primary": "27.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-04-20",
+    "coke": "",
+    "primary": "36.18%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-04-13",
+    "coke": "",
+    "primary": "29.10%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-04-06",
+    "coke": "",
+    "primary": "0.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-03-30",
+    "coke": "",
+    "primary": "25.20%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-03-23",
+    "coke": "",
+    "primary": "26.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-03-16",
+    "coke": "",
+    "primary": "29.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-03-09",
+    "coke": "",
+    "primary": "34.46%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-03-02",
+    "coke": "",
+    "primary": "22.67%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-02-23",
+    "coke": "",
+    "primary": "19.95%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-02-16",
+    "coke": "",
+    "primary": "2.16%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-02-09",
+    "coke": "",
+    "primary": "3.03%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-02-02",
+    "coke": "",
+    "primary": "13.75%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-01-26",
+    "coke": "",
+    "primary": "31.05%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-01-19",
+    "coke": "",
+    "primary": "34.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-01-12",
+    "coke": "",
+    "primary": "29.83%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2019-01-05",
+    "coke": "",
+    "primary": "33.02%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-12-29",
+    "coke": "",
+    "primary": "36.14%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-12-22",
+    "coke": "",
+    "primary": "8.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-12-15",
+    "coke": "",
+    "primary": "32.87%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-12-08",
+    "coke": "",
+    "primary": "23.26%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-12-01",
+    "coke": "",
+    "primary": "28.55%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-11-24",
+    "coke": "",
+    "primary": "18.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-11-17",
+    "coke": "",
+    "primary": "9.53%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-11-10",
+    "coke": "",
+    "primary": "18.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-11-03",
+    "coke": "",
+    "primary": "22.78%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-10-27",
+    "coke": "",
+    "primary": "23.47%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-10-20",
+    "coke": "",
+    "primary": "25.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-10-13",
+    "coke": "",
+    "primary": "23.41%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-10-06",
+    "coke": "",
+    "primary": "21.40%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-09-29",
+    "coke": "",
+    "primary": "19.57%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-09-22",
+    "coke": "",
+    "primary": "17.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-09-15",
+    "coke": "",
+    "primary": "29.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-09-08",
+    "coke": "",
+    "primary": "42.94%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-09-01",
+    "coke": "",
+    "primary": "30.04%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-08-25",
+    "coke": "",
+    "primary": "34.86%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-08-18",
+    "coke": "",
+    "primary": "35.31%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-08-11",
+    "coke": "",
+    "primary": "45.39%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-08-04",
+    "coke": "",
+    "primary": "45.87%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-07-28",
+    "coke": "",
+    "primary": "33.95%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-07-21",
+    "coke": "",
+    "primary": "12.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-07-14",
+    "coke": "",
+    "primary": "25.90%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-07-07",
+    "coke": "",
+    "primary": "42.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-06-30",
+    "coke": "",
+    "primary": "15.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-06-23",
+    "coke": "",
+    "primary": "41.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-06-16",
+    "coke": "",
+    "primary": "15.64%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-06-09",
+    "coke": "",
+    "primary": "38.50%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-06-02",
+    "coke": "",
+    "primary": "34.86%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-05-26",
+    "coke": "",
+    "primary": "40.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-05-19",
+    "coke": "",
+    "primary": "39.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-05-12",
+    "coke": "",
+    "primary": "38.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-05-05",
+    "coke": "",
+    "primary": "43.73%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-04-28",
+    "coke": "",
+    "primary": "48.69%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-04-21",
+    "coke": "",
+    "primary": "25.64%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-04-14",
+    "coke": "",
+    "primary": "38.17%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-04-07",
+    "coke": "",
+    "primary": "0.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-03-31",
+    "coke": "",
+    "primary": "43.26%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-03-24",
+    "coke": "",
+    "primary": "36.81%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-03-17",
+    "coke": "",
+    "primary": "41.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-03-10",
+    "coke": "",
+    "primary": "41.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-03-03",
+    "coke": "",
+    "primary": "37.84%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-02-24",
+    "coke": "",
+    "primary": "26.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-02-17",
+    "coke": "",
+    "primary": "35.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-02-10",
+    "coke": "",
+    "primary": "11.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-02-03",
+    "coke": "",
+    "primary": "35.67%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-01-27",
+    "coke": "",
+    "primary": "37.11%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-01-20",
+    "coke": "",
+    "primary": "25.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-01-13",
+    "coke": "",
+    "primary": "10.83%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2018-01-06",
+    "coke": "",
+    "primary": "19.29%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-12-30",
+    "coke": "",
+    "primary": "36.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-12-23",
+    "coke": "",
+    "primary": "36.38%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-12-16",
+    "coke": "",
+    "primary": "29.22%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-12-09",
+    "coke": "",
+    "primary": "32.78%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-12-02",
+    "coke": "",
+    "primary": "9.39%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-11-25",
+    "coke": "",
+    "primary": "31.74%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-11-18",
+    "coke": "",
+    "primary": "32.85%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-11-11",
+    "coke": "",
+    "primary": "25.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-11-04",
+    "coke": "",
+    "primary": "27.80%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-10-28",
+    "coke": "",
+    "primary": "8.25%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-10-21",
+    "coke": "",
+    "primary": "3.24%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-10-14",
+    "coke": "",
+    "primary": "1.66%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-10-07",
+    "coke": "",
+    "primary": "4.06%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-09-30",
+    "coke": "",
+    "primary": "8.07%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-09-23",
+    "coke": "",
+    "primary": "31.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-09-16",
+    "coke": "",
+    "primary": "50.62%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-09-09",
+    "coke": "",
+    "primary": "40.92%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-09-02",
+    "coke": "",
+    "primary": "36.71%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-08-26",
+    "coke": "",
+    "primary": "35.39%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-08-19",
+    "coke": "",
+    "primary": "16.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-08-12",
+    "coke": "",
+    "primary": "39.42%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-08-05",
+    "coke": "",
+    "primary": "46.30%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-07-29",
+    "coke": "",
+    "primary": "27.11%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-07-22",
+    "coke": "",
+    "primary": "31.82%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-07-15",
+    "coke": "",
+    "primary": "28.69%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-07-08",
+    "coke": "",
+    "primary": "38.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-07-01",
+    "coke": "",
+    "primary": "34.26%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-06-24",
+    "coke": "",
+    "primary": "8.45%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-06-17",
+    "coke": "",
+    "primary": "30.60%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-06-10",
+    "coke": "",
+    "primary": "35.09%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-06-03",
+    "coke": "",
+    "primary": "35.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-05-27",
+    "coke": "",
+    "primary": "30.08%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-05-20",
+    "coke": "",
+    "primary": "41.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-05-13",
+    "coke": "",
+    "primary": "29.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-05-06",
+    "coke": "",
+    "primary": "25.58%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-04-29",
+    "coke": "",
+    "primary": "34.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-04-22",
+    "coke": "",
+    "primary": "40.44%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-04-15",
+    "coke": "",
+    "primary": "33.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-04-08",
+    "coke": "",
+    "primary": "0.00%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-04-01",
+    "coke": "",
+    "primary": "53.79%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-03-25",
+    "coke": "",
+    "primary": "36.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-03-18",
+    "coke": "",
+    "primary": "36.63%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-03-11",
+    "coke": "",
+    "primary": "40.59%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-03-04",
+    "coke": "",
+    "primary": "39.81%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-02-25",
+    "coke": "",
+    "primary": "47.68%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-02-18",
+    "coke": "",
+    "primary": "43.23%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-02-11",
+    "coke": "",
+    "primary": "27.57%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-02-04",
+    "coke": "",
+    "primary": "39.13%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-01-28",
+    "coke": "",
+    "primary": "35.50%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-01-21",
+    "coke": "",
+    "primary": "36.01%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-01-14",
+    "coke": "",
+    "primary": "27.72%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2017-01-07",
+    "coke": "",
+    "primary": "31.48%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
+    "week_ending": "2016-12-31",
+    "coke": "",
+    "primary": "29.31%",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
   }
 ]
