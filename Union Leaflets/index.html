@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Latest Union Flyers | Rank & File 6787</title>
+<meta name="description" content="Latest union flyers and leaflets for Rank & File 6787." />
+<link rel="icon" type="image/x-icon" href="../solidarityico.ico" />
+<link rel="stylesheet" href="../style.css" />
+<style>
+.flyers-shell{
+max-width:1100px;
+margin:0 auto;
+padding:32px 20px 60px;
+text-align:center;
+}
+
+.flyers-hero{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:28px;
+box-shadow:0 18px 42px rgba(0,0,0,0.32);
+margin-bottom:22px;
+}
+
+.flyers-hero p{
+color:#a9b3c2;
+margin:10px auto 0;
+max-width:760px;
+line-height:1.65;
+}
+
+.flyers-toplinks{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:18px;
+}
+
+.featured-flyer-wrap{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:22px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+margin-bottom:22px;
+}
+
+.section-label{
+font-size:.82rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:#a9b3c2;
+margin-bottom:10px;
+}
+
+.featured-flyer-title{
+margin:0 0 14px;
+font-size:1.6rem;
+color:#eef2f7;
+}
+
+.featured-flyer-link{
+display:block;
+text-decoration:none;
+}
+
+.featured-flyer-image{
+width:100%;
+max-width:820px;
+margin:0 auto;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+background:rgba(255,255,255,0.03);
+}
+
+.flyers-grid-wrap{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+#171c25;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:22px;
+box-shadow:0 18px 42px rgba(0,0,0,0.20);
+}
+
+.flyers-grid-title{
+margin:0 0 18px;
+color:#eef2f7;
+font-size:1.4rem;
+}
+
+.flyers-grid{
+display:grid;
+grid-template-columns:repeat(2, minmax(0, 1fr));
+gap:18px;
+}
+
+.flyer-card{
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:16px;
+text-align:center;
+}
+
+.flyer-card-link{
+display:block;
+text-decoration:none;
+}
+
+.flyer-card-image{
+width:100%;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.03);
+}
+
+.flyer-card-label{
+margin-top:10px;
+color:#d7dee8;
+font-weight:700;
+word-break:break-word;
+}
+
+.empty-flyers{
+padding:26px;
+text-align:center;
+border:1px dashed rgba(255,255,255,0.16);
+border-radius:18px;
+color:#a9b3c2;
+background:rgba(255,255,255,0.02);
+}
+
+@media (max-width: 800px){
+.flyers-grid{
+grid-template-columns:1fr;
+}
+
+.flyers-shell{
+padding:18px 14px 40px;
+}
+
+.flyers-hero,
+.featured-flyer-wrap,
+.flyers-grid-wrap{
+padding:18px;
+}
+}
+</style>
+</head>
+<body class="home-body">
+<nav class="site-nav">
+<div class="nav-inner">
+<div class="nav-logo">Rank &amp; File 6787</div>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/forum/">Forum</a>
+<a href="/resources/">Resources</a>
+<a href="/election/">Election</a>
+<a href="/production-bonus/">Production Bonus</a>
+<a href="/latest-flyers/">Latest Flyers</a>
+</div>
+</div>
+</nav>
+
+<main class="flyers-shell">
+<section class="flyers-hero">
+<p class="home-eyebrow">Latest Flyers • Leaflets • Member Information</p>
+<h1>Latest Union Flyers</h1>
+<p>
+This page displays the latest union flyers and leaflets. The flyer listed first is featured at the top of the page.
+</p>
+
+<div class="flyers-toplinks">
+<a class="home-btn home-btn-primary" href="/forum/">Go to Forum</a>
+<a class="home-btn home-btn-secondary" href="/">Return Home</a>
+</div>
+</section>
+
+<section id="featuredFlyerWrap" class="featured-flyer-wrap"></section>
+
+<section class="flyers-grid-wrap">
+<div class="section-label">Archive</div>
+<h2 class="flyers-grid-title">All Flyers</h2>
+<div id="flyersGrid" class="flyers-grid"></div>
+<div id="emptyFlyers" class="empty-flyers" style="display:none;">
+No flyers added yet.
+</div>
+</section>
+</main>
+
+<script>
+/*
+============================================
+ADD NEW FLYERS HERE
+TOP ITEM = FEATURED FLYER
+============================================
+*/
+const flyerFiles = [
+{
+path: '/files/flyers/flyer-2026-03-27.jpg',
+title: 'Latest Flyer'
+},
+{
+path: '/files/flyers/flyer-2026-03-20.jpg',
+title: 'Previous Flyer'
+},
+{
+path: '/files/flyers/flyer-2026-03-13.jpg',
+title: 'Older Flyer'
+}
+];
+
+const featuredFlyerWrap = document.getElementById('featuredFlyerWrap');
+const flyersGrid = document.getElementById('flyersGrid');
+const emptyFlyers = document.getElementById('emptyFlyers');
+
+function escapeHtml(str) {
+return String(str).replace(/[&<>"']/g, (m) => ({
+'&': '&amp;',
+'<': '&lt;',
+'>': '&gt;',
+'"': '&quot;',
+"'": '&#39;'
+}[m]));
+}
+
+function filenameFromPath(path) {
+const clean = String(path || '').split('/').pop() || '';
+return clean;
+}
+
+function renderFlyers() {
+if (!flyerFiles.length) {
+featuredFlyerWrap.innerHTML = '';
+flyersGrid.innerHTML = '';
+emptyFlyers.style.display = 'block';
+return;
+}
+
+emptyFlyers.style.display = 'none';
+
+const featured = flyerFiles[0];
+
+featuredFlyerWrap.innerHTML = `
+<div class="section-label">Featured Flyer</div>
+<h2 class="featured-flyer-title">${escapeHtml(featured.title || filenameFromPath(featured.path))}</h2>
+<a class="featured-flyer-link" href="${escapeHtml(featured.path)}" target="_blank" rel="noopener noreferrer">
+<img
+class="featured-flyer-image"
+src="${escapeHtml(featured.path)}"
+alt="${escapeHtml(featured.title || 'Featured flyer')}"
+/>
+</a>
+`;
+
+flyersGrid.innerHTML = flyerFiles.map((flyer) => `
+<article class="flyer-card">
+<a class="flyer-card-link" href="${escapeHtml(flyer.path)}" target="_blank" rel="noopener noreferrer">
+<img
+class="flyer-card-image"
+src="${escapeHtml(flyer.path)}"
+alt="${escapeHtml(flyer.title || 'Flyer')}"
+/>
+<div class="flyer-card-label">${escapeHtml(flyer.title || filenameFromPath(flyer.path))}</div>
+</a>
+</article>
+`).join('');
+}
+
+renderFlyers();
+</script>
+</body>
+</html>
