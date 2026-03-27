@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Latest Union Flyers | Rank & File 6787</title>
-<meta name="description" content="Latest union flyers and leaflets for Rank & File 6787." />
+<title>Latest Union Leaflets | Rank & File 6787</title>
+<meta name="description" content="Latest union leaflets for Rank & File 6787." />
 <link rel="icon" type="image/x-icon" href="../solidarityico.ico" />
 <link rel="stylesheet" href="../style.css" />
 <style>
@@ -173,10 +173,10 @@ padding:18px;
 
 <main class="flyers-shell">
 <section class="flyers-hero">
-<p class="home-eyebrow">Latest Flyers • Leaflets • Member Information</p>
-<h1>Latest Union Flyers</h1>
+<p class="home-eyebrow">• Leaflets • Member Information</p>
+<h1>Latest Union Leaflets</h1>
 <p>
-This page displays the latest union flyers and leaflets. The flyer listed first is featured at the top of the page.
+This page displays the latest union leaflets. The Leaflet listed first is featured at the top of the page.
 </p>
 
 <div class="flyers-toplinks">
@@ -189,7 +189,7 @@ This page displays the latest union flyers and leaflets. The flyer listed first 
 
 <section class="flyers-grid-wrap">
 <div class="section-label">Archive</div>
-<h2 class="flyers-grid-title">All Flyers</h2>
+<h2 class="flyers-grid-title">All Leaflets</h2>
 <div id="flyersGrid" class="flyers-grid"></div>
 <div id="emptyFlyers" class="empty-flyers" style="display:none;">
 No flyers added yet.
@@ -207,15 +207,15 @@ TOP ITEM = FEATURED FLYER
 const flyerFiles = [
 {
 path: '/files/flyers/flyer-2026-03-27.jpg',
-title: 'Latest Flyer'
+title: 'Latest Leaflet'
 },
 {
 path: '/files/flyers/flyer-2026-03-20.jpg',
-title: 'Previous Flyer'
+title: 'Previous Leaflet'
 },
 {
 path: '/files/flyers/flyer-2026-03-13.jpg',
-title: 'Older Flyer'
+title: 'Older Leaflet'
 }
 ];
 
@@ -251,7 +251,7 @@ emptyFlyers.style.display = 'none';
 const featured = flyerFiles[0];
 
 featuredFlyerWrap.innerHTML = `
-<div class="section-label">Featured Flyer</div>
+<div class="section-label">Featured Leaflet</div>
 <h2 class="featured-flyer-title">${escapeHtml(featured.title || filenameFromPath(featured.path))}</h2>
 <a class="featured-flyer-link" href="${escapeHtml(featured.path)}" target="_blank" rel="noopener noreferrer">
 <img
