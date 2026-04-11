@@ -3,34 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>6787 Pay Calculator</title>
+  <title>Zone 3 Pay Calculator</title>
 
   <link rel="manifest" href="./manifest.webmanifest" />
   <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="6787 Pay" />
+  <meta name="apple-mobile-web-app-title" content="Zone 3 Pay" />
 
   <style>
     :root {
       --bg: #0b1120;
-      --bg-soft: #111827;
       --panel: #0f172a;
       --panel-2: #172033;
-      --card: #1e293b;
       --text: #e5e7eb;
       --muted: #94a3b8;
-      --line: rgba(255, 255, 255, 0.10);
+      --line: rgba(255,255,255,0.10);
       --gold: #fbbf24;
       --gold-2: #f59e0b;
       --white: #ffffff;
       --danger: #b91c1c;
-      --success: #16a34a;
-      --warning: #f59e0b;
-      --info: #3b82f6;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
       --radius: 14px;
-      --radius-sm: 10px;
     }
 
     * { box-sizing: border-box; }
@@ -45,16 +39,13 @@
       font-family: Arial, sans-serif;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .site-nav {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(11, 17, 32, 0.92);
+      background: rgba(11,17,32,0.92);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -88,9 +79,7 @@
       border-color: rgba(251,191,36,0.35);
     }
 
-    .page-wrap {
-      padding: 22px 12px 40px;
-    }
+    .page-wrap { padding: 22px 12px 40px; }
 
     .container {
       max-width: 1280px;
@@ -155,14 +144,11 @@
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
       width: 100%;
       background: linear-gradient(180deg, var(--gold), var(--gold-2));
       color: #111827;
-      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.24);
+      box-shadow: 0 6px 18px rgba(245,158,11,0.24);
     }
-
-    button:hover { transform: translateY(-1px); }
 
     .mini-btn {
       width: auto;
@@ -183,12 +169,6 @@
       box-shadow: none;
     }
 
-    .info-btn {
-      background: linear-gradient(180deg, #2563eb, #1d4ed8);
-      color: #fff;
-      box-shadow: none;
-    }
-
     .install-note {
       color: var(--muted);
       font-size: 14px;
@@ -204,15 +184,10 @@
       font-weight: 700;
       font-size: 14px;
       cursor: pointer;
-      user-select: none;
       padding: 8px 12px;
       border: 1px solid rgba(251,191,36,0.22);
       border-radius: 999px;
       background: rgba(251,191,36,0.08);
-    }
-
-    .install-helper:hover {
-      background: rgba(251,191,36,0.12);
     }
 
     .help-bubble {
@@ -232,19 +207,7 @@
       font-weight: 400;
     }
 
-    .help-bubble.open {
-      display: block;
-    }
-
-    .help-bubble strong {
-      color: var(--gold);
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .help-bubble .small-muted {
-      margin-top: 8px;
-    }
+    .help-bubble.open { display: block; }
 
     .warning-list {
       display: grid;
@@ -262,8 +225,7 @@
       font-weight: 700;
     }
 
-    .form-card,
-    .view-card {
+    .form-card, .view-card {
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -298,7 +260,12 @@
       outline: none;
     }
 
-    input[type="checkbox"] {
+    select option {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
       width: 20px;
       height: 20px;
       padding: 0;
@@ -306,9 +273,29 @@
       cursor: pointer;
     }
 
-    select:focus, input:focus {
-      border-color: rgba(251,191,36,0.65);
-      box-shadow: 0 0 0 3px rgba(251,191,36,0.12);
+    .toggle-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      font-weight: 700;
+      width: auto;
+      margin: 0;
+    }
+
+    .toggle-pill span {
+      color: var(--text);
     }
 
     table {
@@ -334,13 +321,9 @@
       font-size: 14px;
     }
 
-    td {
-      font-size: 14px;
-    }
+    td { font-size: 14px; }
 
-    .note-input {
-      min-width: 200px;
-    }
+    .note-input { min-width: 200px; }
 
     .summary {
       margin-top: 18px;
@@ -364,7 +347,6 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.04em;
       text-transform: uppercase;
       border: 1px solid rgba(255,255,255,0.12);
     }
@@ -387,24 +369,29 @@
       border-color: rgba(59,130,246,0.30);
     }
 
-    .settings-note {
+    .settings-note, .small-muted {
       color: var(--muted);
       font-size: 14px;
-      margin-bottom: 12px;
     }
 
-    .settings-grid {
+    .settings-grid, .summary-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 12px;
     }
 
-    .history-card {
+    .history-card, .summary-card {
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 12px;
+    }
+
+    .summary-card strong {
+      display: block;
+      color: var(--gold);
+      margin-bottom: 6px;
     }
 
     .history-meta {
@@ -421,56 +408,18 @@
       margin-bottom: 8px;
     }
 
-    .history-actions {
+    .history-actions, .calloff-controls {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 10px;
+      align-items: center;
     }
 
     .history-actions button {
       width: auto;
       min-width: 120px;
       margin: 0;
-    }
-
-    .summary-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .summary-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px;
-    }
-
-    .summary-card strong {
-      display: block;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    #historyChartWrap {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-      margin: 16px 0 20px;
-    }
-
-    #historyChart {
-      width: 100%;
-      height: 220px;
-      display: block;
-    }
-
-    .calloff-section-title {
-      margin-top: 24px;
-      color: var(--gold);
     }
 
     .calloff-status {
@@ -501,65 +450,32 @@
       border: 1px solid rgba(22,163,74,0.30);
     }
 
-    .calloff-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-top: 10px;
+    #historyChartWrap {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      margin: 16px 0 20px;
     }
 
-    .checkbox-label-inline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: auto;
-      color: var(--text);
-      font-weight: 700;
-      margin: 0;
-    }
-
-    .small-muted {
-      color: var(--muted);
-      font-size: 13px;
+    #historyChart {
+      width: 100%;
+      height: 220px;
+      display: block;
     }
 
     @media (max-width: 1000px) {
-      th, td {
-        font-size: 13px;
-        padding: 8px 6px;
-      }
-
-      .note-input {
-        min-width: 120px;
-      }
+      th, td { font-size: 13px; padding: 8px 6px; }
+      .note-input { min-width: 120px; }
     }
 
     @media (max-width: 700px) {
-      .container {
-        padding: 16px;
-      }
-
-      .hero-inner {
-        padding: 18px 14px 16px;
-      }
-
-      .mini-btn {
-        width: 100%;
-      }
-
-      th, td {
-        font-size: 12px;
-        padding: 7px 5px;
-      }
-
-      .note-input {
-        min-width: 90px;
-      }
-
-      .history-actions button {
-        width: 100%;
-      }
+      .container { padding: 16px; }
+      .hero-inner { padding: 18px 14px 16px; }
+      .mini-btn { width: 100%; }
+      th, td { font-size: 12px; padding: 7px 5px; }
+      .note-input { min-width: 90px; }
+      .history-actions button { width: 100%; }
     }
   </style>
 </head>
@@ -581,8 +497,8 @@
       <div class="hero">
         <div class="hero-inner">
           <div class="hero-kicker">Union Solidarity • Independent Information • Free Speech</div>
-          <h1>6787 Pay Calculator</h1>
-          <p>Offline-ready pay calculator with saved pay periods, editable paygrades, AWS logic, and call-off tracking. Thank you Chris Cox for the work you put into this Calculator.</p>
+          <h1>Zone 3 Pay Calculator</h1>
+          <p>Offline-ready pay calculator with saved pay periods, editable paygrades, AWS logic, and call-off tracking.</p>
         </div>
       </div>
 
@@ -595,9 +511,9 @@
           Want this offline and on your homescreen?
           <div id="installHelpBubble" class="help-bubble">
             <strong>Add to Home Screen</strong>
-            <div><strong style="display:inline;color:#fbbf24;">iPhone:</strong> Open in Safari, tap the Share button, then tap <em>Add to Home Screen</em>.</div>
+            <div><strong style="display:inline;color:#fbbf24;">iPhone:</strong> Open in Safari, tap Share, then tap <em>Add to Home Screen</em>.</div>
             <div style="margin-top:8px;"><strong style="display:inline;color:#fbbf24;">Android:</strong> Open in Chrome, tap the menu, then tap <em>Install app</em> or <em>Add to Home Screen</em>.</div>
-            <div class="small-muted">Open the page once while online first so the offline app files can cache.</div>
+            <div class="small-muted" style="margin-top:8px;">Open the page once while online first so the offline files cache.</div>
           </div>
         </div>
       </div>
@@ -607,11 +523,17 @@
 
       <div class="form-card">
         <div class="row">
-          <label for="empType">Employee Type:</label>
-          <select id="empType" onchange="buildTable()">
-            <option value="8">8 Hour</option>
-            <option value="12" selected>12 Hour</option>
-          </select>
+          <label>Employee Type:</label>
+          <div class="toggle-group">
+            <label class="toggle-pill">
+              <input type="radio" name="empType" value="8" onchange="buildTable()">
+              <span>8 Hour</span>
+            </label>
+            <label class="toggle-pill">
+              <input type="radio" name="empType" value="12" checked onchange="buildTable()">
+              <span>12 Hour</span>
+            </label>
+          </div>
         </div>
 
         <div class="row">
@@ -620,7 +542,7 @@
         </div>
 
         <div class="row">
-          <label for="incumbentRate">Set Paygrade (PG1–PG5 or V):</label>
+          <label for="incumbentRate">Set Paygrade for All Days (PG1–PG5 or V):</label>
           <select id="incumbentRate" onchange="applyIncumbent()">
             <option value="">--Select--</option>
             <option value="PG1">PG1</option>
@@ -628,13 +550,8 @@
             <option value="PG3">PG3</option>
             <option value="PG4">PG4</option>
             <option value="PG5">PG5</option>
-            <option value="V">V (Vacation)</option>
+            <option value="V">V</option>
           </select>
-        </div>
-
-        <div class="row">
-          <label for="vacationRate">Vacation Rate ($/hr):</label>
-          <input type="number" id="vacationRate" placeholder="Enter vacation rate" step="0.01">
         </div>
       </div>
 
@@ -644,40 +561,38 @@
       <div id="callOffSummaryView" class="view-card" style="display:none; margin-top:20px;"></div>
 
       <div id="settingsView" class="view-card" style="display:none; margin-top:20px;">
-        <h2>Paygrade Settings</h2>
-        <p class="settings-note">
-          Update paygrade rates here. These values are saved on this device in the app.
-        </p>
+        <h2>Settings</h2>
+        <p class="settings-note">Update paygrade rates and default vacation rate here. These values are saved on this device.</p>
 
         <div class="settings-grid">
           <div>
             <label for="pg1Rate">PG1 Rate ($/hr)</label>
             <input type="number" id="pg1Rate" step="0.01">
           </div>
-
           <div>
             <label for="pg2Rate">PG2 Rate ($/hr)</label>
             <input type="number" id="pg2Rate" step="0.01">
           </div>
-
           <div>
             <label for="pg3Rate">PG3 Rate ($/hr)</label>
             <input type="number" id="pg3Rate" step="0.01">
           </div>
-
           <div>
             <label for="pg4Rate">PG4 Rate ($/hr)</label>
             <input type="number" id="pg4Rate" step="0.01">
           </div>
-
           <div>
             <label for="pg5Rate">PG5 Rate ($/hr)</label>
             <input type="number" id="pg5Rate" step="0.01">
           </div>
+          <div>
+            <label for="vacationRateSetting">Vacation Rate ($/hr)</label>
+            <input type="number" id="vacationRateSetting" step="0.01">
+          </div>
         </div>
 
-        <button onclick="savePaygradeSettings()">Save Paygrade Settings</button>
-        <button class="danger-btn" onclick="resetPaygradeSettings()">Reset to Default Rates</button>
+        <button onclick="saveSettings()">Save Settings</button>
+        <button class="danger-btn" onclick="resetSettings()">Reset to Default Rates</button>
       </div>
 
       <button id="calculateBtn" onclick="calculate()">Calculate Pay</button>
@@ -695,10 +610,28 @@ const DEFAULT_PAYGRADES = {
   PG5: 36.89
 };
 
+const DEFAULT_SETTINGS = {
+  paygrades: { ...DEFAULT_PAYGRADES },
+  vacationRate: 0
+};
+
 let currentPaygrades = { ...DEFAULT_PAYGRADES };
+let currentVacationRate = 0;
 let lastCalculatedData = null;
 
 const fixedHolidays = ["01-01", "06-19", "07-04", "12-24", "12-25"];
+
+function getEmpType() {
+  return parseInt(document.querySelector('input[name="empType"]:checked')?.value || "12", 10);
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function formatDateKey(date) {
+  return `${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+}
 
 function nthWeekdayOfMonth(year, month, weekday, n) {
   let date = new Date(year, month, 1), count = 0;
@@ -743,10 +676,6 @@ function getFloatingHolidays(year) {
   ];
 }
 
-function formatDateKey(date) {
-  return date.toISOString().slice(5, 10);
-}
-
 function isHoliday(date) {
   const year = date.getFullYear();
   const fixedMatch = fixedHolidays.includes(formatDateKey(date));
@@ -754,20 +683,21 @@ function isHoliday(date) {
 
   const observed = fixedHolidays.some(h => {
     const [m, d] = h.split("-");
-    const real = new Date(`${year}-${m}-${d}T12:00:00`);
-    return real.getDay() === 0 &&
-      formatDateKey(new Date(real.getTime() + 86400000)) === formatDateKey(date);
+    const real = new Date(year, Number(m) - 1, Number(d));
+    const observedDate = new Date(real);
+    if (real.getDay() === 0) observedDate.setDate(real.getDate() + 1);
+    return observedDate.toDateString() === date.toDateString();
   });
 
   return fixedMatch || floatMatch || observed;
 }
 
-const DB_NAME = "6787PayCalculatorDB";
+const DB_NAME = "zone3PayCalculatorDB";
 const DB_VERSION = 2;
 const PAY_PERIOD_STORE = "payPeriods";
 const SETTINGS_STORE = "settings";
-const LEGACY_LOCALSTORAGE_KEY = "6787PayHistory";
-const LEGACY_MIGRATION_FLAG = "6787PayHistory_migrated_to_idb_v1";
+const LEGACY_LOCALSTORAGE_KEY = "zone3PayHistory";
+const LEGACY_MIGRATION_FLAG = "zone3PayHistory_migrated_to_idb_v1";
 
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -870,20 +800,23 @@ async function migrateLegacyHistoryIfNeeded() {
   }
 }
 
-async function loadPaygradeSettings() {
+async function loadSettings() {
   try {
-    const saved = await dbGet(SETTINGS_STORE, "paygrades");
-    if (saved && saved.values) {
+    const saved = await dbGet(SETTINGS_STORE, "calculator_settings");
+    if (saved?.values) {
       currentPaygrades = {
         ...DEFAULT_PAYGRADES,
-        ...saved.values
+        ...(saved.values.paygrades || {})
       };
+      currentVacationRate = Number(saved.values.vacationRate || 0);
     } else {
       currentPaygrades = { ...DEFAULT_PAYGRADES };
+      currentVacationRate = DEFAULT_SETTINGS.vacationRate;
     }
   } catch (err) {
-    console.error("Failed loading paygrade settings:", err);
+    console.error(err);
     currentPaygrades = { ...DEFAULT_PAYGRADES };
+    currentVacationRate = DEFAULT_SETTINGS.vacationRate;
   }
 }
 
@@ -893,65 +826,62 @@ function populateSettingsForm() {
   document.getElementById("pg3Rate").value = currentPaygrades.PG3.toFixed(2);
   document.getElementById("pg4Rate").value = currentPaygrades.PG4.toFixed(2);
   document.getElementById("pg5Rate").value = currentPaygrades.PG5.toFixed(2);
+  document.getElementById("vacationRateSetting").value = currentVacationRate.toFixed(2);
 }
 
-async function savePaygradeSettings() {
-  const newRates = {
+async function saveSettings() {
+  currentPaygrades = {
     PG1: parseFloat(document.getElementById("pg1Rate").value) || DEFAULT_PAYGRADES.PG1,
     PG2: parseFloat(document.getElementById("pg2Rate").value) || DEFAULT_PAYGRADES.PG2,
     PG3: parseFloat(document.getElementById("pg3Rate").value) || DEFAULT_PAYGRADES.PG3,
     PG4: parseFloat(document.getElementById("pg4Rate").value) || DEFAULT_PAYGRADES.PG4,
     PG5: parseFloat(document.getElementById("pg5Rate").value) || DEFAULT_PAYGRADES.PG5
   };
-
-  currentPaygrades = { ...newRates };
+  currentVacationRate = parseFloat(document.getElementById("vacationRateSetting").value) || 0;
 
   await dbPut(SETTINGS_STORE, {
-    key: "paygrades",
-    values: newRates,
+    key: "calculator_settings",
+    values: {
+      paygrades: { ...currentPaygrades },
+      vacationRate: currentVacationRate
+    },
     updatedAt: new Date().toISOString()
   });
 
-  alert("Paygrade settings saved.");
+  alert("Settings saved.");
 }
 
-async function resetPaygradeSettings() {
-  if (!confirm("Reset paygrades to default amounts?")) return;
-
+async function resetSettings() {
+  if (!confirm("Reset settings to defaults?")) return;
   currentPaygrades = { ...DEFAULT_PAYGRADES };
-
-  await dbPut(SETTINGS_STORE, {
-    key: "paygrades",
-    values: { ...DEFAULT_PAYGRADES },
-    updatedAt: new Date().toISOString()
-  });
-
+  currentVacationRate = 0;
   populateSettingsForm();
-  alert("Paygrades reset to defaults.");
+  await saveSettings();
 }
 
 async function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     try {
       await navigator.serviceWorker.register("./sw.js");
-      console.log("Service worker registered");
     } catch (err) {
-      console.error("Service worker registration failed:", err);
+      console.error(err);
     }
   }
 }
 
+function showInstallMessage() {
+  document.getElementById("installNote").textContent =
+    "Open this page once, then install it to your phone or desktop for offline use.";
+}
 
 function toggleInstallHelp() {
-  const bubble = document.getElementById("installHelpBubble");
-  bubble.classList.toggle("open");
+  document.getElementById("installHelpBubble").classList.toggle("open");
 }
 
 document.addEventListener("click", (e) => {
   const helper = document.querySelector(".install-helper");
   const bubble = document.getElementById("installHelpBubble");
-  if (!helper || !bubble) return;
-  if (!helper.contains(e.target)) {
+  if (helper && bubble && !helper.contains(e.target)) {
     bubble.classList.remove("open");
   }
 });
@@ -983,21 +913,16 @@ function showCalculatorView() {
 
 async function toggleSettings() {
   const calcElements = getCalculatorElements();
-  const historyDiv = document.getElementById("historyView");
-  const callOffDiv = document.getElementById("callOffSummaryView");
   const settingsDiv = document.getElementById("settingsView");
   const isShowing = settingsDiv.style.display === "block";
 
-  if (isShowing) {
-    showCalculatorView();
-    return;
-  }
+  if (isShowing) return showCalculatorView();
 
-  historyDiv.style.display = "none";
-  callOffDiv.style.display = "none";
+  document.getElementById("historyView").style.display = "none";
+  document.getElementById("callOffSummaryView").style.display = "none";
   calcElements.forEach(el => el.style.display = "none");
 
-  await loadPaygradeSettings();
+  await loadSettings();
   populateSettingsForm();
 
   settingsDiv.style.display = "block";
@@ -1008,62 +933,60 @@ async function toggleSettings() {
 async function toggleHistory() {
   const calcElements = getCalculatorElements();
   const historyDiv = document.getElementById("historyView");
-  const callOffDiv = document.getElementById("callOffSummaryView");
-  const settingsDiv = document.getElementById("settingsView");
-  const isShowingHistory = historyDiv.style.display === "block";
+  const isShowing = historyDiv.style.display === "block";
 
-  if (isShowingHistory) {
-    showCalculatorView();
-  } else {
-    callOffDiv.style.display = "none";
-    settingsDiv.style.display = "none";
-    await buildHistory();
-    historyDiv.style.display = "block";
-    calcElements.forEach(el => el.style.display = "none");
-    resetToolbarLabels();
-    document.getElementById("historyToggleBtn").textContent = "Return to Calculator";
-  }
+  if (isShowing) return showCalculatorView();
+
+  document.getElementById("callOffSummaryView").style.display = "none";
+  document.getElementById("settingsView").style.display = "none";
+  await buildHistory();
+  historyDiv.style.display = "block";
+  calcElements.forEach(el => el.style.display = "none");
+  resetToolbarLabels();
+  document.getElementById("historyToggleBtn").textContent = "Return to Calculator";
 }
 
 async function toggleCallOffSummary() {
   const calcElements = getCalculatorElements();
-  const historyDiv = document.getElementById("historyView");
   const callOffDiv = document.getElementById("callOffSummaryView");
-  const settingsDiv = document.getElementById("settingsView");
   const isShowing = callOffDiv.style.display === "block";
 
-  if (isShowing) {
-    showCalculatorView();
-  } else {
-    historyDiv.style.display = "none";
-    settingsDiv.style.display = "none";
-    await buildCallOffSummary();
-    callOffDiv.style.display = "block";
-    calcElements.forEach(el => el.style.display = "none");
-    resetToolbarLabels();
-    document.getElementById("calloffToggleBtn").textContent = "Return to Calculator";
-  }
+  if (isShowing) return showCalculatorView();
+
+  document.getElementById("historyView").style.display = "none";
+  document.getElementById("settingsView").style.display = "none";
+  await buildCallOffSummary();
+  callOffDiv.style.display = "block";
+  calcElements.forEach(el => el.style.display = "none");
+  resetToolbarLabels();
+  document.getElementById("calloffToggleBtn").textContent = "Return to Calculator";
 }
 
 function applyIncumbent() {
   const pg = document.getElementById("incumbentRate").value;
+  if (!pg) return;
   document.querySelectorAll(".pgDrop").forEach(drop => {
     drop.value = pg;
   });
 }
 
-function formatDisplayDate(date) {
-  return date.toLocaleDateString(undefined, {
-    month: "numeric",
-    day: "numeric",
-    year: "numeric"
+function applyInitialIncumbentToNewTable() {
+  const pg = document.getElementById("incumbentRate").value;
+  if (!pg) return;
+  document.querySelectorAll(".pgDrop").forEach(drop => {
+    if (!drop.value) drop.value = pg;
+    else drop.value = pg;
   });
+}
+
+function formatDisplayDate(date) {
+  return date.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "numeric" });
 }
 
 function updateWarnings() {
   const warnings = [];
   const startDateValue = document.getElementById("startDate").value;
-  const empType = parseInt(document.getElementById("empType").value, 10);
+  const empType = getEmpType();
 
   if (startDateValue) {
     const [y, m, d] = startDateValue.split("-").map(Number);
@@ -1075,7 +998,7 @@ function updateWarnings() {
 
   if (empType === 12) {
     const baseChecks = document.querySelectorAll('input[id^="base_"]');
-    if (baseChecks.length > 0) {
+    if (baseChecks.length) {
       const anyBaseChecked = [...baseChecks].some(cb => cb.checked);
       if (!anyBaseChecked) {
         warnings.push("12-hour employee has no base days checked. This will make all worked non-holiday/non-Sunday hours calculate as overtime.");
@@ -1083,8 +1006,8 @@ function updateWarnings() {
     }
   }
 
-  const warningEl = document.getElementById("warnings");
-  warningEl.innerHTML = warnings.map(w => `<div class="warning-box">${w}</div>`).join("");
+  document.getElementById("warnings").innerHTML =
+    warnings.map(w => `<div class="warning-box">${w}</div>`).join("");
 }
 
 function handleCalledOffToggle(id) {
@@ -1092,13 +1015,9 @@ function handleCalledOffToggle(id) {
   const hrsEl = document.getElementById(`hrs_${id}`);
   const noteEl = document.getElementById(`note_${id}`);
 
-  if (!calledOffEl || !hrsEl) return;
-
-  if (calledOffEl.checked) {
+  if (calledOffEl?.checked) {
     hrsEl.value = "0";
-    if (noteEl && !noteEl.value.trim()) {
-      noteEl.value = "Called off";
-    }
+    if (noteEl && !noteEl.value.trim()) noteEl.value = "Called off";
   }
 
   updateWarnings();
@@ -1121,7 +1040,7 @@ function buildTable() {
     return;
   }
 
-  const empType = parseInt(document.getElementById("empType").value, 10);
+  const empType = getEmpType();
   const [y, m, d] = input.split("-").map(Number);
   const baseDate = new Date(y, m - 1, d);
 
@@ -1157,7 +1076,6 @@ function buildTable() {
       const date = new Date(weekStart);
       date.setDate(weekStart.getDate() + d);
       const id = `w${w}d${d}`;
-
       const isHol = isHoliday(date);
       const holIcon = isHol ? ' <span title="Holiday" style="color:#fbbf24;">★</span>' : '';
 
@@ -1188,53 +1106,37 @@ function buildTable() {
   }
 
   attachWeekListeners();
+  applyInitialIncumbentToNewTable();
   updateWarnings();
 }
 
-function getWeekMode(weekIndex, start, empType) {
+function getWeekMode(weekIndex, empType) {
   if (empType !== 12) return "STANDARD_8";
 
   for (let d = 0; d < 7; d++) {
     const id = `w${weekIndex}d${d}`;
-    const baseEl = document.getElementById(`base_${id}`);
-    const calledOffEl = document.getElementById(`calledoff_${id}`);
-
-    const isBase = !!baseEl?.checked;
-    const calledOff = !!calledOffEl?.checked;
-
-    if (isBase && calledOff) {
-      return "FALLBACK_8";
-    }
+    const isBase = !!document.getElementById(`base_${id}`)?.checked;
+    const calledOff = !!document.getElementById(`calledoff_${id}`)?.checked;
+    if (isBase && calledOff) return "FALLBACK_8";
   }
-
   return "AWS_12";
 }
 
 function getModeBadge(mode) {
-  if (mode === "AWS_12") {
-    return `<span class="mode-badge mode-aws">AWS 12-Hour Logic</span>`;
-  }
-  if (mode === "FALLBACK_8") {
-    return `<span class="mode-badge mode-fallback">12-Hour Fallback 8-Hour Logic</span>`;
-  }
+  if (mode === "AWS_12") return `<span class="mode-badge mode-aws">AWS 12-Hour Logic</span>`;
+  if (mode === "FALLBACK_8") return `<span class="mode-badge mode-fallback">12-Hour Fallback 8-Hour Logic</span>`;
   return `<span class="mode-badge mode-standard">8-Hour Logic</span>`;
 }
 
-function calculateWeek(weekIndex, start, empType, vacationRate) {
-  const mode = getWeekMode(weekIndex, start, empType);
+function calculateWeek(weekIndex, start, empType) {
+  const mode = getWeekMode(weekIndex, empType);
 
-  let sundayPremiumHrs = 0;
-  let sundayPremiumGross = 0;
-  let holidayWorkedHrs = 0;
-  let holidayWorkedGross = 0;
-  let holidayNotWorkedHrs = 0;
-  let holidayNotWorkedGross = 0;
-  let baseRegularHrs = 0;
-  let regularGross = 0;
-  let pureOvertimeHrs = 0;
-  let overtimeGross = 0;
-  let vacationHrs = 0;
-  let vacationGross = 0;
+  let sundayPremiumHrs = 0, sundayPremiumGross = 0;
+  let holidayWorkedHrs = 0, holidayWorkedGross = 0;
+  let holidayNotWorkedHrs = 0, holidayNotWorkedGross = 0;
+  let baseRegularHrs = 0, regularGross = 0;
+  let pureOvertimeHrs = 0, overtimeGross = 0;
+  let vacationHrs = 0, vacationGross = 0;
   let diffPay = 0;
   let qualifyingHoursToward40 = 0;
 
@@ -1250,7 +1152,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
     const pg = document.getElementById(`pg_${id}`).value;
     const isBase = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
     const calledOff = !!document.getElementById(`calledoff_${id}`)?.checked;
-
     const isSun = date.getDay() === 0;
     const isHol = isHoliday(date);
 
@@ -1258,8 +1159,7 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 
     if (pg === "V") {
       vacationHrs += 8;
-      vacationGross += 8 * vacationRate;
-
+      vacationGross += 8 * currentVacationRate;
       if (mode !== "AWS_12") {
         qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + 8);
       }
@@ -1310,7 +1210,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 
       baseRegularHrs += regularToday;
       regularGross += regularToday * rate;
-
       pureOvertimeHrs += overtimeToday;
       overtimeGross += overtimeToday * rate * 1.5;
 
@@ -1329,7 +1228,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 
       baseRegularHrs += regularToday;
       regularGross += regularToday * rate;
-
       pureOvertimeHrs += overtimeToday;
       overtimeGross += overtimeToday * rate * 1.5;
 
@@ -1349,7 +1247,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 
         baseRegularHrs += regularToday;
         regularGross += regularToday * rate;
-
         pureOvertimeHrs += overtimeToday;
         overtimeGross += overtimeToday * rate * 1.5;
 
@@ -1358,51 +1255,30 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
         pureOvertimeHrs += hrs;
         overtimeGross += hrs * rate * 1.5;
       }
-      continue;
     }
   }
 
-  const workedGross =
-    sundayPremiumGross +
-    holidayWorkedGross +
-    regularGross +
-    overtimeGross;
-
+  const workedGross = sundayPremiumGross + holidayWorkedGross + regularGross + overtimeGross;
   const incentivePct = parseFloat(document.getElementById(`incentive${weekIndex + 1}`).value) || 0;
   const incentiveBonus = workedGross * (incentivePct / 100);
-
-  const weekTotal =
-    workedGross +
-    holidayNotWorkedGross +
-    vacationGross +
-    diffPay +
-    incentiveBonus;
+  const weekTotal = workedGross + holidayNotWorkedGross + vacationGross + diffPay + incentiveBonus;
 
   return {
     mode,
-    sundayPremiumHrs,
-    sundayPremiumGross,
-    holidayWorkedHrs,
-    holidayWorkedGross,
-    holidayNotWorkedHrs,
-    holidayNotWorkedGross,
-    baseRegularHrs,
-    regularGross,
-    pureOvertimeHrs,
-    overtimeGross,
-    vacationHrs,
-    vacationGross,
-    diffPay,
-    incentiveBonus,
-    weekTotal
+    sundayPremiumHrs, sundayPremiumGross,
+    holidayWorkedHrs, holidayWorkedGross,
+    holidayNotWorkedHrs, holidayNotWorkedGross,
+    baseRegularHrs, regularGross,
+    pureOvertimeHrs, overtimeGross,
+    vacationHrs, vacationGross,
+    diffPay, incentiveBonus, weekTotal
   };
 }
 
 function calculate() {
   updateWarnings();
 
-  const empType = parseInt(document.getElementById("empType").value, 10);
-  const vacationRate = parseFloat(document.getElementById("vacationRate").value) || 0;
+  const empType = getEmpType();
   const input = document.getElementById("startDate").value;
 
   if (!input) {
@@ -1415,25 +1291,17 @@ function calculate() {
 
   let summary = "";
   let combined = {
-    sundayPremiumHrs: 0,
-    sundayPremiumGross: 0,
-    holidayWorkedHrs: 0,
-    holidayWorkedGross: 0,
-    holidayNotWorkedHrs: 0,
-    holidayNotWorkedGross: 0,
-    baseRegularHrs: 0,
-    regularGross: 0,
-    pureOvertimeHrs: 0,
-    overtimeGross: 0,
-    vacationHrs: 0,
-    vacationGross: 0,
-    diffPay: 0,
-    incentive: 0,
-    weekTotal: 0
+    sundayPremiumHrs: 0, sundayPremiumGross: 0,
+    holidayWorkedHrs: 0, holidayWorkedGross: 0,
+    holidayNotWorkedHrs: 0, holidayNotWorkedGross: 0,
+    baseRegularHrs: 0, regularGross: 0,
+    pureOvertimeHrs: 0, overtimeGross: 0,
+    vacationHrs: 0, vacationGross: 0,
+    diffPay: 0, incentive: 0, weekTotal: 0
   };
 
   for (let w = 0; w < 2; w++) {
-    const week = calculateWeek(w, start, empType, vacationRate);
+    const week = calculateWeek(w, start, empType);
 
     combined.sundayPremiumHrs += week.sundayPremiumHrs;
     combined.sundayPremiumGross += week.sundayPremiumGross;
@@ -1477,24 +1345,14 @@ function calculate() {
 
   document.getElementById("summary").innerHTML = summary;
   document.getElementById("saveBtn").style.display = "block";
-
-  lastCalculatedData = {
-    combinedTotal: Number(combined.weekTotal.toFixed(2))
-  };
+  lastCalculatedData = { combinedTotal: Number(combined.weekTotal.toFixed(2)) };
 }
 
 async function savePayPeriod() {
   try {
     const input = document.getElementById("startDate").value;
-    if (!input) {
-      alert("Please select a start date first.");
-      return;
-    }
-
-    if (!lastCalculatedData) {
-      alert("Please calculate the pay first before saving.");
-      return;
-    }
+    if (!input) return alert("Please select a start date first.");
+    if (!lastCalculatedData) return alert("Please calculate the pay first before saving.");
 
     const [y, m, d] = input.split("-").map(Number);
     const start = new Date(y, m - 1, d);
@@ -1502,43 +1360,41 @@ async function savePayPeriod() {
     end.setDate(start.getDate() + 13);
 
     const periodKey = `${start.toISOString().slice(0, 10)}_${end.toISOString().slice(0, 10)}`;
-    const empType = parseInt(document.getElementById("empType").value, 10);
-    const vacationRate = parseFloat(document.getElementById("vacationRate").value) || 0;
+    const empType = getEmpType();
 
     let periodData = {
       key: periodKey,
       startDate: start.toISOString(),
       endDate: end.toISOString(),
       empType,
-      vacationRate,
+      vacationRate: currentVacationRate,
       totalGross: lastCalculatedData.combinedTotal,
       weeks: [],
       savedAt: new Date().toISOString()
     };
 
     for (let w = 0; w < 2; w++) {
-      let week = {
+      const week = {
         incentive: parseFloat(document.getElementById(`incentive${w + 1}`).value) || 0,
         days: []
       };
 
       for (let d = 0; d < 7; d++) {
         const id = `w${w}d${d}`;
-        const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
-        const pg = document.getElementById(`pg_${id}`).value;
-        const base = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
-        const calledOff = !!document.getElementById(`calledoff_${id}`)?.checked;
-        const note = (document.getElementById(`note_${id}`)?.value || "").trim();
-
-        week.days.push({ hrs, pg, base, calledOff, note, excused: false });
+        week.days.push({
+          hrs: parseFloat(document.getElementById(`hrs_${id}`).value) || 0,
+          pg: document.getElementById(`pg_${id}`).value,
+          base: empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true,
+          calledOff: !!document.getElementById(`calledoff_${id}`)?.checked,
+          note: (document.getElementById(`note_${id}`)?.value || "").trim(),
+          excused: false
+        });
       }
 
       periodData.weeks.push(week);
     }
 
     await dbPut(PAY_PERIOD_STORE, periodData);
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
     alert("Pay period saved to app history.");
   } catch (err) {
     console.error(err);
@@ -1549,14 +1405,10 @@ async function savePayPeriod() {
 async function loadSavedPay(key) {
   try {
     const match = await dbGet(PAY_PERIOD_STORE, key);
-    if (!match) {
-      alert("Data not found.");
-      return;
-    }
+    if (!match) return alert("Data not found.");
 
-    document.getElementById("empType").value = match.empType;
+    document.querySelector(`input[name="empType"][value="${match.empType}"]`).checked = true;
     document.getElementById("startDate").value = match.startDate.slice(0, 10);
-    document.getElementById("vacationRate").value = match.vacationRate;
 
     buildTable();
 
@@ -1567,16 +1419,11 @@ async function loadSavedPay(key) {
           const id = `w${w}d${d}`;
           document.getElementById(`hrs_${id}`).value = day.hrs;
           document.getElementById(`pg_${id}`).value = day.pg;
-          const calledOffBox = document.getElementById(`calledoff_${id}`);
-          if (calledOffBox) calledOffBox.checked = !!day.calledOff;
-
           if (match.empType === 12) {
-            const baseBox = document.getElementById(`base_${id}`);
-            if (baseBox) baseBox.checked = !!day.base;
+            document.getElementById(`base_${id}`).checked = !!day.base;
           }
-
-          const noteEl = document.getElementById(`note_${id}`);
-          if (noteEl) noteEl.value = day.note || "";
+          document.getElementById(`calledoff_${id}`).checked = !!day.calledOff;
+          document.getElementById(`note_${id}`).value = day.note || "";
         });
       });
 
@@ -1593,17 +1440,10 @@ async function loadSavedPay(key) {
 
 async function deleteSavedPayPeriod(key) {
   if (!confirm("Delete this saved pay period?")) return;
-
   try {
     await dbDelete(PAY_PERIOD_STORE, key);
-
-    if (document.getElementById("historyView").style.display === "block") {
-      await buildHistory();
-    }
-    if (document.getElementById("callOffSummaryView").style.display === "block") {
-      await buildCallOffSummary();
-    }
-
+    if (document.getElementById("historyView").style.display === "block") await buildHistory();
+    if (document.getElementById("callOffSummaryView").style.display === "block") await buildCallOffSummary();
     alert("Saved pay period deleted.");
   } catch (err) {
     console.error(err);
@@ -1613,7 +1453,6 @@ async function deleteSavedPayPeriod(key) {
 
 async function clearHistory() {
   if (!confirm("Are you sure you want to clear all saved paychecks and call-off history?")) return;
-
   try {
     await dbClearAll(PAY_PERIOD_STORE);
     showCalculatorView();
@@ -1636,7 +1475,6 @@ function drawHistoryChart(history) {
 
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, width, height);
-
   if (!history.length) return;
 
   const values = history.map(item => Number(item.totalGross || 0));
@@ -1648,7 +1486,6 @@ function drawHistoryChart(history) {
   const range = Math.max(1, max - min);
 
   ctx.strokeStyle = "rgba(255,255,255,0.10)";
-  ctx.lineWidth = 1;
   for (let i = 0; i <= 4; i++) {
     const y = padding + (plotH / 4) * i;
     ctx.beginPath();
@@ -1665,11 +1502,8 @@ function drawHistoryChart(history) {
     const x = padding + (history.length === 1 ? plotW / 2 : (plotW * i) / (history.length - 1));
     const val = Number(item.totalGross || 0);
     const y = padding + plotH - ((val - min) / range) * plotH;
-
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   });
-
   ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
@@ -1677,30 +1511,21 @@ function drawHistoryChart(history) {
     const x = padding + (history.length === 1 ? plotW / 2 : (plotW * i) / (history.length - 1));
     const val = Number(item.totalGross || 0);
     const y = padding + plotH - ((val - min) / range) * plotH;
-
     ctx.beginPath();
     ctx.arc(x, y, 4, 0, Math.PI * 2);
     ctx.fill();
   });
-
-  ctx.fillStyle = "#94a3b8";
-  ctx.font = "12px Arial";
-  ctx.fillText(`$${max.toFixed(0)}`, 4, padding + 4);
-  ctx.fillText(`$${min.toFixed(0)}`, 4, height - padding + 4);
 }
 
 function getCallOffEntriesFromPeriods(periods) {
   const entries = [];
-
   periods.forEach(period => {
     const start = new Date(period.startDate);
-
     (period.weeks || []).forEach((week, w) => {
       (week.days || []).forEach((day, d) => {
         if (day.calledOff) {
           const shiftDate = new Date(start);
           shiftDate.setDate(start.getDate() + (w * 7) + d);
-
           entries.push({
             periodKey: period.key,
             weekIndex: w,
@@ -1716,35 +1541,27 @@ function getCallOffEntriesFromPeriods(periods) {
       });
     });
   });
-
   entries.sort((a, b) => b.shiftDate - a.shiftDate);
   return entries;
 }
 
 function isActiveCallOff(shiftDate) {
   const now = new Date();
-  const diffMs = now.getTime() - shiftDate.getTime();
-  const days365 = 365 * 24 * 60 * 60 * 1000;
-  return diffMs <= days365;
+  return (now.getTime() - shiftDate.getTime()) <= (365 * 24 * 60 * 60 * 1000);
 }
 
 async function toggleExcusedCallOff(periodKey, weekIndex, dayIndex, checked) {
   try {
     const period = await dbGet(PAY_PERIOD_STORE, periodKey);
     if (!period) return;
-
     const day = period?.weeks?.[weekIndex]?.days?.[dayIndex];
     if (!day) return;
 
     day.excused = !!checked;
     await dbPut(PAY_PERIOD_STORE, period);
 
-    if (document.getElementById("historyView").style.display === "block") {
-      await buildHistory();
-    }
-    if (document.getElementById("callOffSummaryView").style.display === "block") {
-      await buildCallOffSummary();
-    }
+    if (document.getElementById("historyView").style.display === "block") await buildHistory();
+    if (document.getElementById("callOffSummaryView").style.display === "block") await buildCallOffSummary();
   } catch (err) {
     console.error(err);
     alert("Failed to update excused status.");
@@ -1752,15 +1569,13 @@ async function toggleExcusedCallOff(periodKey, weekIndex, dayIndex, checked) {
 }
 
 function renderCallOffCards(entries, targetId) {
-  const callOffList = document.getElementById(targetId);
-
+  const list = document.getElementById(targetId);
   if (!entries.length) {
-    callOffList.innerHTML = `<div class="history-card">No call offs saved yet.</div>`;
+    list.innerHTML = `<div class="history-card">No call offs saved yet.</div>`;
     return;
   }
 
-  callOffList.innerHTML = "";
-
+  list.innerHTML = "";
   entries.forEach(entry => {
     const active = isActiveCallOff(entry.shiftDate);
     const start = new Date(entry.periodStart);
@@ -1778,18 +1593,14 @@ function renderCallOffCards(entries, targetId) {
         ${entry.excused ? `<span class="calloff-status calloff-excused">Excused</span>` : ``}
       </div>
       <div class="calloff-controls">
-        <label class="checkbox-label-inline">
-          <input
-            type="checkbox"
-            ${entry.excused ? "checked" : ""}
-            onchange="toggleExcusedCallOff('${entry.periodKey}', ${entry.weekIndex}, ${entry.dayIndex}, this.checked)"
-          />
+        <label style="display:inline-flex;align-items:center;gap:8px;width:auto;color:#e5e7eb;">
+          <input type="checkbox" ${entry.excused ? "checked" : ""} onchange="toggleExcusedCallOff('${entry.periodKey}', ${entry.weekIndex}, ${entry.dayIndex}, this.checked)">
           Mark as Excused
         </label>
         <button class="secondary-btn" onclick="loadSavedPay('${entry.periodKey}')">Open Pay Period</button>
       </div>
     `;
-    callOffList.appendChild(card);
+    list.appendChild(card);
   });
 }
 
@@ -1805,10 +1616,7 @@ async function buildHistory() {
   history.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
   const currentYear = new Date().getFullYear();
-  let totalGross = 0;
-  let ytdGross = 0;
-  let totalHours = 0;
-  let totalWeeks = 0;
+  let totalGross = 0, ytdGross = 0, totalHours = 0, totalWeeks = 0;
 
   for (const item of history) {
     const gross = parseFloat(item.totalGross || 0);
@@ -1816,18 +1624,10 @@ async function buildHistory() {
 
     const paycheckDate = new Date(item.startDate);
     paycheckDate.setDate(paycheckDate.getDate() + 15);
-
-    if (paycheckDate.getFullYear() === currentYear) {
-      ytdGross += gross;
-    }
+    if (paycheckDate.getFullYear() === currentYear) ytdGross += gross;
 
     totalWeeks += item.weeks.length;
-
-    item.weeks.forEach(week => {
-      week.days.forEach(day => {
-        totalHours += parseFloat(day.hrs || 0);
-      });
-    });
+    item.weeks.forEach(week => week.days.forEach(day => totalHours += parseFloat(day.hrs || 0)));
   }
 
   const callOffEntries = getCallOffEntriesFromPeriods(history);
@@ -1835,71 +1635,35 @@ async function buildHistory() {
   const activeExcused = activeCallOffs.filter(entry => entry.excused);
   const activeUnexcused = activeCallOffs.filter(entry => !entry.excused);
 
-  const totalPaychecks = history.length;
-  const avgPay = totalPaychecks > 0 ? totalGross / totalPaychecks : 0;
+  const avgPay = history.length ? totalGross / history.length : 0;
   const projectedEarnings = avgPay * 26;
-  const avgHoursPerWeek = totalWeeks > 0 ? totalHours / totalWeeks : 0;
+  const avgHoursPerWeek = totalWeeks ? totalHours / totalWeeks : 0;
 
-  let html = `
+  historyDiv.innerHTML = `
     <div class="summary-cards">
-      <div class="summary-card">
-        <strong>Average Paycheck</strong>
-        $${avgPay.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-      </div>
-      <div class="summary-card">
-        <strong>Projected Year's Earnings</strong>
-        $${projectedEarnings.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-      </div>
-      <div class="summary-card">
-        <strong>Average Hours per Week</strong>
-        ${avgHoursPerWeek.toFixed(2)} hrs
-      </div>
-      <div class="summary-card">
-        <strong>Total Hours Tracked</strong>
-        ${totalHours.toFixed(2)} hrs
-      </div>
-      <div class="summary-card">
-        <strong>YTD Total (${currentYear})</strong>
-        $${ytdGross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-      </div>
-      <div class="summary-card">
-        <strong>Saved Paychecks</strong>
-        ${totalPaychecks}
-      </div>
-      <div class="summary-card">
-        <strong>Active Call Offs</strong>
-        ${activeCallOffs.length}
-      </div>
-      <div class="summary-card">
-        <strong>Active Excused</strong>
-        ${activeExcused.length}
-      </div>
-      <div class="summary-card">
-        <strong>Active Unexcused</strong>
-        ${activeUnexcused.length}
-      </div>
-      <div class="summary-card">
-        <strong>All Call Offs in History</strong>
-        ${callOffEntries.length}
-      </div>
+      <div class="summary-card"><strong>Average Paycheck</strong>$${avgPay.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+      <div class="summary-card"><strong>Projected Year's Earnings</strong>$${projectedEarnings.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+      <div class="summary-card"><strong>Average Hours per Week</strong>${avgHoursPerWeek.toFixed(2)} hrs</div>
+      <div class="summary-card"><strong>Total Hours Tracked</strong>${totalHours.toFixed(2)} hrs</div>
+      <div class="summary-card"><strong>YTD Total (${currentYear})</strong>$${ytdGross.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+      <div class="summary-card"><strong>Saved Paychecks</strong>${history.length}</div>
+      <div class="summary-card"><strong>Active Call Offs</strong>${activeCallOffs.length}</div>
+      <div class="summary-card"><strong>Active Excused</strong>${activeExcused.length}</div>
+      <div class="summary-card"><strong>Active Unexcused</strong>${activeUnexcused.length}</div>
+      <div class="summary-card"><strong>All Call Offs in History</strong>${callOffEntries.length}</div>
     </div>
 
     <h2>Saved Pay Periods</h2>
-    <div id="historyChartWrap">
-      <canvas id="historyChart"></canvas>
-    </div>
+    <div id="historyChartWrap"><canvas id="historyChart"></canvas></div>
     <div id="historyList"></div>
   `;
 
-  historyDiv.innerHTML = html;
-
   const list = document.getElementById("historyList");
 
-  for (const item of history) {
+  history.forEach(item => {
     const start = new Date(item.startDate);
     const end = new Date(item.endDate);
     const gross = parseFloat(item.totalGross || 0);
-
     const paycheckDate = new Date(item.startDate);
     paycheckDate.setDate(paycheckDate.getDate() + 15);
 
@@ -1909,64 +1673,47 @@ async function buildHistory() {
       <div><strong>${formatDisplayDate(start)} – ${formatDisplayDate(end)}</strong></div>
       <div class="history-meta">Paycheck Date: ${formatDisplayDate(paycheckDate)}</div>
       <div class="history-meta">Employee Type: ${item.empType}-Hour</div>
-      <div class="history-amount">$${gross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      <div class="history-amount">$${gross.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
       <div class="history-actions">
-        <button class="secondary-btn" onclick='loadSavedPay("${item.key}")'>Edit / Load</button>
-        <button class="danger-btn" onclick='deleteSavedPayPeriod("${item.key}")'>Delete</button>
+        <button class="secondary-btn" onclick="loadSavedPay('${item.key}')">Edit / Load</button>
+        <button class="danger-btn" onclick="deleteSavedPayPeriod('${item.key}')">Delete</button>
       </div>
     `;
     list.appendChild(card);
-  }
+  });
 
   const sortedForChart = history.slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   setTimeout(() => drawHistoryChart(sortedForChart), 60);
 }
 
 async function buildCallOffSummary() {
-  const callOffDiv = document.getElementById("callOffSummaryView");
+  const view = document.getElementById("callOffSummaryView");
   const history = await dbGetAll(PAY_PERIOD_STORE);
-  const callOffEntries = getCallOffEntriesFromPeriods(history);
-
-  const activeCallOffs = callOffEntries.filter(entry => isActiveCallOff(entry.shiftDate));
+  const entries = getCallOffEntriesFromPeriods(history);
+  const activeCallOffs = entries.filter(entry => isActiveCallOff(entry.shiftDate));
   const activeExcused = activeCallOffs.filter(entry => entry.excused);
   const activeUnexcused = activeCallOffs.filter(entry => !entry.excused);
-  const expiredCallOffs = callOffEntries.filter(entry => !isActiveCallOff(entry.shiftDate));
+  const expired = entries.filter(entry => !isActiveCallOff(entry.shiftDate));
 
-  callOffDiv.innerHTML = `
+  view.innerHTML = `
     <div class="summary-cards">
-      <div class="summary-card">
-        <strong>Active Call Offs</strong>
-        ${activeCallOffs.length}
-      </div>
-      <div class="summary-card">
-        <strong>Active Excused</strong>
-        ${activeExcused.length}
-      </div>
-      <div class="summary-card">
-        <strong>Active Unexcused</strong>
-        ${activeUnexcused.length}
-      </div>
-      <div class="summary-card">
-        <strong>Expired from Active Count</strong>
-        ${expiredCallOffs.length}
-      </div>
-      <div class="summary-card">
-        <strong>Total Call Offs in History</strong>
-        ${callOffEntries.length}
-      </div>
+      <div class="summary-card"><strong>Active Call Offs</strong>${activeCallOffs.length}</div>
+      <div class="summary-card"><strong>Active Excused</strong>${activeExcused.length}</div>
+      <div class="summary-card"><strong>Active Unexcused</strong>${activeUnexcused.length}</div>
+      <div class="summary-card"><strong>Expired from Active Count</strong>${expired.length}</div>
+      <div class="summary-card"><strong>Total Call Offs in History</strong>${entries.length}</div>
     </div>
 
-    <h2 class="calloff-section-title">All Call Offs</h2>
+    <h2>All Call Offs</h2>
     <p class="small-muted">Active call offs use a rolling 365-day window. Older call offs stay in history but stop counting in the active tally.</p>
     <div id="callOffSummaryList"></div>
   `;
 
-  renderCallOffCards(callOffEntries, "callOffSummaryList");
+  renderCallOffCards(entries, "callOffSummaryList");
 }
 
 window.addEventListener("resize", async () => {
-  const historyDiv = document.getElementById("historyView");
-  if (historyDiv.style.display === "block") {
+  if (document.getElementById("historyView").style.display === "block") {
     const items = await dbGetAll(PAY_PERIOD_STORE);
     if (items.length) {
       items.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
@@ -1977,9 +1724,10 @@ window.addEventListener("resize", async () => {
 
 (async function initApp() {
   await migrateLegacyHistoryIfNeeded();
-  await loadPaygradeSettings();
+  await loadSettings();
   await registerServiceWorker();
   showInstallMessage();
+  populateSettingsForm();
   updateWarnings();
 })();
 </script>
