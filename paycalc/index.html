@@ -6,142 +6,312 @@
   <title>Zone 3 Pay Calculator</title>
 
   <link rel="manifest" href="./manifest.webmanifest" />
-  <meta name="theme-color" content="#00205B" />
+  <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zone 3 Pay" />
 
   <style>
-    body {
+    :root {
+      --bg: #0b1120;
+      --bg-soft: #111827;
+      --panel: #0f172a;
+      --panel-2: #172033;
+      --card: #1e293b;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: rgba(255, 255, 255, 0.10);
+      --gold: #fbbf24;
+      --gold-2: #f59e0b;
+      --white: #ffffff;
+      --danger: #b91c1c;
+      --success: #16a34a;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top, rgba(251,191,36,0.08), transparent 28%),
+        linear-gradient(180deg, #0b1120 0%, #111827 100%);
+      color: var(--text);
       font-family: Arial, sans-serif;
-      margin: 10px;
-      background: #f4f4f4;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 17, 32, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .site-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .site-nav a {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+      background: rgba(251,191,36,0.12);
+      color: var(--gold);
+      border-color: rgba(251,191,36,0.35);
+    }
+
+    .page-wrap {
+      padding: 22px 12px 40px;
     }
 
     .container {
       max-width: 1200px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(23,32,51,0.96), rgba(15,23,42,0.98));
+      border: 1px solid var(--line);
+      padding: 22px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
-    h1 {
-      background: #00205B;
-      color: #FFC72C;
+    .hero {
+      margin-bottom: 16px;
+      border: 1px solid rgba(251,191,36,0.18);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(251,191,36,0.18), rgba(245,158,11,0.06)),
+        linear-gradient(180deg, #172033 0%, #0f172a 100%);
+    }
+
+    .hero-inner {
+      padding: 22px 20px 18px;
       text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 0;
     }
 
-    label, select, input {
-      font-size: 16px;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .row {
+    .hero-kicker {
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
       margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+      width: 100%;
+      background: linear-gradient(180deg, var(--gold), var(--gold-2));
+      color: #111827;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.24);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .mini-btn {
+      width: auto;
+      min-width: 165px;
+      margin: 0;
+    }
+
+    .secondary-btn {
+      background: linear-gradient(180deg, #263449, #1b2638);
+      color: var(--gold);
+      border: 1px solid rgba(251,191,36,0.20);
+      box-shadow: none;
+    }
+
+    .danger-btn {
+      background: linear-gradient(180deg, #dc2626, #b91c1c);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .install-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .form-card,
+    .view-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .row {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    label {
+      display: block;
+      width: 100%;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    select,
+    input {
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: rgba(251,191,36,0.65);
+      box-shadow: 0 0 0 3px rgba(251,191,36,0.12);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      background: white;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 8px;
       text-align: center;
       vertical-align: middle;
+      color: var(--text);
     }
 
     th {
-      background: #00205B;
-      color: white;
+      background: linear-gradient(180deg, #202d43, #182235);
+      color: var(--gold);
+      font-size: 14px;
     }
 
-    button {
-      background: #FFC72C;
-      color: #00205B;
-      font-weight: bold;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      width: 100%;
-      margin-top: 10px;
-      cursor: pointer;
+    td {
+      font-size: 14px;
     }
 
     .summary {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.7;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+    .summary h3 {
+      color: var(--gold);
+      margin-top: 8px;
+    }
+
+    .mode-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .settings-note {
+      color: var(--muted);
+      font-size: 14px;
       margin-bottom: 12px;
     }
 
-    .topbar h1 {
-      flex: 1 1 100%;
-    }
-
-    .mini-btn {
-      max-width: 220px;
-      width: auto;
-      min-width: 150px;
-      margin-top: 0;
-    }
-
-    .secondary-btn {
-      background: #00205B;
-      color: #FFC72C;
-    }
-
-    .danger-btn {
-      background: #c62828;
-      color: #fff;
-    }
-
-    .install-note {
-      font-size: 14px;
-      color: #333;
-      margin: 6px 0 14px;
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
     }
 
     .history-card {
-      background: #f8f9fb;
-      border: 1px solid #d7dce5;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 14px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .history-meta {
       font-size: 14px;
-      color: #333;
+      color: var(--muted);
       margin-top: 4px;
     }
 
     .history-amount {
       font-size: 18px;
-      font-weight: bold;
-      color: #00205B;
-      margin-top: 6px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-top: 8px;
+      margin-bottom: 8px;
     }
 
     .summary-cards {
@@ -152,22 +322,22 @@
     }
 
     .summary-card {
-      background: #f8f9fb;
-      border: 1px solid #d7dce5;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 14px;
     }
 
     .summary-card strong {
       display: block;
-      color: #00205B;
+      color: var(--gold);
       margin-bottom: 6px;
     }
 
     #historyChartWrap {
-      background: #fff;
-      border: 1px solid #d7dce5;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 12px;
       padding: 10px;
       margin: 16px 0 20px;
     }
@@ -178,125 +348,137 @@
       display: block;
     }
 
-    .settings-note {
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 12px;
-    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 16px;
+      }
 
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
+      .hero-inner {
+        padding: 18px 14px 16px;
+      }
 
-    .mode-note {
-      color: #555;
-      font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 20px; }
-      label, select, input { font-size: 14px; }
-      th, td { font-size: 14px; }
       .mini-btn {
-        max-width: none;
         width: 100%;
+      }
+
+      th, td {
+        font-size: 13px;
+        padding: 8px 6px;
       }
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="topbar">
-    <h1>Zone 3 Pay Calculator</h1>
-    <button id="historyToggleBtn" class="mini-btn" onclick="toggleHistory()">Historical</button>
-    <button id="settingsToggleBtn" class="mini-btn secondary-btn" onclick="toggleSettings()">Settings</button>
-  </div>
-
-  <div id="installNote" class="install-note"></div>
-
-  <div class="row">
-    <label for="empType">Employee Type:</label>
-    <select id="empType" onchange="buildTable()">
-      <option value="8">8 Hour</option>
-      <option value="12" selected>12 Hour</option>
-    </select>
-  </div>
-
-  <div class="row">
-    <label for="startDate">Start Date (Sunday):</label>
-    <input type="date" id="startDate" onchange="buildTable()">
-  </div>
-
-  <div class="row">
-    <label for="incumbentRate">Set Paygrade (PG1–PG5 or V):</label>
-    <select id="incumbentRate" onchange="applyIncumbent()">
-      <option value="">--Select--</option>
-      <option value="PG1">PG1</option>
-      <option value="PG2">PG2</option>
-      <option value="PG3">PG3</option>
-      <option value="PG4">PG4</option>
-      <option value="PG5">PG5</option>
-      <option value="V">V (Vacation)</option>
-    </select>
-  </div>
-
-  <div class="row">
-    <label for="vacationRate">Vacation Rate ($/hr):</label>
-    <input type="number" id="vacationRate" placeholder="Enter vacation rate" step="0.01">
-  </div>
-
-  <div id="weeks"></div>
-
-  <div id="historyView" style="display:none; margin-top:20px;"></div>
-
-  <div id="settingsView" style="display:none; margin-top:20px;">
-    <h2>Paygrade Settings</h2>
-    <p class="settings-note">
-      Update paygrade rates here. These values are saved on this device in the app.
-    </p>
-
-    <div class="settings-grid">
-      <div>
-        <label for="pg1Rate">PG1 Rate ($/hr)</label>
-        <input type="number" id="pg1Rate" step="0.01">
-      </div>
-
-      <div>
-        <label for="pg2Rate">PG2 Rate ($/hr)</label>
-        <input type="number" id="pg2Rate" step="0.01">
-      </div>
-
-      <div>
-        <label for="pg3Rate">PG3 Rate ($/hr)</label>
-        <input type="number" id="pg3Rate" step="0.01">
-      </div>
-
-      <div>
-        <label for="pg4Rate">PG4 Rate ($/hr)</label>
-        <input type="number" id="pg4Rate" step="0.01">
-      </div>
-
-      <div>
-        <label for="pg5Rate">PG5 Rate ($/hr)</label>
-        <input type="number" id="pg5Rate" step="0.01">
-      </div>
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a href="/">Home</a>
+      <a href="/forum/">Forum</a>
+      <a href="/resources/">Resources</a>
+      <a href="/election/">Election</a>
+      <a href="/Union Leaflets/">Union Leaflets</a>
+      <a href="/production-bonus/">Incentive</a>
+      <a href="/paycalc/" class="active">Pay Calculator</a>
     </div>
+  </nav>
 
-    <button onclick="savePaygradeSettings()">Save Paygrade Settings</button>
-    <button class="danger-btn" onclick="resetPaygradeSettings()">Reset to Default Rates</button>
+  <div class="page-wrap">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-kicker">Union Solidarity • Independent Information • Free Speech</div>
+          <h1>Zone 3 Pay Calculator</h1>
+          <p>Offline-ready pay calculator with saved pay periods, editable paygrades, and AWS logic.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="historyToggleBtn" class="mini-btn secondary-btn" onclick="toggleHistory()">Historical</button>
+        <button id="settingsToggleBtn" class="mini-btn secondary-btn" onclick="toggleSettings()">Settings</button>
+      </div>
+
+      <div id="installNote" class="install-note"></div>
+
+      <div class="form-card">
+        <div class="row">
+          <label for="empType">Employee Type:</label>
+          <select id="empType" onchange="buildTable()">
+            <option value="8">8 Hour</option>
+            <option value="12" selected>12 Hour</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="startDate">Start Date (Sunday):</label>
+          <input type="date" id="startDate" onchange="buildTable()">
+        </div>
+
+        <div class="row">
+          <label for="incumbentRate">Set Paygrade (PG1–PG5 or V):</label>
+          <select id="incumbentRate" onchange="applyIncumbent()">
+            <option value="">--Select--</option>
+            <option value="PG1">PG1</option>
+            <option value="PG2">PG2</option>
+            <option value="PG3">PG3</option>
+            <option value="PG4">PG4</option>
+            <option value="PG5">PG5</option>
+            <option value="V">V (Vacation)</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="vacationRate">Vacation Rate ($/hr):</label>
+          <input type="number" id="vacationRate" placeholder="Enter vacation rate" step="0.01">
+        </div>
+      </div>
+
+      <div id="weeks"></div>
+
+      <div id="historyView" class="view-card" style="display:none; margin-top:20px;"></div>
+
+      <div id="settingsView" class="view-card" style="display:none; margin-top:20px;">
+        <h2>Paygrade Settings</h2>
+        <p class="settings-note">
+          Update paygrade rates here. These values are saved on this device in the app.
+        </p>
+
+        <div class="settings-grid">
+          <div>
+            <label for="pg1Rate">PG1 Rate ($/hr)</label>
+            <input type="number" id="pg1Rate" step="0.01">
+          </div>
+
+          <div>
+            <label for="pg2Rate">PG2 Rate ($/hr)</label>
+            <input type="number" id="pg2Rate" step="0.01">
+          </div>
+
+          <div>
+            <label for="pg3Rate">PG3 Rate ($/hr)</label>
+            <input type="number" id="pg3Rate" step="0.01">
+          </div>
+
+          <div>
+            <label for="pg4Rate">PG4 Rate ($/hr)</label>
+            <input type="number" id="pg4Rate" step="0.01">
+          </div>
+
+          <div>
+            <label for="pg5Rate">PG5 Rate ($/hr)</label>
+            <input type="number" id="pg5Rate" step="0.01">
+          </div>
+        </div>
+
+        <button onclick="savePaygradeSettings()">Save Paygrade Settings</button>
+        <button class="danger-btn" onclick="resetPaygradeSettings()">Reset to Default Rates</button>
+      </div>
+
+      <button id="calculateBtn" onclick="calculate()">Calculate Pay</button>
+      <div id="summary" class="summary"></div>
+      <button id="saveBtn" onclick="savePayPeriod()" style="display:none;">Save Pay Period</button>
+    </div>
   </div>
-
-  <button id="calculateBtn" onclick="calculate()">Calculate Pay</button>
-  <div id="summary" class="summary"></div>
-  <button id="saveBtn" onclick="savePayPeriod()" style="display:none;">Save Pay Period</button>
-</div>
 
 <script>
-/* =========================
-   Defaults / current rates
-========================= */
 const DEFAULT_PAYGRADES = {
   PG1: 27.42,
   PG2: 30.01,
@@ -308,9 +490,6 @@ const DEFAULT_PAYGRADES = {
 let currentPaygrades = { ...DEFAULT_PAYGRADES };
 let lastCalculatedData = null;
 
-/* =========================
-   Holidays
-========================= */
 const fixedHolidays = ["01-01", "06-19", "07-04", "12-24", "12-25"];
 
 function nthWeekdayOfMonth(year, month, weekday, n) {
@@ -347,12 +526,12 @@ function getFloatingHolidays(year) {
   const goodFriday = new Date(easter);
   goodFriday.setDate(easter.getDate() - 2);
   return [
-    nthWeekdayOfMonth(year, 0, 1, 3),  // MLK
+    nthWeekdayOfMonth(year, 0, 1, 3),
     goodFriday,
-    nthWeekdayOfMonth(year, 4, 1, -1), // Memorial Day
-    nthWeekdayOfMonth(year, 8, 1, 1),  // Labor Day
-    nthWeekdayOfMonth(year, 10, 4, 4), // Thanksgiving
-    nthWeekdayOfMonth(year, 10, 5, 4)  // Day after Thanksgiving
+    nthWeekdayOfMonth(year, 4, 1, -1),
+    nthWeekdayOfMonth(year, 8, 1, 1),
+    nthWeekdayOfMonth(year, 10, 4, 4),
+    nthWeekdayOfMonth(year, 10, 5, 4)
   ];
 }
 
@@ -375,9 +554,6 @@ function isHoliday(date) {
   return fixedMatch || floatMatch || observed;
 }
 
-/* =========================
-   IndexedDB
-========================= */
 const DB_NAME = "zone3PayCalculatorDB";
 const DB_VERSION = 2;
 const PAY_PERIOD_STORE = "payPeriods";
@@ -476,9 +652,6 @@ async function migrateLegacyHistoryIfNeeded() {
   }
 }
 
-/* =========================
-   Settings
-========================= */
 async function loadPaygradeSettings() {
   try {
     const saved = await dbGet(SETTINGS_STORE, "paygrades");
@@ -539,9 +712,6 @@ async function resetPaygradeSettings() {
   alert("Paygrades reset to defaults.");
 }
 
-/* =========================
-   PWA
-========================= */
 async function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     try {
@@ -555,15 +725,12 @@ async function registerServiceWorker() {
 
 function showInstallMessage() {
   document.getElementById("installNote").textContent =
-    "Open this page once, then you can install it to your phone or desktop for offline use.";
+    "Open this page once, then install it to your phone or desktop for offline use.";
 }
 
-/* =========================
-   Views
-========================= */
 function getCalculatorElements() {
   return [
-    ...document.querySelectorAll(".row"),
+    ...document.querySelectorAll(".form-card"),
     document.getElementById("weeks"),
     document.getElementById("summary"),
     document.getElementById("saveBtn"),
@@ -626,9 +793,6 @@ async function toggleHistory() {
   }
 }
 
-/* =========================
-   UI build
-========================= */
 function applyIncumbent() {
   const pg = document.getElementById("incumbentRate").value;
   document.querySelectorAll(".pgDrop").forEach(drop => {
@@ -651,12 +815,17 @@ function buildTable() {
     weekStart.setDate(baseDate.getDate() + w * 7);
 
     const incentiveRow = document.createElement("div");
-    incentiveRow.className = "row";
+    incentiveRow.className = "form-card";
     incentiveRow.innerHTML = `
-      <label for="incentive${w + 1}">Week ${w + 1} Incentive %:</label>
-      <input type="number" id="incentive${w + 1}" value="0">
+      <div class="row">
+        <label for="incentive${w + 1}">Week ${w + 1} Incentive %:</label>
+        <input type="number" id="incentive${w + 1}" value="0">
+      </div>
     `;
     container.appendChild(incentiveRow);
+
+    const tableWrap = document.createElement("div");
+    tableWrap.className = "form-card";
 
     const table = document.createElement("table");
     table.innerHTML = "<thead><tr><th>Date</th><th>Hours</th><th>PG</th>" + (empType === 12 ? "<th>Base Schedule?</th>" : "") + "</tr></thead><tbody>";
@@ -667,7 +836,7 @@ function buildTable() {
       const id = `w${w}d${d}`;
 
       const isHol = isHoliday(date);
-      const holIcon = isHol ? ' <span title="Holiday" style="color:#FFC72C;">★</span>' : '';
+      const holIcon = isHol ? ' <span title="Holiday" style="color:#fbbf24;">★</span>' : '';
 
       table.innerHTML += `
         <tr>
@@ -689,18 +858,14 @@ function buildTable() {
     }
 
     table.innerHTML += "</tbody>";
-    container.appendChild(table);
+    tableWrap.appendChild(table);
+    container.appendChild(tableWrap);
   }
 }
 
-/* =========================
-   Pay logic
-========================= */
 function getWeekMode(weekIndex, start, empType) {
   if (empType !== 12) return "STANDARD_8";
 
-  // If a 12-hour employee misses a base-scheduled shift
-  // (0 hrs and not Vacation), that week flips to fallback 8-hour logic.
   for (let d = 0; d < 7; d++) {
     const id = `w${weekIndex}d${d}`;
     const baseEl = document.getElementById(`base_${id}`);
@@ -713,7 +878,6 @@ function getWeekMode(weekIndex, start, empType) {
     const hrs = parseFloat(hrsEl?.value) || 0;
     const pg = pgEl?.value || "PG3";
 
-    // Vacation does not trigger fallback
     if (hrs === 0 && pg !== "V") {
       return "FALLBACK_8";
     }
@@ -727,26 +891,18 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 
   let sundayPremiumHrs = 0;
   let sundayPremiumGross = 0;
-
   let holidayWorkedHrs = 0;
   let holidayWorkedGross = 0;
-
   let holidayNotWorkedHrs = 0;
   let holidayNotWorkedGross = 0;
-
   let baseRegularHrs = 0;
   let regularGross = 0;
-
   let pureOvertimeHrs = 0;
   let overtimeGross = 0;
-
   let vacationHrs = 0;
   let vacationGross = 0;
-
   let diffPay = 0;
 
-  // Counts only hours allowed to push the week toward 40.
-  // OT hours never count here.
   let qualifyingHoursToward40 = 0;
 
   const sundayCountCap = mode === "AWS_12" ? 12 : 8;
@@ -781,7 +937,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
       diffPay += hrs * 0.25;
     }
 
-    // Holiday takes priority if both holiday and Sunday
     if (isHol) {
       if (hrs > 0) {
         holidayWorkedHrs += hrs;
@@ -798,7 +953,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
       continue;
     }
 
-    // Sunday
     if (isSun) {
       const premiumHrs = Math.min(hrs, sundayCountCap);
       const sundayExtraOT = Math.max(0, hrs - sundayCountCap);
@@ -809,14 +963,10 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
       pureOvertimeHrs += sundayExtraOT;
       overtimeGross += sundayExtraOT * rate * 1.5;
 
-      qualifyingHoursToward40 = Math.min(
-        40,
-        qualifyingHoursToward40 + premiumHrs
-      );
+      qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + premiumHrs);
       continue;
     }
 
-    // 8-hour employee standard
     if (mode === "STANDARD_8") {
       const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
       const regularToday = Math.min(hrs, straightRemaining);
@@ -832,7 +982,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
       continue;
     }
 
-    // 12-hour employee fallback to 8-hour logic
     if (mode === "FALLBACK_8") {
       const dailyStraightCandidate = Math.min(hrs, 8);
       const immediateOT = Math.max(0, hrs - 8);
@@ -848,14 +997,10 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
       pureOvertimeHrs += overtimeToday;
       overtimeGross += overtimeToday * rate * 1.5;
 
-      qualifyingHoursToward40 = Math.min(
-        40,
-        qualifyingHoursToward40 + dailyStraightCandidate
-      );
+      qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + dailyStraightCandidate);
       continue;
     }
 
-    // Normal 12-hour AWS logic
     if (mode === "AWS_12") {
       if (isBase) {
         const qualifyingCandidate = Math.min(hrs, 12);
@@ -872,10 +1017,7 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
         pureOvertimeHrs += overtimeToday;
         overtimeGross += overtimeToday * rate * 1.5;
 
-        qualifyingHoursToward40 = Math.min(
-          40,
-          qualifyingHoursToward40 + qualifyingCandidate
-        );
+        qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + qualifyingCandidate);
       } else {
         pureOvertimeHrs += hrs;
         overtimeGross += hrs * rate * 1.5;
@@ -1012,9 +1154,6 @@ function calculate() {
   };
 }
 
-/* =========================
-   Save / load
-========================= */
 async function savePayPeriod() {
   try {
     const input = document.getElementById("startDate").value;
@@ -1126,9 +1265,6 @@ async function clearHistory() {
   }
 }
 
-/* =========================
-   History UI
-========================= */
 function drawHistoryChart(history) {
   const canvas = document.getElementById("historyChart");
   if (!canvas) return;
@@ -1152,7 +1288,7 @@ function drawHistoryChart(history) {
   const plotH = height - padding * 2;
   const range = Math.max(1, max - min);
 
-  ctx.strokeStyle = "#d7dce5";
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
   ctx.lineWidth = 1;
   for (let i = 0; i <= 4; i++) {
     const y = padding + (plotH / 4) * i;
@@ -1162,7 +1298,7 @@ function drawHistoryChart(history) {
     ctx.stroke();
   }
 
-  ctx.strokeStyle = "#00205B";
+  ctx.strokeStyle = "#fbbf24";
   ctx.lineWidth = 3;
   ctx.beginPath();
 
@@ -1177,7 +1313,7 @@ function drawHistoryChart(history) {
 
   ctx.stroke();
 
-  ctx.fillStyle = "#FFC72C";
+  ctx.fillStyle = "#ffffff";
   history.forEach((item, i) => {
     const x = padding + (history.length === 1 ? plotW / 2 : (plotW * i) / (history.length - 1));
     const val = Number(item.totalGross || 0);
@@ -1188,7 +1324,7 @@ function drawHistoryChart(history) {
     ctx.fill();
   });
 
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#94a3b8";
   ctx.font = "12px Arial";
   ctx.fillText(`$${max.toFixed(0)}`, 4, padding + 4);
   ctx.fillText(`$${min.toFixed(0)}`, 4, height - padding + 4);
@@ -1300,9 +1436,6 @@ async function buildHistory() {
   setTimeout(() => drawHistoryChart(sortedForChart), 60);
 }
 
-/* =========================
-   Startup
-========================= */
 window.addEventListener("resize", async () => {
   const historyDiv = document.getElementById("historyView");
   if (historyDiv.style.display === "block") {
