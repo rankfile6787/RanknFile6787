@@ -1204,18 +1204,26 @@ function calculateWeek(weekIndex, start, empType) {
     }
 
     if (mode === "STANDARD_8") {
-      const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
-      const regularToday = Math.min(hrs, straightRemaining);
-      const overtimeToday = Math.max(0, hrs - regularToday);
+  const dailyStraightCandidate = Math.min(hrs, 8);
+  const immediateOT = Math.max(0, hrs - 8);
 
-      baseRegularHrs += regularToday;
-      regularGross += regularToday * rate;
-      pureOvertimeHrs += overtimeToday;
-      overtimeGross += overtimeToday * rate * 1.5;
+  const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
+  const regularToday = Math.min(dailyStraightCandidate, straightRemaining);
+  const shiftedToOT = dailyStraightCandidate - regularToday;
+  const overtimeToday = immediateOT + shiftedToOT;
 
-      qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + regularToday);
-      continue;
-    }
+  baseRegularHrs += regularToday;
+  regularGross += regularToday * rate;
+
+  pureOvertimeHrs += overtimeToday;
+  overtimeGross += overtimeToday * rate * 1.5;
+
+  qualifyingHoursToward40 = Math.min(
+    40,
+    qualifyingHoursToward40 + dailyStraightCandidate
+  );
+  continue;
+}
 
     if (mode === "FALLBACK_8") {
       const dailyStraightCandidate = Math.min(hrs, 8);
