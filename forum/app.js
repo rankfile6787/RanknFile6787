@@ -83,6 +83,53 @@ comment: String(record.comment || '')
 .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
+function getRecordById(id) {
+return allRecords.find((record) => record.id === id) || null;
+}
+
+function getChildren(parentId) {
+return allRecords
+.filter((record) => record.parent_id === parentId)
+.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+}
+
+function getRootParent(recordId) {
+let current = getRecordById(recordId);
+if (!current) return null;
+
+while (current.parent_id) {
+const parent = getRecordById(current.parent_id);
+if (!parent) break;
+current = parent;
+}
+
+return current;
+}
+
+function getThreadCategory(recordId) {
+const root = getRootParent(recordId);
+return root ? normalizeCategory(root.category) : DEFAULT_CATEGORY;
+}
+
+function getLatestThreadTimestamp(parentId, cache = new Map()) {
+if (cache.has(parentId)) return cache.get(parentId);
+
+const parent = getRecordById(parentId);
+let latest = parent ? (new Date(parent.timestamp).getTime() || 0) : 0;
+
+const children = getChildren(parentId);
+for (const child of children) {
+const childTime = new Date(child.timestamp).getTime() || 0;
+if (childTime > latest) latest = childTime;
+
+const nestedLatest = getLatestThreadTimestamp(child.id, cache);
+if (nestedLatest > latest) latest = nestedLatest;
+}
+
+cache.set(parentId, latest);
+return latest;
+}
+
 function getTopLevelPosts() {
 let posts = allRecords.filter((record) => !record.parent_id);
 
@@ -90,13 +137,15 @@ if (activeCategory !== 'all') {
 posts = posts.filter((record) => record.category === activeCategory);
 }
 
-return posts;
-}
+const latestCache = new Map();
 
-function getChildren(parentId) {
-return allRecords
-.filter((record) => record.parent_id === parentId)
-.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+posts.sort((a, b) => {
+const latestA = getLatestThreadTimestamp(a.id, latestCache);
+const latestB = getLatestThreadTimestamp(b.id, latestCache);
+return latestB - latestA;
+});
+
+return posts;
 }
 
 function countAllDescendants(parentId) {
@@ -215,13 +264,18 @@ function renderTopLevelPostCard(post) {
 const descendantsCount = countAllDescendants(post.id);
 const isExpanded = expandedThreads.has(post.id);
 const isReplyFormOpen = openReplyForms.has(post.id);
+const latestActivity = getLatestThreadTimestamp(post.id, new Map());
+const postedText = formatDateTime(post.timestamp);
+const latestText = formatDateTime(new Date(latestActivity).toISOString());
+const hasRecentReply = latestText !== postedText;
 
 return `
 <article class="post-card">
 <div class="post-top">
 <div class="post-head-left">
 <div class="post-author">${escapeHtml(post.display_name)}</div>
-<div class="post-time">${escapeHtml(formatDateTime(post.timestamp))}</div>
+<div class="post-time">Posted: ${escapeHtml(postedText)}</div>
+<div class="post-time">${hasRecentReply ? `Last activity: ${escapeHtml(latestText)}` : 'Last activity: Original post'}</div>
 </div>
 <div class="post-head-right">
 ${renderCategoryBadge(post.category)}
@@ -437,6 +491,7 @@ const displayName = form.querySelector('input[name="display_name"]').value.trim(
 const comment = form.querySelector('textarea[name="comment"]').value.trim();
 const website = form.querySelector('input[name="website"]').value.trim();
 const submitButton = form.querySelector('button[type="submit"]');
+const replyCategory = getThreadCategory(recordId);
 
 if (!comment) {
 if (statusEl) {
@@ -455,7 +510,7 @@ statusEl.className = 'form-status';
 try {
 await sendSubmission({
 display_name: displayName,
-category: DEFAULT_CATEGORY,
+category: replyCategory,
 comment,
 website,
 parent_id: recordId
@@ -468,6 +523,8 @@ statusEl.textContent = 'Reply submitted will appear shortly.';
 statusEl.className = 'form-status notice-success';
 }
 
+const root = getRootParent(recordId);
+if (root) expandedThreads.add(root.id);
 expandedThreads.add(recordId);
 
 setTimeout(() => {
@@ -511,9 +568,9 @@ if (refreshBtn) refreshBtn.addEventListener('click', () => fetchPosts());
 bindCategoryTabs();
 updateCharCount();
 fetchPosts(true);
+
 let isUserTyping = false;
 
-// Detect typing in any textarea (post or reply)
 document.addEventListener('input', (e) => {
 if (e.target.tagName === 'TEXTAREA') {
 isUserTyping = true;
@@ -521,7 +578,7 @@ isUserTyping = true;
 clearTimeout(window._typingTimer);
 window._typingTimer = setTimeout(() => {
 isUserTyping = false;
-}, 10000); // stops "typing mode" after 10 seconds idle
+}, 10000);
 }
 });
 
