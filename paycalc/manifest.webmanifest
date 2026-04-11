@@ -1,12 +1,12 @@
 {
-  "name": "Zone 3 Pay Calculator",
-  "short_name": "Zone 3 Pay",
+  "name": "6787 Pay Calculator",
+  "short_name": "6787 Pay",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f4f4",
   "theme_color": "#00205B",
-  "description": "Offline Zone 3 pay calculator with IndexedDB pay history and editable paygrade settings.",
+  "description": "Offline 6787 pay calculator with IndexedDB pay history and editable paygrade settings.",
   "icons": [
     {
       "src": "./icon-192.jpg",
