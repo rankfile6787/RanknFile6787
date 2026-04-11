@@ -1,4 +1,4 @@
-const CACHE_NAME = "zone3-pay-calculator-v2";
+const CACHE_NAME = "6787-pay-calculator-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
