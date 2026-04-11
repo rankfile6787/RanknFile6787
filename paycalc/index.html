@@ -1,1 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zone 3 Pay Calculator</title>
 
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#00205B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Zone 3 Pay" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      background: #00205B;
+      color: #FFC72C;
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 0;
+    }
+
+    label, select, input {
+      font-size: 16px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .row {
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #00205B;
+      color: white;
+    }
+
+    button {
+      background: #FFC72C;
+      color: #00205B;
+      font-weight: bold;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .summary {
+      margin-top: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .topbar h1 {
+      flex: 1 1 100%;
+    }
+
+    .mini-btn {
+      max-width: 220px;
+      width: auto;
+      min-width: 150px;
+      margin-top: 0;
+    }
+
+    .secondary-btn {
+      background: #00205B;
+      color: #FFC72C;
+    }
+
+    .danger-btn {
+      background: #c62828;
+      color: #fff;
+    }
+
+    .install-note {
+      font-size: 14px;
+      color: #333;
+      margin: 6px 0 14px;
+    }
+
+    .history-card {
+      background: #f8f9fb;
+      border: 1px solid #d7dce5;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .history-meta {
+      font-size: 14px;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    .history-amount {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00205B;
+      margin-top: 6px;
+    }
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      background: #f8f9fb;
+      border: 1px solid #d7dce5;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .summary-card strong {
+      display: block;
+      color: #00205B;
+      margin-bottom: 6px;
+    }
+
+    #historyChartWrap {
+      background: #fff;
+      border: 1px solid #d7dce5;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 16px 0 20px;
+    }
+
+    #historyChart {
+      width: 100%;
+      height: 220px;
+      display: block;
+    }
+
+    .settings-note {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .mode-note {
+      color: #555;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 20px; }
+      label, select, input { font-size: 14px; }
+      th, td { font-size: 14px; }
+      .mini-btn {
+        max-width: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <h1>Zone 3 Pay Calculator</h1>
+    <button id="historyToggleBtn" class="mini-btn" onclick="toggleHistory()">Historical</button>
+    <button id="settingsToggleBtn" class="mini-btn secondary-btn" onclick="toggleSettings()">Settings</button>
+  </div>
+
+  <div id="installNote" class="install-note"></div>
+
+  <div class="row">
+    <label for="empType">Employee Type:</label>
+    <select id="empType" onchange="buildTable()">
+      <option value="8">8 Hour</option>
+      <option value="12" selected>12 Hour</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="startDate">Start Date (Sunday):</label>
+    <input type="date" id="startDate" onchange="buildTable()">
+  </div>
+
+  <div class="row">
+    <label for="incumbentRate">Set Paygrade (PG1–PG5 or V):</label>
+    <select id="incumbentRate" onchange="applyIncumbent()">
+      <option value="">--Select--</option>
+      <option value="PG1">PG1</option>
+      <option value="PG2">PG2</option>
+      <option value="PG3">PG3</option>
+      <option value="PG4">PG4</option>
+      <option value="PG5">PG5</option>
+      <option value="V">V (Vacation)</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <label for="vacationRate">Vacation Rate ($/hr):</label>
+    <input type="number" id="vacationRate" placeholder="Enter vacation rate" step="0.01">
+  </div>
+
+  <div id="weeks"></div>
+
+  <div id="historyView" style="display:none; margin-top:20px;"></div>
+
+  <div id="settingsView" style="display:none; margin-top:20px;">
+    <h2>Paygrade Settings</h2>
+    <p class="settings-note">
+      Update paygrade rates here. These values are saved on this device in the app.
+    </p>
+
+    <div class="settings-grid">
+      <div>
+        <label for="pg1Rate">PG1 Rate ($/hr)</label>
+        <input type="number" id="pg1Rate" step="0.01">
+      </div>
+
+      <div>
+        <label for="pg2Rate">PG2 Rate ($/hr)</label>
+        <input type="number" id="pg2Rate" step="0.01">
+      </div>
+
+      <div>
+        <label for="pg3Rate">PG3 Rate ($/hr)</label>
+        <input type="number" id="pg3Rate" step="0.01">
+      </div>
+
+      <div>
+        <label for="pg4Rate">PG4 Rate ($/hr)</label>
+        <input type="number" id="pg4Rate" step="0.01">
+      </div>
+
+      <div>
+        <label for="pg5Rate">PG5 Rate ($/hr)</label>
+        <input type="number" id="pg5Rate" step="0.01">
+      </div>
+    </div>
+
+    <button onclick="savePaygradeSettings()">Save Paygrade Settings</button>
+    <button class="danger-btn" onclick="resetPaygradeSettings()">Reset to Default Rates</button>
+  </div>
+
+  <button id="calculateBtn" onclick="calculate()">Calculate Pay</button>
+  <div id="summary" class="summary"></div>
+  <button id="saveBtn" onclick="savePayPeriod()" style="display:none;">Save Pay Period</button>
+</div>
+
+<script>
+/* =========================
+   Defaults / current rates
+========================= */
+const DEFAULT_PAYGRADES = {
+  PG1: 27.42,
+  PG2: 30.01,
+  PG3: 33.00,
+  PG4: 34.73,
+  PG5: 36.89
+};
+
+let currentPaygrades = { ...DEFAULT_PAYGRADES };
+let lastCalculatedData = null;
+
+/* =========================
+   Holidays
+========================= */
+const fixedHolidays = ["01-01", "06-19", "07-04", "12-24", "12-25"];
+
+function nthWeekdayOfMonth(year, month, weekday, n) {
+  let date = new Date(year, month, 1), count = 0;
+  while (date.getMonth() === month) {
+    if (date.getDay() === weekday) {
+      count++;
+      if (n > 0 && count === n) return new Date(date);
+    }
+    date.setDate(date.getDate() + 1);
+  }
+  if (n < 0) {
+    date.setDate(date.getDate() - 1);
+    while (date.getDay() !== weekday) date.setDate(date.getDate() - 1);
+    return new Date(date);
+  }
+}
+
+function getEasterDate(year) {
+  const f = Math.floor;
+  const G = year % 19;
+  const C = f(year / 100);
+  const H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30;
+  const I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11));
+  const J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7;
+  const L = I - J;
+  const month = 3 + f((L + 40) / 44);
+  const day = L + 28 - 31 * f(month / 4);
+  return new Date(year, month - 1, day);
+}
+
+function getFloatingHolidays(year) {
+  const easter = getEasterDate(year);
+  const goodFriday = new Date(easter);
+  goodFriday.setDate(easter.getDate() - 2);
+  return [
+    nthWeekdayOfMonth(year, 0, 1, 3),  // MLK
+    goodFriday,
+    nthWeekdayOfMonth(year, 4, 1, -1), // Memorial Day
+    nthWeekdayOfMonth(year, 8, 1, 1),  // Labor Day
+    nthWeekdayOfMonth(year, 10, 4, 4), // Thanksgiving
+    nthWeekdayOfMonth(year, 10, 5, 4)  // Day after Thanksgiving
+  ];
+}
+
+function formatDateKey(date) {
+  return date.toISOString().slice(5, 10);
+}
+
+function isHoliday(date) {
+  const year = date.getFullYear();
+  const fixedMatch = fixedHolidays.includes(formatDateKey(date));
+  const floatMatch = getFloatingHolidays(year).some(d => d.toDateString() === date.toDateString());
+
+  const observed = fixedHolidays.some(h => {
+    const [m, d] = h.split("-");
+    const real = new Date(`${year}-${m}-${d}T12:00:00`);
+    return real.getDay() === 0 &&
+      formatDateKey(new Date(real.getTime() + 86400000)) === formatDateKey(date);
+  });
+
+  return fixedMatch || floatMatch || observed;
+}
+
+/* =========================
+   IndexedDB
+========================= */
+const DB_NAME = "zone3PayCalculatorDB";
+const DB_VERSION = 2;
+const PAY_PERIOD_STORE = "payPeriods";
+const SETTINGS_STORE = "settings";
+const LEGACY_LOCALSTORAGE_KEY = "zone3PayHistory";
+const LEGACY_MIGRATION_FLAG = "zone3PayHistory_migrated_to_idb_v1";
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+
+    req.onupgradeneeded = (event) => {
+      const db = event.target.result;
+
+      if (!db.objectStoreNames.contains(PAY_PERIOD_STORE)) {
+        const payStore = db.createObjectStore(PAY_PERIOD_STORE, { keyPath: "key" });
+        payStore.createIndex("startDate", "startDate", { unique: false });
+      }
+
+      if (!db.objectStoreNames.contains(SETTINGS_STORE)) {
+        db.createObjectStore(SETTINGS_STORE, { keyPath: "key" });
+      }
+    };
+
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbPut(storeName, record) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readwrite");
+    tx.objectStore(storeName).put(record);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function dbGet(storeName, key) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readonly");
+    const req = tx.objectStore(storeName).get(key);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbGetAll(storeName) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readonly");
+    const req = tx.objectStore(storeName).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function dbClearAll(storeName) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readwrite");
+    tx.objectStore(storeName).clear();
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function migrateLegacyHistoryIfNeeded() {
+  try {
+    const alreadyMigrated = localStorage.getItem(LEGACY_MIGRATION_FLAG);
+    if (alreadyMigrated === "yes") return;
+
+    const raw = localStorage.getItem(LEGACY_LOCALSTORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(LEGACY_MIGRATION_FLAG, "yes");
+      return;
+    }
+
+    const legacy = JSON.parse(raw);
+    if (!Array.isArray(legacy) || legacy.length === 0) {
+      localStorage.setItem(LEGACY_MIGRATION_FLAG, "yes");
+      return;
+    }
+
+    for (const item of legacy) {
+      if (item && item.key) {
+        await dbPut(PAY_PERIOD_STORE, item);
+      }
+    }
+
+    localStorage.setItem(LEGACY_MIGRATION_FLAG, "yes");
+  } catch (err) {
+    console.error("Legacy migration failed:", err);
+  }
+}
+
+/* =========================
+   Settings
+========================= */
+async function loadPaygradeSettings() {
+  try {
+    const saved = await dbGet(SETTINGS_STORE, "paygrades");
+    if (saved && saved.values) {
+      currentPaygrades = {
+        ...DEFAULT_PAYGRADES,
+        ...saved.values
+      };
+    } else {
+      currentPaygrades = { ...DEFAULT_PAYGRADES };
+    }
+  } catch (err) {
+    console.error("Failed loading paygrade settings:", err);
+    currentPaygrades = { ...DEFAULT_PAYGRADES };
+  }
+}
+
+function populateSettingsForm() {
+  document.getElementById("pg1Rate").value = currentPaygrades.PG1.toFixed(2);
+  document.getElementById("pg2Rate").value = currentPaygrades.PG2.toFixed(2);
+  document.getElementById("pg3Rate").value = currentPaygrades.PG3.toFixed(2);
+  document.getElementById("pg4Rate").value = currentPaygrades.PG4.toFixed(2);
+  document.getElementById("pg5Rate").value = currentPaygrades.PG5.toFixed(2);
+}
+
+async function savePaygradeSettings() {
+  const newRates = {
+    PG1: parseFloat(document.getElementById("pg1Rate").value) || DEFAULT_PAYGRADES.PG1,
+    PG2: parseFloat(document.getElementById("pg2Rate").value) || DEFAULT_PAYGRADES.PG2,
+    PG3: parseFloat(document.getElementById("pg3Rate").value) || DEFAULT_PAYGRADES.PG3,
+    PG4: parseFloat(document.getElementById("pg4Rate").value) || DEFAULT_PAYGRADES.PG4,
+    PG5: parseFloat(document.getElementById("pg5Rate").value) || DEFAULT_PAYGRADES.PG5
+  };
+
+  currentPaygrades = { ...newRates };
+
+  await dbPut(SETTINGS_STORE, {
+    key: "paygrades",
+    values: newRates,
+    updatedAt: new Date().toISOString()
+  });
+
+  alert("Paygrade settings saved.");
+}
+
+async function resetPaygradeSettings() {
+  if (!confirm("Reset paygrades to default amounts?")) return;
+
+  currentPaygrades = { ...DEFAULT_PAYGRADES };
+
+  await dbPut(SETTINGS_STORE, {
+    key: "paygrades",
+    values: { ...DEFAULT_PAYGRADES },
+    updatedAt: new Date().toISOString()
+  });
+
+  populateSettingsForm();
+  alert("Paygrades reset to defaults.");
+}
+
+/* =========================
+   PWA
+========================= */
+async function registerServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    try {
+      await navigator.serviceWorker.register("./sw.js");
+      console.log("Service worker registered");
+    } catch (err) {
+      console.error("Service worker registration failed:", err);
+    }
+  }
+}
+
+function showInstallMessage() {
+  document.getElementById("installNote").textContent =
+    "Open this page once, then you can install it to your phone or desktop for offline use.";
+}
+
+/* =========================
+   Views
+========================= */
+function getCalculatorElements() {
+  return [
+    ...document.querySelectorAll(".row"),
+    document.getElementById("weeks"),
+    document.getElementById("summary"),
+    document.getElementById("saveBtn"),
+    document.getElementById("calculateBtn")
+  ].filter(Boolean);
+}
+
+function showCalculatorView() {
+  const calcElements = getCalculatorElements();
+  const historyDiv = document.getElementById("historyView");
+  const settingsDiv = document.getElementById("settingsView");
+
+  calcElements.forEach(el => el.style.display = "");
+  historyDiv.style.display = "none";
+  settingsDiv.style.display = "none";
+
+  document.getElementById("historyToggleBtn").textContent = "Historical";
+  document.getElementById("settingsToggleBtn").textContent = "Settings";
+}
+
+async function toggleSettings() {
+  const calcElements = getCalculatorElements();
+  const historyDiv = document.getElementById("historyView");
+  const settingsDiv = document.getElementById("settingsView");
+  const settingsBtn = document.getElementById("settingsToggleBtn");
+  const isShowing = settingsDiv.style.display === "block";
+
+  if (isShowing) {
+    showCalculatorView();
+    return;
+  }
+
+  historyDiv.style.display = "none";
+  calcElements.forEach(el => el.style.display = "none");
+
+  await loadPaygradeSettings();
+  populateSettingsForm();
+
+  settingsDiv.style.display = "block";
+  document.getElementById("historyToggleBtn").textContent = "Historical";
+  settingsBtn.textContent = "Return to Calculator";
+}
+
+async function toggleHistory() {
+  const calcElements = getCalculatorElements();
+  const historyDiv = document.getElementById("historyView");
+  const settingsDiv = document.getElementById("settingsView");
+  const toggleBtn = document.getElementById("historyToggleBtn");
+  const isShowingHistory = historyDiv.style.display === "block";
+
+  if (isShowingHistory) {
+    showCalculatorView();
+  } else {
+    settingsDiv.style.display = "none";
+    await buildHistory();
+    historyDiv.style.display = "block";
+    calcElements.forEach(el => el.style.display = "none");
+    toggleBtn.textContent = "Return to Calculator";
+    document.getElementById("settingsToggleBtn").textContent = "Settings";
+  }
+}
+
+/* =========================
+   UI build
+========================= */
+function applyIncumbent() {
+  const pg = document.getElementById("incumbentRate").value;
+  document.querySelectorAll(".pgDrop").forEach(drop => {
+    drop.value = pg;
+  });
+}
+
+function buildTable() {
+  const container = document.getElementById("weeks");
+  container.innerHTML = "";
+  const input = document.getElementById("startDate").value;
+  if (!input) return;
+
+  const empType = parseInt(document.getElementById("empType").value, 10);
+  const [y, m, d] = input.split("-").map(Number);
+  const baseDate = new Date(y, m - 1, d);
+
+  for (let w = 0; w < 2; w++) {
+    const weekStart = new Date(baseDate);
+    weekStart.setDate(baseDate.getDate() + w * 7);
+
+    const incentiveRow = document.createElement("div");
+    incentiveRow.className = "row";
+    incentiveRow.innerHTML = `
+      <label for="incentive${w + 1}">Week ${w + 1} Incentive %:</label>
+      <input type="number" id="incentive${w + 1}" value="0">
+    `;
+    container.appendChild(incentiveRow);
+
+    const table = document.createElement("table");
+    table.innerHTML = "<thead><tr><th>Date</th><th>Hours</th><th>PG</th>" + (empType === 12 ? "<th>Base Schedule?</th>" : "") + "</tr></thead><tbody>";
+
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + d);
+      const id = `w${w}d${d}`;
+
+      const isHol = isHoliday(date);
+      const holIcon = isHol ? ' <span title="Holiday" style="color:#FFC72C;">★</span>' : '';
+
+      table.innerHTML += `
+        <tr>
+          <td>${date.toDateString()}${holIcon}</td>
+          <td><input type="number" id="hrs_${id}" value="0"></td>
+          <td>
+            <select id="pg_${id}" class="pgDrop">
+              <option value="PG1">PG1</option>
+              <option value="PG2">PG2</option>
+              <option value="PG3">PG3</option>
+              <option value="PG4">PG4</option>
+              <option value="PG5">PG5</option>
+              <option value="V">V</option>
+            </select>
+          </td>
+          ${empType === 12 ? `<td><input type="checkbox" id="base_${id}"></td></td>` : ""}
+        </tr>
+      `;
+    }
+
+    table.innerHTML += "</tbody>";
+    container.appendChild(table);
+  }
+}
+
+/* =========================
+   Pay logic
+========================= */
+function getWeekMode(weekIndex, start, empType) {
+  if (empType !== 12) return "STANDARD_8";
+
+  // If a 12-hour employee misses a base-scheduled shift
+  // (0 hrs and not Vacation), that week flips to fallback 8-hour logic.
+  for (let d = 0; d < 7; d++) {
+    const id = `w${weekIndex}d${d}`;
+    const baseEl = document.getElementById(`base_${id}`);
+    const hrsEl = document.getElementById(`hrs_${id}`);
+    const pgEl = document.getElementById(`pg_${id}`);
+
+    const isBase = !!baseEl?.checked;
+    if (!isBase) continue;
+
+    const hrs = parseFloat(hrsEl?.value) || 0;
+    const pg = pgEl?.value || "PG3";
+
+    // Vacation does not trigger fallback
+    if (hrs === 0 && pg !== "V") {
+      return "FALLBACK_8";
+    }
+  }
+
+  return "AWS_12";
+}
+
+function calculateWeek(weekIndex, start, empType, vacationRate) {
+  const mode = getWeekMode(weekIndex, start, empType);
+
+  let sundayPremiumHrs = 0;
+  let sundayPremiumGross = 0;
+
+  let holidayWorkedHrs = 0;
+  let holidayWorkedGross = 0;
+
+  let holidayNotWorkedHrs = 0;
+  let holidayNotWorkedGross = 0;
+
+  let baseRegularHrs = 0;
+  let regularGross = 0;
+
+  let pureOvertimeHrs = 0;
+  let overtimeGross = 0;
+
+  let vacationHrs = 0;
+  let vacationGross = 0;
+
+  let diffPay = 0;
+
+  // Counts only hours allowed to push the week toward 40.
+  // OT hours never count here.
+  let qualifyingHoursToward40 = 0;
+
+  const sundayCountCap = mode === "AWS_12" ? 12 : 8;
+  const holidayCountCap = mode === "AWS_12" ? 12 : 8;
+
+  for (let d = 0; d < 7; d++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + (weekIndex * 7) + d);
+
+    const id = `w${weekIndex}d${d}`;
+    const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
+    const pg = document.getElementById(`pg_${id}`).value;
+    const isBase = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
+
+    const isSun = date.getDay() === 0;
+    const isHol = isHoliday(date);
+
+    if (pg === "V") {
+      vacationHrs += 8;
+      vacationGross += 8 * vacationRate;
+
+      if (mode !== "AWS_12") {
+        qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + 8);
+      }
+      continue;
+    }
+
+    const rate = currentPaygrades[pg];
+    if (!rate) continue;
+
+    if (hrs > 0 && empType === 12) {
+      diffPay += hrs * 0.25;
+    }
+
+    // Holiday takes priority if both holiday and Sunday
+    if (isHol) {
+      if (hrs > 0) {
+        holidayWorkedHrs += hrs;
+        holidayWorkedGross += hrs * rate * 2.5;
+
+        qualifyingHoursToward40 = Math.min(
+          40,
+          qualifyingHoursToward40 + Math.min(hrs, holidayCountCap)
+        );
+      } else {
+        holidayNotWorkedHrs += 8;
+        holidayNotWorkedGross += 8 * rate;
+      }
+      continue;
+    }
+
+    // Sunday
+    if (isSun) {
+      const premiumHrs = Math.min(hrs, sundayCountCap);
+      const sundayExtraOT = Math.max(0, hrs - sundayCountCap);
+
+      sundayPremiumHrs += premiumHrs;
+      sundayPremiumGross += premiumHrs * rate * 1.5;
+
+      pureOvertimeHrs += sundayExtraOT;
+      overtimeGross += sundayExtraOT * rate * 1.5;
+
+      qualifyingHoursToward40 = Math.min(
+        40,
+        qualifyingHoursToward40 + premiumHrs
+      );
+      continue;
+    }
+
+    // 8-hour employee standard
+    if (mode === "STANDARD_8") {
+      const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
+      const regularToday = Math.min(hrs, straightRemaining);
+      const overtimeToday = Math.max(0, hrs - regularToday);
+
+      baseRegularHrs += regularToday;
+      regularGross += regularToday * rate;
+
+      pureOvertimeHrs += overtimeToday;
+      overtimeGross += overtimeToday * rate * 1.5;
+
+      qualifyingHoursToward40 = Math.min(40, qualifyingHoursToward40 + regularToday);
+      continue;
+    }
+
+    // 12-hour employee fallback to 8-hour logic
+    if (mode === "FALLBACK_8") {
+      const dailyStraightCandidate = Math.min(hrs, 8);
+      const immediateOT = Math.max(0, hrs - 8);
+
+      const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
+      const regularToday = Math.min(dailyStraightCandidate, straightRemaining);
+      const convertedToOT = dailyStraightCandidate - regularToday;
+      const overtimeToday = immediateOT + convertedToOT;
+
+      baseRegularHrs += regularToday;
+      regularGross += regularToday * rate;
+
+      pureOvertimeHrs += overtimeToday;
+      overtimeGross += overtimeToday * rate * 1.5;
+
+      qualifyingHoursToward40 = Math.min(
+        40,
+        qualifyingHoursToward40 + dailyStraightCandidate
+      );
+      continue;
+    }
+
+    // Normal 12-hour AWS logic
+    if (mode === "AWS_12") {
+      if (isBase) {
+        const qualifyingCandidate = Math.min(hrs, 12);
+        const immediateOT = Math.max(0, hrs - 12);
+
+        const straightRemaining = Math.max(0, 40 - qualifyingHoursToward40);
+        const regularToday = Math.min(qualifyingCandidate, straightRemaining);
+        const convertedToOT = qualifyingCandidate - regularToday;
+        const overtimeToday = immediateOT + convertedToOT;
+
+        baseRegularHrs += regularToday;
+        regularGross += regularToday * rate;
+
+        pureOvertimeHrs += overtimeToday;
+        overtimeGross += overtimeToday * rate * 1.5;
+
+        qualifyingHoursToward40 = Math.min(
+          40,
+          qualifyingHoursToward40 + qualifyingCandidate
+        );
+      } else {
+        pureOvertimeHrs += hrs;
+        overtimeGross += hrs * rate * 1.5;
+      }
+      continue;
+    }
+  }
+
+  const workedGross =
+    sundayPremiumGross +
+    holidayWorkedGross +
+    regularGross +
+    overtimeGross;
+
+  const incentivePct =
+    parseFloat(document.getElementById(`incentive${weekIndex + 1}`).value) || 0;
+
+  const incentiveBonus = workedGross * (incentivePct / 100);
+
+  const weekTotal =
+    workedGross +
+    holidayNotWorkedGross +
+    vacationGross +
+    diffPay +
+    incentiveBonus;
+
+  return {
+    mode,
+    sundayPremiumHrs,
+    sundayPremiumGross,
+    holidayWorkedHrs,
+    holidayWorkedGross,
+    holidayNotWorkedHrs,
+    holidayNotWorkedGross,
+    baseRegularHrs,
+    regularGross,
+    pureOvertimeHrs,
+    overtimeGross,
+    vacationHrs,
+    vacationGross,
+    diffPay,
+    incentiveBonus,
+    weekTotal
+  };
+}
+
+function calculate() {
+  const empType = parseInt(document.getElementById("empType").value, 10);
+  const vacationRate = parseFloat(document.getElementById("vacationRate").value) || 0;
+  const input = document.getElementById("startDate").value;
+
+  if (!input) {
+    alert("Please select a start date first.");
+    return;
+  }
+
+  const [y, m, d] = input.split("-").map(Number);
+  const start = new Date(y, m - 1, d);
+
+  let summary = "";
+
+  let combined = {
+    sundayPremiumHrs: 0,
+    sundayPremiumGross: 0,
+    holidayWorkedHrs: 0,
+    holidayWorkedGross: 0,
+    holidayNotWorkedHrs: 0,
+    holidayNotWorkedGross: 0,
+    baseRegularHrs: 0,
+    regularGross: 0,
+    pureOvertimeHrs: 0,
+    overtimeGross: 0,
+    vacationHrs: 0,
+    vacationGross: 0,
+    diffPay: 0,
+    incentive: 0,
+    weekTotal: 0
+  };
+
+  for (let w = 0; w < 2; w++) {
+    const week = calculateWeek(w, start, empType, vacationRate);
+
+    combined.sundayPremiumHrs += week.sundayPremiumHrs;
+    combined.sundayPremiumGross += week.sundayPremiumGross;
+    combined.holidayWorkedHrs += week.holidayWorkedHrs;
+    combined.holidayWorkedGross += week.holidayWorkedGross;
+    combined.holidayNotWorkedHrs += week.holidayNotWorkedHrs;
+    combined.holidayNotWorkedGross += week.holidayNotWorkedGross;
+    combined.baseRegularHrs += week.baseRegularHrs;
+    combined.regularGross += week.regularGross;
+    combined.pureOvertimeHrs += week.pureOvertimeHrs;
+    combined.overtimeGross += week.overtimeGross;
+    combined.vacationHrs += week.vacationHrs;
+    combined.vacationGross += week.vacationGross;
+    combined.diffPay += week.diffPay;
+    combined.incentive += week.incentiveBonus;
+    combined.weekTotal += week.weekTotal;
+
+    let modeLabel = "";
+    if (week.mode === "AWS_12") modeLabel = "12-hour AWS logic";
+    if (week.mode === "FALLBACK_8") modeLabel = "12-hour employee switched to 8-hour fallback logic";
+    if (week.mode === "STANDARD_8") modeLabel = "8-hour logic";
+
+    let weekSummary = `<p><strong>Week ${w + 1}</strong><br><span class="mode-note">${modeLabel}</span><br>`;
+    if (week.sundayPremiumHrs) weekSummary += `Sunday Premium: ${week.sundayPremiumHrs.toFixed(2)} hrs - $${week.sundayPremiumGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    if (week.holidayWorkedHrs) weekSummary += `Holiday Worked: ${week.holidayWorkedHrs.toFixed(2)} hrs - $${week.holidayWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    if (week.holidayNotWorkedHrs) weekSummary += `Holiday Not Worked: ${week.holidayNotWorkedHrs.toFixed(2)} hrs - $${week.holidayNotWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    if (week.baseRegularHrs) weekSummary += `Regular: ${week.baseRegularHrs.toFixed(2)} hrs - $${week.regularGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    if (week.pureOvertimeHrs) weekSummary += `Overtime: ${week.pureOvertimeHrs.toFixed(2)} hrs - $${week.overtimeGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    if (week.vacationHrs) weekSummary += `Vacation: ${week.vacationHrs.toFixed(2)} hrs - $${week.vacationGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    weekSummary += `Shift Differential: $${week.diffPay.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    weekSummary += `Incentive: $${week.incentiveBonus.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+    weekSummary += `<strong>Week Total: $${week.weekTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></p>`;
+
+    summary += weekSummary;
+  }
+
+  summary += `<h3>Combined Totals</h3>`;
+  if (combined.sundayPremiumHrs) summary += `Sunday Premium: ${combined.sundayPremiumHrs.toFixed(2)} hrs - $${combined.sundayPremiumGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  if (combined.holidayWorkedHrs) summary += `Holiday Worked: ${combined.holidayWorkedHrs.toFixed(2)} hrs - $${combined.holidayWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  if (combined.holidayNotWorkedHrs) summary += `Holiday Not Worked: ${combined.holidayNotWorkedHrs.toFixed(2)} hrs - $${combined.holidayNotWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  if (combined.baseRegularHrs) summary += `Regular: ${combined.baseRegularHrs.toFixed(2)} hrs - $${combined.regularGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  if (combined.pureOvertimeHrs) summary += `Overtime: ${combined.pureOvertimeHrs.toFixed(2)} hrs - $${combined.overtimeGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  if (combined.vacationHrs) summary += `Vacation: ${combined.vacationHrs.toFixed(2)} hrs - $${combined.vacationGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  summary += `Shift Differential: $${combined.diffPay.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  summary += `Incentive: $${combined.incentive.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
+  summary += `<strong>Combined Total: $${combined.weekTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>`;
+
+  document.getElementById("summary").innerHTML = summary;
+  document.getElementById("saveBtn").style.display = "block";
+
+  lastCalculatedData = {
+    combinedTotal: Number(combined.weekTotal.toFixed(2))
+  };
+}
+
+/* =========================
+   Save / load
+========================= */
+async function savePayPeriod() {
+  try {
+    const input = document.getElementById("startDate").value;
+    if (!input) {
+      alert("Please select a start date first.");
+      return;
+    }
+
+    if (!lastCalculatedData) {
+      alert("Please calculate the pay first before saving.");
+      return;
+    }
+
+    const [y, m, d] = input.split("-").map(Number);
+    const start = new Date(y, m - 1, d);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 13);
+
+    const periodKey = `${start.toISOString().slice(0, 10)}_${end.toISOString().slice(0, 10)}`;
+    const empType = parseInt(document.getElementById("empType").value, 10);
+    const vacationRate = parseFloat(document.getElementById("vacationRate").value) || 0;
+
+    let periodData = {
+      key: periodKey,
+      startDate: start.toISOString(),
+      endDate: end.toISOString(),
+      empType,
+      vacationRate,
+      totalGross: lastCalculatedData.combinedTotal,
+      weeks: [],
+      savedAt: new Date().toISOString()
+    };
+
+    for (let w = 0; w < 2; w++) {
+      let week = {
+        incentive: parseFloat(document.getElementById(`incentive${w + 1}`).value) || 0,
+        days: []
+      };
+
+      for (let d = 0; d < 7; d++) {
+        const id = `w${w}d${d}`;
+        const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
+        const pg = document.getElementById(`pg_${id}`).value;
+        const base = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
+
+        week.days.push({ hrs, pg, base });
+      }
+
+      periodData.weeks.push(week);
+    }
+
+    await dbPut(PAY_PERIOD_STORE, periodData);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    alert("Pay period saved to app history.");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save pay period.");
+  }
+}
+
+async function loadSavedPay(key) {
+  try {
+    const match = await dbGet(PAY_PERIOD_STORE, key);
+    if (!match) {
+      alert("Data not found.");
+      return;
+    }
+
+    document.getElementById("empType").value = match.empType;
+    document.getElementById("startDate").value = match.startDate.slice(0, 10);
+    document.getElementById("vacationRate").value = match.vacationRate;
+
+    buildTable();
+
+    setTimeout(() => {
+      match.weeks.forEach((week, w) => {
+        document.getElementById(`incentive${w + 1}`).value = week.incentive;
+        week.days.forEach((day, d) => {
+          const id = `w${w}d${d}`;
+          document.getElementById(`hrs_${id}`).value = day.hrs;
+          document.getElementById(`pg_${id}`).value = day.pg;
+          if (match.empType === 12) {
+            const box = document.getElementById(`base_${id}`);
+            if (box) box.checked = !!day.base;
+          }
+        });
+      });
+
+      toggleHistory();
+      calculate();
+    }, 100);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load saved pay period.");
+  }
+}
+
+async function clearHistory() {
+  if (!confirm("Are you sure you want to clear all saved paychecks?")) return;
+
+  try {
+    await dbClearAll(PAY_PERIOD_STORE);
+    showCalculatorView();
+    alert("All saved paychecks have been cleared.");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to clear history.");
+  }
+}
+
+/* =========================
+   History UI
+========================= */
+function drawHistoryChart(history) {
+  const canvas = document.getElementById("historyChart");
+  if (!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const width = Math.max(320, Math.floor(rect.width || 800));
+  const height = 220;
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, width, height);
+
+  if (!history.length) return;
+
+  const values = history.map(item => Number(item.totalGross || 0));
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const padding = 30;
+  const plotW = width - padding * 2;
+  const plotH = height - padding * 2;
+  const range = Math.max(1, max - min);
+
+  ctx.strokeStyle = "#d7dce5";
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padding + (plotH / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(width - padding, y);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "#00205B";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+
+  history.forEach((item, i) => {
+    const x = padding + (history.length === 1 ? plotW / 2 : (plotW * i) / (history.length - 1));
+    const val = Number(item.totalGross || 0);
+    const y = padding + plotH - ((val - min) / range) * plotH;
+
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+
+  ctx.stroke();
+
+  ctx.fillStyle = "#FFC72C";
+  history.forEach((item, i) => {
+    const x = padding + (history.length === 1 ? plotW / 2 : (plotW * i) / (history.length - 1));
+    const val = Number(item.totalGross || 0);
+    const y = padding + plotH - ((val - min) / range) * plotH;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  ctx.fillStyle = "#333";
+  ctx.font = "12px Arial";
+  ctx.fillText(`$${max.toFixed(0)}`, 4, padding + 4);
+  ctx.fillText(`$${min.toFixed(0)}`, 4, height - padding + 4);
+}
+
+async function buildHistory() {
+  const historyDiv = document.getElementById("historyView");
+  let history = await dbGetAll(PAY_PERIOD_STORE);
+
+  if (!history.length) {
+    historyDiv.innerHTML = "<p>No saved pay periods.</p>";
+    return;
+  }
+
+  history.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+  const currentYear = new Date().getFullYear();
+  let totalGross = 0;
+  let ytdGross = 0;
+  let totalHours = 0;
+  let totalWeeks = 0;
+
+  for (const item of history) {
+    const gross = parseFloat(item.totalGross || 0);
+    totalGross += gross;
+
+    const paycheckDate = new Date(item.startDate);
+    paycheckDate.setDate(paycheckDate.getDate() + 15);
+
+    if (paycheckDate.getFullYear() === currentYear) {
+      ytdGross += gross;
+    }
+
+    totalWeeks += item.weeks.length;
+
+    item.weeks.forEach(week => {
+      week.days.forEach(day => {
+        totalHours += parseFloat(day.hrs || 0);
+      });
+    });
+  }
+
+  const totalPaychecks = history.length;
+  const avgPay = totalPaychecks > 0 ? totalGross / totalPaychecks : 0;
+  const projectedEarnings = avgPay * 26;
+  const avgHoursPerWeek = totalWeeks > 0 ? totalHours / totalWeeks : 0;
+
+  let html = `
+    <div class="summary-cards">
+      <div class="summary-card">
+        <strong>Average Paycheck</strong>
+        $${avgPay.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </div>
+      <div class="summary-card">
+        <strong>Projected Year's Earnings</strong>
+        $${projectedEarnings.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </div>
+      <div class="summary-card">
+        <strong>Average Hours per Week</strong>
+        ${avgHoursPerWeek.toFixed(2)} hrs
+      </div>
+      <div class="summary-card">
+        <strong>Total Hours Tracked</strong>
+        ${totalHours.toFixed(2)} hrs
+      </div>
+      <div class="summary-card">
+        <strong>YTD Total (${currentYear})</strong>
+        $${ytdGross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </div>
+      <div class="summary-card">
+        <strong>Saved Paychecks</strong>
+        ${totalPaychecks}
+      </div>
+    </div>
+
+    <h2>Saved Pay Periods</h2>
+    <div id="historyChartWrap">
+      <canvas id="historyChart"></canvas>
+    </div>
+    <div id="historyList"></div>
+    <button class="danger-btn" onclick="clearHistory()">Clear All Saved Paychecks</button>
+  `;
+
+  historyDiv.innerHTML = html;
+
+  const list = document.getElementById("historyList");
+
+  for (const item of history) {
+    const start = new Date(item.startDate);
+    const end = new Date(item.endDate);
+    const gross = parseFloat(item.totalGross || 0);
+
+    const paycheckDate = new Date(item.startDate);
+    paycheckDate.setDate(paycheckDate.getDate() + 15);
+
+    const card = document.createElement("div");
+    card.className = "history-card";
+    card.innerHTML = `
+      <div><strong>${start.toLocaleDateString()} – ${end.toLocaleDateString()}</strong></div>
+      <div class="history-meta">Paycheck Date: ${paycheckDate.toLocaleDateString()}</div>
+      <div class="history-meta">Employee Type: ${item.empType}-Hour</div>
+      <div class="history-amount">$${gross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      <button class="secondary-btn" onclick='loadSavedPay("${item.key}")'>Load This Pay Period</button>
+    `;
+    list.appendChild(card);
+  }
+
+  const sortedForChart = history.slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+  setTimeout(() => drawHistoryChart(sortedForChart), 60);
+}
+
+/* =========================
+   Startup
+========================= */
+window.addEventListener("resize", async () => {
+  const historyDiv = document.getElementById("historyView");
+  if (historyDiv.style.display === "block") {
+    const items = await dbGetAll(PAY_PERIOD_STORE);
+    if (items.length) {
+      items.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+      drawHistoryChart(items);
+    }
+  }
+});
+
+(async function initApp() {
+  await migrateLegacyHistoryIfNeeded();
+  await loadPaygradeSettings();
+  await registerServiceWorker();
+  showInstallMessage();
+})();
+</script>
+</body>
+</html>
