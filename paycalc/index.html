@@ -27,14 +27,13 @@
       --danger: #b91c1c;
       --success: #16a34a;
       --warning: #f59e0b;
+      --info: #3b82f6;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
       --radius: 14px;
       --radius-sm: 10px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
@@ -94,7 +93,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1280px;
       margin: 0 auto;
       background: linear-gradient(180deg, rgba(23,32,51,0.96), rgba(15,23,42,0.98));
       border: 1px solid var(--line);
@@ -145,6 +144,7 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 16px;
+      align-items: center;
     }
 
     button {
@@ -162,9 +162,7 @@
       box-shadow: 0 6px 18px rgba(245, 158, 11, 0.24);
     }
 
-    button:hover {
-      transform: translateY(-1px);
-    }
+    button:hover { transform: translateY(-1px); }
 
     .mini-btn {
       width: auto;
@@ -185,10 +183,67 @@
       box-shadow: none;
     }
 
+    .info-btn {
+      background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      color: #fff;
+      box-shadow: none;
+    }
+
     .install-note {
       color: var(--muted);
       font-size: 14px;
       margin-bottom: 16px;
+    }
+
+    .install-helper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 12px;
+      border: 1px solid rgba(251,191,36,0.22);
+      border-radius: 999px;
+      background: rgba(251,191,36,0.08);
+    }
+
+    .install-helper:hover {
+      background: rgba(251,191,36,0.12);
+    }
+
+    .help-bubble {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: min(360px, 92vw);
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(251,191,36,0.22);
+      background: #0f172a;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      z-index: 25;
+      display: none;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .help-bubble.open {
+      display: block;
+    }
+
+    .help-bubble strong {
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .help-bubble .small-muted {
+      margin-top: 8px;
     }
 
     .warning-list {
@@ -232,8 +287,7 @@
       color: var(--gold);
     }
 
-    select,
-    input {
+    select, input {
       width: 100%;
       font-size: 16px;
       padding: 12px 13px;
@@ -252,8 +306,7 @@
       cursor: pointer;
     }
 
-    select:focus,
-    input:focus {
+    select:focus, input:focus {
       border-color: rgba(251,191,36,0.65);
       box-shadow: 0 0 0 3px rgba(251,191,36,0.12);
     }
@@ -286,7 +339,7 @@
     }
 
     .note-input {
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .summary {
@@ -366,6 +419,19 @@
       color: var(--gold);
       margin-top: 8px;
       margin-bottom: 8px;
+    }
+
+    .history-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .history-actions button {
+      width: auto;
+      min-width: 120px;
+      margin: 0;
     }
 
     .summary-cards {
@@ -458,7 +524,7 @@
       font-size: 13px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
       th, td {
         font-size: 13px;
         padding: 8px 6px;
@@ -490,6 +556,10 @@
       .note-input {
         min-width: 90px;
       }
+
+      .history-actions button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -518,7 +588,18 @@
 
       <div class="toolbar">
         <button id="historyToggleBtn" class="mini-btn secondary-btn" onclick="toggleHistory()">Historical</button>
+        <button id="calloffToggleBtn" class="mini-btn secondary-btn" onclick="toggleCallOffSummary()">Call-Off Summary</button>
         <button id="settingsToggleBtn" class="mini-btn secondary-btn" onclick="toggleSettings()">Settings</button>
+
+        <div class="install-helper" onclick="toggleInstallHelp()" title="Want this offline and on your homescreen?">
+          Want this offline and on your homescreen?
+          <div id="installHelpBubble" class="help-bubble">
+            <strong>Add to Home Screen</strong>
+            <div><strong style="display:inline;color:#fbbf24;">iPhone:</strong> Open in Safari, tap the Share button, then tap <em>Add to Home Screen</em>.</div>
+            <div style="margin-top:8px;"><strong style="display:inline;color:#fbbf24;">Android:</strong> Open in Chrome, tap the menu, then tap <em>Install app</em> or <em>Add to Home Screen</em>.</div>
+            <div class="small-muted">Open the page once while online first so the offline app files can cache.</div>
+          </div>
+        </div>
       </div>
 
       <div id="installNote" class="install-note"></div>
@@ -560,6 +641,7 @@
       <div id="weeks"></div>
 
       <div id="historyView" class="view-card" style="display:none; margin-top:20px;"></div>
+      <div id="callOffSummaryView" class="view-card" style="display:none; margin-top:20px;"></div>
 
       <div id="settingsView" class="view-card" style="display:none; margin-top:20px;">
         <h2>Paygrade Settings</h2>
@@ -739,6 +821,16 @@ async function dbGetAll(storeName) {
   });
 }
 
+async function dbDelete(storeName, key) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readwrite");
+    tx.objectStore(storeName).delete(key);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
 async function dbClearAll(storeName) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
@@ -854,6 +946,20 @@ function showInstallMessage() {
     "Open this page once, then install it to your phone or desktop for offline use.";
 }
 
+function toggleInstallHelp() {
+  const bubble = document.getElementById("installHelpBubble");
+  bubble.classList.toggle("open");
+}
+
+document.addEventListener("click", (e) => {
+  const helper = document.querySelector(".install-helper");
+  const bubble = document.getElementById("installHelpBubble");
+  if (!helper || !bubble) return;
+  if (!helper.contains(e.target)) {
+    bubble.classList.remove("open");
+  }
+});
+
 function getCalculatorElements() {
   return [
     ...document.querySelectorAll(".form-card"),
@@ -864,24 +970,26 @@ function getCalculatorElements() {
   ].filter(Boolean);
 }
 
+function resetToolbarLabels() {
+  document.getElementById("historyToggleBtn").textContent = "Historical";
+  document.getElementById("calloffToggleBtn").textContent = "Call-Off Summary";
+  document.getElementById("settingsToggleBtn").textContent = "Settings";
+}
+
 function showCalculatorView() {
   const calcElements = getCalculatorElements();
-  const historyDiv = document.getElementById("historyView");
-  const settingsDiv = document.getElementById("settingsView");
-
+  document.getElementById("historyView").style.display = "none";
+  document.getElementById("callOffSummaryView").style.display = "none";
+  document.getElementById("settingsView").style.display = "none";
   calcElements.forEach(el => el.style.display = "");
-  historyDiv.style.display = "none";
-  settingsDiv.style.display = "none";
-
-  document.getElementById("historyToggleBtn").textContent = "Historical";
-  document.getElementById("settingsToggleBtn").textContent = "Settings";
+  resetToolbarLabels();
 }
 
 async function toggleSettings() {
   const calcElements = getCalculatorElements();
   const historyDiv = document.getElementById("historyView");
+  const callOffDiv = document.getElementById("callOffSummaryView");
   const settingsDiv = document.getElementById("settingsView");
-  const settingsBtn = document.getElementById("settingsToggleBtn");
   const isShowing = settingsDiv.style.display === "block";
 
   if (isShowing) {
@@ -890,32 +998,54 @@ async function toggleSettings() {
   }
 
   historyDiv.style.display = "none";
+  callOffDiv.style.display = "none";
   calcElements.forEach(el => el.style.display = "none");
 
   await loadPaygradeSettings();
   populateSettingsForm();
 
   settingsDiv.style.display = "block";
-  document.getElementById("historyToggleBtn").textContent = "Historical";
-  settingsBtn.textContent = "Return to Calculator";
+  resetToolbarLabels();
+  document.getElementById("settingsToggleBtn").textContent = "Return to Calculator";
 }
 
 async function toggleHistory() {
   const calcElements = getCalculatorElements();
   const historyDiv = document.getElementById("historyView");
+  const callOffDiv = document.getElementById("callOffSummaryView");
   const settingsDiv = document.getElementById("settingsView");
-  const toggleBtn = document.getElementById("historyToggleBtn");
   const isShowingHistory = historyDiv.style.display === "block";
 
   if (isShowingHistory) {
     showCalculatorView();
   } else {
+    callOffDiv.style.display = "none";
     settingsDiv.style.display = "none";
     await buildHistory();
     historyDiv.style.display = "block";
     calcElements.forEach(el => el.style.display = "none");
-    toggleBtn.textContent = "Return to Calculator";
-    document.getElementById("settingsToggleBtn").textContent = "Settings";
+    resetToolbarLabels();
+    document.getElementById("historyToggleBtn").textContent = "Return to Calculator";
+  }
+}
+
+async function toggleCallOffSummary() {
+  const calcElements = getCalculatorElements();
+  const historyDiv = document.getElementById("historyView");
+  const callOffDiv = document.getElementById("callOffSummaryView");
+  const settingsDiv = document.getElementById("settingsView");
+  const isShowing = callOffDiv.style.display === "block";
+
+  if (isShowing) {
+    showCalculatorView();
+  } else {
+    historyDiv.style.display = "none";
+    settingsDiv.style.display = "none";
+    await buildCallOffSummary();
+    callOffDiv.style.display = "block";
+    calcElements.forEach(el => el.style.display = "none");
+    resetToolbarLabels();
+    document.getElementById("calloffToggleBtn").textContent = "Return to Calculator";
   }
 }
 
@@ -1022,7 +1152,8 @@ function buildTable() {
       "<th>Date</th>" +
       "<th>Hours</th>" +
       "<th>PG</th>" +
-      (empType === 12 ? "<th>Base?</th><th>Called Off?</th>" : "") +
+      (empType === 12 ? "<th>Base?</th>" : "") +
+      "<th>Called Off?</th>" +
       "<th>Notes</th>" +
       "</tr></thead><tbody>";
 
@@ -1049,7 +1180,7 @@ function buildTable() {
             </select>
           </td>
           ${empType === 12 ? `<td><input type="checkbox" id="base_${id}"></td>` : ""}
-          ${empType === 12 ? `<td><input type="checkbox" id="calledoff_${id}" onchange="handleCalledOffToggle('${id}')"></td>` : ""}
+          <td><input type="checkbox" id="calledoff_${id}" onchange="handleCalledOffToggle('${id}')"></td>
           <td><input class="note-input" type="text" id="note_${id}" placeholder="Optional note"></td>
         </tr>
       `;
@@ -1109,7 +1240,6 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
   let vacationHrs = 0;
   let vacationGross = 0;
   let diffPay = 0;
-
   let qualifyingHoursToward40 = 0;
 
   const sundayCountCap = mode === "AWS_12" ? 12 : 8;
@@ -1123,14 +1253,12 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
     const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
     const pg = document.getElementById(`pg_${id}`).value;
     const isBase = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
-    const calledOff = empType === 12 ? !!document.getElementById(`calledoff_${id}`)?.checked : false;
+    const calledOff = !!document.getElementById(`calledoff_${id}`)?.checked;
 
     const isSun = date.getDay() === 0;
     const isHol = isHoliday(date);
 
-    if (calledOff) {
-      continue;
-    }
+    if (calledOff) continue;
 
     if (pg === "V") {
       vacationHrs += 8;
@@ -1244,9 +1372,7 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
     regularGross +
     overtimeGross;
 
-  const incentivePct =
-    parseFloat(document.getElementById(`incentive${weekIndex + 1}`).value) || 0;
-
+  const incentivePct = parseFloat(document.getElementById(`incentive${weekIndex + 1}`).value) || 0;
   const incentiveBonus = workedGross * (incentivePct / 100);
 
   const weekTotal =
@@ -1292,7 +1418,6 @@ function calculate() {
   const start = new Date(y, m - 1, d);
 
   let summary = "";
-
   let combined = {
     sundayPremiumHrs: 0,
     sundayPremiumGross: 0,
@@ -1340,7 +1465,6 @@ function calculate() {
     weekSummary += `Shift Differential: $${week.diffPay.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
     weekSummary += `Incentive: $${week.incentiveBonus.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
     weekSummary += `<strong>Week Total: $${week.weekTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong></p>`;
-
     summary += weekSummary;
   }
 
@@ -1407,7 +1531,7 @@ async function savePayPeriod() {
         const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
         const pg = document.getElementById(`pg_${id}`).value;
         const base = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
-        const calledOff = empType === 12 ? !!document.getElementById(`calledoff_${id}`)?.checked : false;
+        const calledOff = !!document.getElementById(`calledoff_${id}`)?.checked;
         const note = (document.getElementById(`note_${id}`)?.value || "").trim();
 
         week.days.push({ hrs, pg, base, calledOff, note, excused: false });
@@ -1447,24 +1571,47 @@ async function loadSavedPay(key) {
           const id = `w${w}d${d}`;
           document.getElementById(`hrs_${id}`).value = day.hrs;
           document.getElementById(`pg_${id}`).value = day.pg;
+          const calledOffBox = document.getElementById(`calledoff_${id}`);
+          if (calledOffBox) calledOffBox.checked = !!day.calledOff;
+
           if (match.empType === 12) {
             const baseBox = document.getElementById(`base_${id}`);
-            const calledOffBox = document.getElementById(`calledoff_${id}`);
             if (baseBox) baseBox.checked = !!day.base;
-            if (calledOffBox) calledOffBox.checked = !!day.calledOff;
           }
+
           const noteEl = document.getElementById(`note_${id}`);
           if (noteEl) noteEl.value = day.note || "";
         });
       });
 
       updateWarnings();
-      toggleHistory();
+      showCalculatorView();
       calculate();
+      alert("Saved pay period loaded. Make changes and click Save Pay Period to overwrite it.");
     }, 100);
   } catch (err) {
     console.error(err);
     alert("Failed to load saved pay period.");
+  }
+}
+
+async function deleteSavedPayPeriod(key) {
+  if (!confirm("Delete this saved pay period?")) return;
+
+  try {
+    await dbDelete(PAY_PERIOD_STORE, key);
+
+    if (document.getElementById("historyView").style.display === "block") {
+      await buildHistory();
+    }
+    if (document.getElementById("callOffSummaryView").style.display === "block") {
+      await buildCallOffSummary();
+    }
+
+    alert("Saved pay period deleted.");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to delete saved pay period.");
   }
 }
 
@@ -1595,11 +1742,59 @@ async function toggleExcusedCallOff(periodKey, weekIndex, dayIndex, checked) {
 
     day.excused = !!checked;
     await dbPut(PAY_PERIOD_STORE, period);
-    await buildHistory();
+
+    if (document.getElementById("historyView").style.display === "block") {
+      await buildHistory();
+    }
+    if (document.getElementById("callOffSummaryView").style.display === "block") {
+      await buildCallOffSummary();
+    }
   } catch (err) {
     console.error(err);
     alert("Failed to update excused status.");
   }
+}
+
+function renderCallOffCards(entries, targetId) {
+  const callOffList = document.getElementById(targetId);
+
+  if (!entries.length) {
+    callOffList.innerHTML = `<div class="history-card">No call offs saved yet.</div>`;
+    return;
+  }
+
+  callOffList.innerHTML = "";
+
+  entries.forEach(entry => {
+    const active = isActiveCallOff(entry.shiftDate);
+    const start = new Date(entry.periodStart);
+    const end = new Date(entry.periodEnd);
+
+    const card = document.createElement("div");
+    card.className = "history-card";
+    card.innerHTML = `
+      <div><strong>${formatDisplayDate(entry.shiftDate)}</strong></div>
+      <div class="history-meta">Pay Period: ${formatDisplayDate(start)} – ${formatDisplayDate(end)}</div>
+      <div class="history-meta">Employee Type: ${entry.empType}-Hour</div>
+      <div class="history-meta">Note: ${entry.note ? entry.note : "No note entered"}</div>
+      <div style="margin-top:8px;">
+        <span class="calloff-status ${active ? 'calloff-active' : 'calloff-expired'}">${active ? 'Counts as Active' : 'Expired from Active Count'}</span>
+        ${entry.excused ? `<span class="calloff-status calloff-excused">Excused</span>` : ``}
+      </div>
+      <div class="calloff-controls">
+        <label class="checkbox-label-inline">
+          <input
+            type="checkbox"
+            ${entry.excused ? "checked" : ""}
+            onchange="toggleExcusedCallOff('${entry.periodKey}', ${entry.weekIndex}, ${entry.dayIndex}, this.checked)"
+          />
+          Mark as Excused
+        </label>
+        <button class="secondary-btn" onclick="loadSavedPay('${entry.periodKey}')">Open Pay Period</button>
+      </div>
+    `;
+    callOffList.appendChild(card);
+  });
 }
 
 async function buildHistory() {
@@ -1698,12 +1893,6 @@ async function buildHistory() {
       <canvas id="historyChart"></canvas>
     </div>
     <div id="historyList"></div>
-
-    <h2 class="calloff-section-title">Call Off History</h2>
-    <p class="small-muted">Active call offs use a rolling 365-day window. Older call offs remain in history but no longer count in the active tally.</p>
-    <div id="callOffList"></div>
-
-    <button class="danger-btn" onclick="clearHistory()">Clear All Saved Paychecks</button>
   `;
 
   historyDiv.innerHTML = html;
@@ -1725,49 +1914,58 @@ async function buildHistory() {
       <div class="history-meta">Paycheck Date: ${formatDisplayDate(paycheckDate)}</div>
       <div class="history-meta">Employee Type: ${item.empType}-Hour</div>
       <div class="history-amount">$${gross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-      <button class="secondary-btn" onclick='loadSavedPay("${item.key}")'>Load This Pay Period</button>
+      <div class="history-actions">
+        <button class="secondary-btn" onclick='loadSavedPay("${item.key}")'>Edit / Load</button>
+        <button class="danger-btn" onclick='deleteSavedPayPeriod("${item.key}")'>Delete</button>
+      </div>
     `;
     list.appendChild(card);
   }
 
-  const callOffList = document.getElementById("callOffList");
-
-  if (!callOffEntries.length) {
-    callOffList.innerHTML = `<div class="history-card">No call offs saved yet.</div>`;
-  } else {
-    callOffEntries.forEach(entry => {
-      const active = isActiveCallOff(entry.shiftDate);
-      const start = new Date(entry.periodStart);
-      const end = new Date(entry.periodEnd);
-
-      const card = document.createElement("div");
-      card.className = "history-card";
-      card.innerHTML = `
-        <div><strong>${formatDisplayDate(entry.shiftDate)}</strong></div>
-        <div class="history-meta">Pay Period: ${formatDisplayDate(start)} – ${formatDisplayDate(end)}</div>
-        <div class="history-meta">Employee Type: ${entry.empType}-Hour</div>
-        <div class="history-meta">Note: ${entry.note ? entry.note : "No note entered"}</div>
-        <div style="margin-top:8px;">
-          <span class="calloff-status ${active ? 'calloff-active' : 'calloff-expired'}">${active ? 'Counts as Active' : 'Expired from Active Count'}</span>
-          ${entry.excused ? `<span class="calloff-status calloff-excused">Excused</span>` : ``}
-        </div>
-        <div class="calloff-controls">
-          <label class="checkbox-label-inline">
-            <input
-              type="checkbox"
-              ${entry.excused ? "checked" : ""}
-              onchange="toggleExcusedCallOff('${entry.periodKey}', ${entry.weekIndex}, ${entry.dayIndex}, this.checked)"
-            />
-            Mark as Excused
-          </label>
-        </div>
-      `;
-      callOffList.appendChild(card);
-    });
-  }
-
   const sortedForChart = history.slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   setTimeout(() => drawHistoryChart(sortedForChart), 60);
+}
+
+async function buildCallOffSummary() {
+  const callOffDiv = document.getElementById("callOffSummaryView");
+  const history = await dbGetAll(PAY_PERIOD_STORE);
+  const callOffEntries = getCallOffEntriesFromPeriods(history);
+
+  const activeCallOffs = callOffEntries.filter(entry => isActiveCallOff(entry.shiftDate));
+  const activeExcused = activeCallOffs.filter(entry => entry.excused);
+  const activeUnexcused = activeCallOffs.filter(entry => !entry.excused);
+  const expiredCallOffs = callOffEntries.filter(entry => !isActiveCallOff(entry.shiftDate));
+
+  callOffDiv.innerHTML = `
+    <div class="summary-cards">
+      <div class="summary-card">
+        <strong>Active Call Offs</strong>
+        ${activeCallOffs.length}
+      </div>
+      <div class="summary-card">
+        <strong>Active Excused</strong>
+        ${activeExcused.length}
+      </div>
+      <div class="summary-card">
+        <strong>Active Unexcused</strong>
+        ${activeUnexcused.length}
+      </div>
+      <div class="summary-card">
+        <strong>Expired from Active Count</strong>
+        ${expiredCallOffs.length}
+      </div>
+      <div class="summary-card">
+        <strong>Total Call Offs in History</strong>
+        ${callOffEntries.length}
+      </div>
+    </div>
+
+    <h2 class="calloff-section-title">All Call Offs</h2>
+    <p class="small-muted">Active call offs use a rolling 365-day window. Older call offs stay in history but stop counting in the active tally.</p>
+    <div id="callOffSummaryList"></div>
+  `;
+
+  renderCallOffCards(callOffEntries, "callOffSummaryList");
 }
 
 window.addEventListener("resize", async () => {
