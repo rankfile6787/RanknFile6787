@@ -26,6 +26,7 @@
       --white: #ffffff;
       --danger: #b91c1c;
       --success: #16a34a;
+      --warning: #f59e0b;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
       --radius: 14px;
       --radius-sm: 10px;
@@ -190,6 +191,22 @@
       margin-bottom: 16px;
     }
 
+    .warning-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .warning-box {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(245,158,11,0.35);
+      background: rgba(245,158,11,0.10);
+      color: #fde68a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
     .form-card,
     .view-card {
       background: rgba(255,255,255,0.03);
@@ -227,6 +244,14 @@
       outline: none;
     }
 
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
     select:focus,
     input:focus {
       border-color: rgba(251,191,36,0.65);
@@ -260,6 +285,10 @@
       font-size: 14px;
     }
 
+    .note-input {
+      min-width: 180px;
+    }
+
     .summary {
       margin-top: 18px;
       font-size: 16px;
@@ -275,9 +304,34 @@
       margin-top: 8px;
     }
 
-    .mode-note {
-      color: var(--muted);
-      font-size: 14px;
+    .mode-badge {
+      display: inline-block;
+      margin: 6px 0 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .mode-aws {
+      background: rgba(22,163,74,0.14);
+      color: #86efac;
+      border-color: rgba(34,197,94,0.28);
+    }
+
+    .mode-fallback {
+      background: rgba(245,158,11,0.14);
+      color: #fde68a;
+      border-color: rgba(245,158,11,0.30);
+    }
+
+    .mode-standard {
+      background: rgba(59,130,246,0.14);
+      color: #bfdbfe;
+      border-color: rgba(59,130,246,0.30);
     }
 
     .settings-note {
@@ -348,6 +402,73 @@
       display: block;
     }
 
+    .calloff-section-title {
+      margin-top: 24px;
+      color: var(--gold);
+    }
+
+    .calloff-status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 8px;
+      margin-right: 8px;
+    }
+
+    .calloff-active {
+      background: rgba(220,38,38,0.18);
+      color: #fecaca;
+      border: 1px solid rgba(220,38,38,0.35);
+    }
+
+    .calloff-expired {
+      background: rgba(148,163,184,0.16);
+      color: #cbd5e1;
+      border: 1px solid rgba(148,163,184,0.30);
+    }
+
+    .calloff-excused {
+      background: rgba(22,163,74,0.14);
+      color: #bbf7d0;
+      border: 1px solid rgba(22,163,74,0.30);
+    }
+
+    .calloff-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .checkbox-label-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: auto;
+      color: var(--text);
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .small-muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      th, td {
+        font-size: 13px;
+        padding: 8px 6px;
+      }
+
+      .note-input {
+        min-width: 120px;
+      }
+    }
+
     @media (max-width: 700px) {
       .container {
         padding: 16px;
@@ -362,8 +483,12 @@
       }
 
       th, td {
-        font-size: 13px;
-        padding: 8px 6px;
+        font-size: 12px;
+        padding: 7px 5px;
+      }
+
+      .note-input {
+        min-width: 90px;
       }
     }
   </style>
@@ -387,7 +512,7 @@
         <div class="hero-inner">
           <div class="hero-kicker">Union Solidarity • Independent Information • Free Speech</div>
           <h1>Zone 3 Pay Calculator</h1>
-          <p>Offline-ready pay calculator with saved pay periods, editable paygrades, and AWS logic.</p>
+          <p>Offline-ready pay calculator with saved pay periods, editable paygrades, AWS logic, and call-off tracking.</p>
         </div>
       </div>
 
@@ -397,6 +522,7 @@
       </div>
 
       <div id="installNote" class="install-note"></div>
+      <div id="warnings" class="warning-list"></div>
 
       <div class="form-card">
         <div class="row">
@@ -800,11 +926,74 @@ function applyIncumbent() {
   });
 }
 
+function formatDisplayDate(date) {
+  return date.toLocaleDateString(undefined, {
+    month: "numeric",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function updateWarnings() {
+  const warnings = [];
+  const startDateValue = document.getElementById("startDate").value;
+  const empType = parseInt(document.getElementById("empType").value, 10);
+
+  if (startDateValue) {
+    const [y, m, d] = startDateValue.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    if (date.getDay() !== 0) {
+      warnings.push("Selected start date is not a Sunday. The calculator is designed for pay periods that begin on Sunday.");
+    }
+  }
+
+  if (empType === 12) {
+    const baseChecks = document.querySelectorAll('input[id^="base_"]');
+    if (baseChecks.length > 0) {
+      const anyBaseChecked = [...baseChecks].some(cb => cb.checked);
+      if (!anyBaseChecked) {
+        warnings.push("12-hour employee has no base days checked. This will make all worked non-holiday/non-Sunday hours calculate as overtime.");
+      }
+    }
+  }
+
+  const warningEl = document.getElementById("warnings");
+  warningEl.innerHTML = warnings.map(w => `<div class="warning-box">${w}</div>`).join("");
+}
+
+function handleCalledOffToggle(id) {
+  const calledOffEl = document.getElementById(`calledoff_${id}`);
+  const hrsEl = document.getElementById(`hrs_${id}`);
+  const noteEl = document.getElementById(`note_${id}`);
+
+  if (!calledOffEl || !hrsEl) return;
+
+  if (calledOffEl.checked) {
+    hrsEl.value = "0";
+    if (noteEl && !noteEl.value.trim()) {
+      noteEl.value = "Called off";
+    }
+  }
+
+  updateWarnings();
+}
+
+function attachWeekListeners() {
+  const weeks = document.getElementById("weeks");
+  weeks.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("change", updateWarnings);
+    el.addEventListener("input", updateWarnings);
+  });
+}
+
 function buildTable() {
   const container = document.getElementById("weeks");
   container.innerHTML = "";
   const input = document.getElementById("startDate").value;
-  if (!input) return;
+  if (!input) {
+    updateWarnings();
+    return;
+  }
 
   const empType = parseInt(document.getElementById("empType").value, 10);
   const [y, m, d] = input.split("-").map(Number);
@@ -828,7 +1017,14 @@ function buildTable() {
     tableWrap.className = "form-card";
 
     const table = document.createElement("table");
-    table.innerHTML = "<thead><tr><th>Date</th><th>Hours</th><th>PG</th>" + (empType === 12 ? "<th>Base Schedule?</th>" : "") + "</tr></thead><tbody>";
+    table.innerHTML =
+      "<thead><tr>" +
+      "<th>Date</th>" +
+      "<th>Hours</th>" +
+      "<th>PG</th>" +
+      (empType === 12 ? "<th>Base?</th><th>Called Off?</th>" : "") +
+      "<th>Notes</th>" +
+      "</tr></thead><tbody>";
 
     for (let d = 0; d < 7; d++) {
       const date = new Date(weekStart);
@@ -853,6 +1049,8 @@ function buildTable() {
             </select>
           </td>
           ${empType === 12 ? `<td><input type="checkbox" id="base_${id}"></td>` : ""}
+          ${empType === 12 ? `<td><input type="checkbox" id="calledoff_${id}" onchange="handleCalledOffToggle('${id}')"></td>` : ""}
+          <td><input class="note-input" type="text" id="note_${id}" placeholder="Optional note"></td>
         </tr>
       `;
     }
@@ -861,6 +1059,9 @@ function buildTable() {
     tableWrap.appendChild(table);
     container.appendChild(tableWrap);
   }
+
+  attachWeekListeners();
+  updateWarnings();
 }
 
 function getWeekMode(weekIndex, start, empType) {
@@ -869,21 +1070,27 @@ function getWeekMode(weekIndex, start, empType) {
   for (let d = 0; d < 7; d++) {
     const id = `w${weekIndex}d${d}`;
     const baseEl = document.getElementById(`base_${id}`);
-    const hrsEl = document.getElementById(`hrs_${id}`);
-    const pgEl = document.getElementById(`pg_${id}`);
+    const calledOffEl = document.getElementById(`calledoff_${id}`);
 
     const isBase = !!baseEl?.checked;
-    if (!isBase) continue;
+    const calledOff = !!calledOffEl?.checked;
 
-    const hrs = parseFloat(hrsEl?.value) || 0;
-    const pg = pgEl?.value || "PG3";
-
-    if (hrs === 0 && pg !== "V") {
+    if (isBase && calledOff) {
       return "FALLBACK_8";
     }
   }
 
   return "AWS_12";
+}
+
+function getModeBadge(mode) {
+  if (mode === "AWS_12") {
+    return `<span class="mode-badge mode-aws">AWS 12-Hour Logic</span>`;
+  }
+  if (mode === "FALLBACK_8") {
+    return `<span class="mode-badge mode-fallback">12-Hour Fallback 8-Hour Logic</span>`;
+  }
+  return `<span class="mode-badge mode-standard">8-Hour Logic</span>`;
 }
 
 function calculateWeek(weekIndex, start, empType, vacationRate) {
@@ -916,9 +1123,14 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
     const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
     const pg = document.getElementById(`pg_${id}`).value;
     const isBase = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
+    const calledOff = empType === 12 ? !!document.getElementById(`calledoff_${id}`)?.checked : false;
 
     const isSun = date.getDay() === 0;
     const isHol = isHoliday(date);
+
+    if (calledOff) {
+      continue;
+    }
 
     if (pg === "V") {
       vacationHrs += 8;
@@ -1065,6 +1277,8 @@ function calculateWeek(weekIndex, start, empType, vacationRate) {
 }
 
 function calculate() {
+  updateWarnings();
+
   const empType = parseInt(document.getElementById("empType").value, 10);
   const vacationRate = parseFloat(document.getElementById("vacationRate").value) || 0;
   const input = document.getElementById("startDate").value;
@@ -1116,12 +1330,7 @@ function calculate() {
     combined.incentive += week.incentiveBonus;
     combined.weekTotal += week.weekTotal;
 
-    let modeLabel = "";
-    if (week.mode === "AWS_12") modeLabel = "12-hour AWS logic";
-    if (week.mode === "FALLBACK_8") modeLabel = "12-hour employee switched to 8-hour fallback logic";
-    if (week.mode === "STANDARD_8") modeLabel = "8-hour logic";
-
-    let weekSummary = `<p><strong>Week ${w + 1}</strong><br><span class="mode-note">${modeLabel}</span><br>`;
+    let weekSummary = `<p><strong>Week ${w + 1}</strong><br>${getModeBadge(week.mode)}<br>`;
     if (week.sundayPremiumHrs) weekSummary += `Sunday Premium: ${week.sundayPremiumHrs.toFixed(2)} hrs - $${week.sundayPremiumGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
     if (week.holidayWorkedHrs) weekSummary += `Holiday Worked: ${week.holidayWorkedHrs.toFixed(2)} hrs - $${week.holidayWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
     if (week.holidayNotWorkedHrs) weekSummary += `Holiday Not Worked: ${week.holidayNotWorkedHrs.toFixed(2)} hrs - $${week.holidayNotWorkedGross.toLocaleString(undefined, { minimumFractionDigits: 2 })}<br>`;
@@ -1198,8 +1407,10 @@ async function savePayPeriod() {
         const hrs = parseFloat(document.getElementById(`hrs_${id}`).value) || 0;
         const pg = document.getElementById(`pg_${id}`).value;
         const base = empType === 12 ? !!document.getElementById(`base_${id}`)?.checked : true;
+        const calledOff = empType === 12 ? !!document.getElementById(`calledoff_${id}`)?.checked : false;
+        const note = (document.getElementById(`note_${id}`)?.value || "").trim();
 
-        week.days.push({ hrs, pg, base });
+        week.days.push({ hrs, pg, base, calledOff, note, excused: false });
       }
 
       periodData.weeks.push(week);
@@ -1237,12 +1448,17 @@ async function loadSavedPay(key) {
           document.getElementById(`hrs_${id}`).value = day.hrs;
           document.getElementById(`pg_${id}`).value = day.pg;
           if (match.empType === 12) {
-            const box = document.getElementById(`base_${id}`);
-            if (box) box.checked = !!day.base;
+            const baseBox = document.getElementById(`base_${id}`);
+            const calledOffBox = document.getElementById(`calledoff_${id}`);
+            if (baseBox) baseBox.checked = !!day.base;
+            if (calledOffBox) calledOffBox.checked = !!day.calledOff;
           }
+          const noteEl = document.getElementById(`note_${id}`);
+          if (noteEl) noteEl.value = day.note || "";
         });
       });
 
+      updateWarnings();
       toggleHistory();
       calculate();
     }, 100);
@@ -1253,7 +1469,7 @@ async function loadSavedPay(key) {
 }
 
 async function clearHistory() {
-  if (!confirm("Are you sure you want to clear all saved paychecks?")) return;
+  if (!confirm("Are you sure you want to clear all saved paychecks and call-off history?")) return;
 
   try {
     await dbClearAll(PAY_PERIOD_STORE);
@@ -1330,6 +1546,62 @@ function drawHistoryChart(history) {
   ctx.fillText(`$${min.toFixed(0)}`, 4, height - padding + 4);
 }
 
+function getCallOffEntriesFromPeriods(periods) {
+  const entries = [];
+
+  periods.forEach(period => {
+    const start = new Date(period.startDate);
+
+    (period.weeks || []).forEach((week, w) => {
+      (week.days || []).forEach((day, d) => {
+        if (day.calledOff) {
+          const shiftDate = new Date(start);
+          shiftDate.setDate(start.getDate() + (w * 7) + d);
+
+          entries.push({
+            periodKey: period.key,
+            weekIndex: w,
+            dayIndex: d,
+            shiftDate,
+            note: day.note || "",
+            excused: !!day.excused,
+            empType: period.empType,
+            periodStart: period.startDate,
+            periodEnd: period.endDate
+          });
+        }
+      });
+    });
+  });
+
+  entries.sort((a, b) => b.shiftDate - a.shiftDate);
+  return entries;
+}
+
+function isActiveCallOff(shiftDate) {
+  const now = new Date();
+  const diffMs = now.getTime() - shiftDate.getTime();
+  const days365 = 365 * 24 * 60 * 60 * 1000;
+  return diffMs <= days365;
+}
+
+async function toggleExcusedCallOff(periodKey, weekIndex, dayIndex, checked) {
+  try {
+    const period = await dbGet(PAY_PERIOD_STORE, periodKey);
+    if (!period) return;
+
+    const day = period?.weeks?.[weekIndex]?.days?.[dayIndex];
+    if (!day) return;
+
+    day.excused = !!checked;
+    await dbPut(PAY_PERIOD_STORE, period);
+    await buildHistory();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to update excused status.");
+  }
+}
+
 async function buildHistory() {
   const historyDiv = document.getElementById("historyView");
   let history = await dbGetAll(PAY_PERIOD_STORE);
@@ -1367,6 +1639,11 @@ async function buildHistory() {
     });
   }
 
+  const callOffEntries = getCallOffEntriesFromPeriods(history);
+  const activeCallOffs = callOffEntries.filter(entry => isActiveCallOff(entry.shiftDate));
+  const activeExcused = activeCallOffs.filter(entry => entry.excused);
+  const activeUnexcused = activeCallOffs.filter(entry => !entry.excused);
+
   const totalPaychecks = history.length;
   const avgPay = totalPaychecks > 0 ? totalGross / totalPaychecks : 0;
   const projectedEarnings = avgPay * 26;
@@ -1398,6 +1675,22 @@ async function buildHistory() {
         <strong>Saved Paychecks</strong>
         ${totalPaychecks}
       </div>
+      <div class="summary-card">
+        <strong>Active Call Offs</strong>
+        ${activeCallOffs.length}
+      </div>
+      <div class="summary-card">
+        <strong>Active Excused</strong>
+        ${activeExcused.length}
+      </div>
+      <div class="summary-card">
+        <strong>Active Unexcused</strong>
+        ${activeUnexcused.length}
+      </div>
+      <div class="summary-card">
+        <strong>All Call Offs in History</strong>
+        ${callOffEntries.length}
+      </div>
     </div>
 
     <h2>Saved Pay Periods</h2>
@@ -1405,6 +1698,11 @@ async function buildHistory() {
       <canvas id="historyChart"></canvas>
     </div>
     <div id="historyList"></div>
+
+    <h2 class="calloff-section-title">Call Off History</h2>
+    <p class="small-muted">Active call offs use a rolling 365-day window. Older call offs remain in history but no longer count in the active tally.</p>
+    <div id="callOffList"></div>
+
     <button class="danger-btn" onclick="clearHistory()">Clear All Saved Paychecks</button>
   `;
 
@@ -1423,13 +1721,49 @@ async function buildHistory() {
     const card = document.createElement("div");
     card.className = "history-card";
     card.innerHTML = `
-      <div><strong>${start.toLocaleDateString()} – ${end.toLocaleDateString()}</strong></div>
-      <div class="history-meta">Paycheck Date: ${paycheckDate.toLocaleDateString()}</div>
+      <div><strong>${formatDisplayDate(start)} – ${formatDisplayDate(end)}</strong></div>
+      <div class="history-meta">Paycheck Date: ${formatDisplayDate(paycheckDate)}</div>
       <div class="history-meta">Employee Type: ${item.empType}-Hour</div>
       <div class="history-amount">$${gross.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
       <button class="secondary-btn" onclick='loadSavedPay("${item.key}")'>Load This Pay Period</button>
     `;
     list.appendChild(card);
+  }
+
+  const callOffList = document.getElementById("callOffList");
+
+  if (!callOffEntries.length) {
+    callOffList.innerHTML = `<div class="history-card">No call offs saved yet.</div>`;
+  } else {
+    callOffEntries.forEach(entry => {
+      const active = isActiveCallOff(entry.shiftDate);
+      const start = new Date(entry.periodStart);
+      const end = new Date(entry.periodEnd);
+
+      const card = document.createElement("div");
+      card.className = "history-card";
+      card.innerHTML = `
+        <div><strong>${formatDisplayDate(entry.shiftDate)}</strong></div>
+        <div class="history-meta">Pay Period: ${formatDisplayDate(start)} – ${formatDisplayDate(end)}</div>
+        <div class="history-meta">Employee Type: ${entry.empType}-Hour</div>
+        <div class="history-meta">Note: ${entry.note ? entry.note : "No note entered"}</div>
+        <div style="margin-top:8px;">
+          <span class="calloff-status ${active ? 'calloff-active' : 'calloff-expired'}">${active ? 'Counts as Active' : 'Expired from Active Count'}</span>
+          ${entry.excused ? `<span class="calloff-status calloff-excused">Excused</span>` : ``}
+        </div>
+        <div class="calloff-controls">
+          <label class="checkbox-label-inline">
+            <input
+              type="checkbox"
+              ${entry.excused ? "checked" : ""}
+              onchange="toggleExcusedCallOff('${entry.periodKey}', ${entry.weekIndex}, ${entry.dayIndex}, this.checked)"
+            />
+            Mark as Excused
+          </label>
+        </div>
+      `;
+      callOffList.appendChild(card);
+    });
   }
 
   const sortedForChart = history.slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
@@ -1452,6 +1786,7 @@ window.addEventListener("resize", async () => {
   await loadPaygradeSettings();
   await registerServiceWorker();
   showInstallMessage();
+  updateWarnings();
 })();
 </script>
 </body>
