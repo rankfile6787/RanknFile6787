@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Zone 3 Pay" />
+  <meta name="apple-mobile-web-app-title" content="6787 Pay" />
 
   <style>
     :root {
@@ -581,7 +581,7 @@
       <div class="hero">
         <div class="hero-inner">
           <div class="hero-kicker">Union Solidarity • Independent Information • Free Speech</div>
-          <h1>Zone 3 Pay Calculator</h1>
+          <h1>6787 Pay Calculator</h1>
           <p>Offline-ready pay calculator with saved pay periods, editable paygrades, AWS logic, and call-off tracking. Thank you Chris Cox for the work you put into this Calculator.</p>
         </div>
       </div>
@@ -762,12 +762,12 @@ function isHoliday(date) {
   return fixedMatch || floatMatch || observed;
 }
 
-const DB_NAME = "zone3PayCalculatorDB";
+const DB_NAME = "6787PayCalculatorDB";
 const DB_VERSION = 2;
 const PAY_PERIOD_STORE = "payPeriods";
 const SETTINGS_STORE = "settings";
-const LEGACY_LOCALSTORAGE_KEY = "zone3PayHistory";
-const LEGACY_MIGRATION_FLAG = "zone3PayHistory_migrated_to_idb_v1";
+const LEGACY_LOCALSTORAGE_KEY = "6787PayHistory";
+const LEGACY_MIGRATION_FLAG = "6787PayHistory_migrated_to_idb_v1";
 
 function openDB() {
   return new Promise((resolve, reject) => {
