@@ -1,5 +1,32 @@
 [
   {
+    "week_ending": "2026-04-25",
+    "coke": "20.40%",
+    "primary": "28.86%",
+    "hot_roll": "20.60%",
+    "finishing": "13.12%",
+    "plate": "14.68%",
+    "plant_avg": "20.86%"
+  },
+  {
+    "week_ending": "2026-04-18",
+    "coke": "20.24%",
+    "primary": "25.83%",
+    "hot_roll": "17.97%",
+    "finishing": "15.38%",
+    "plate": "8.27%",
+    "plant_avg": "19.72%"
+  },
+  {
+    "week_ending": "2026-04-11",
+    "coke": "",
+    "primary": "",
+    "hot_roll": "",
+    "finishing": "",
+    "plate": "",
+    "plant_avg": ""
+  },
+  {
     "week_ending": "2026-04-04",
     "coke": "17.05%",
     "primary": "23.79%",
