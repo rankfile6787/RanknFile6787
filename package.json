@@ -1,0 +1,32 @@
+{
+  "name": "ranknfile6787",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "import:comments": "tsx scripts/import-comments.ts",
+    "seed:content": "tsx scripts/seed-content.ts",
+    "create:admin": "tsx scripts/create-admin-user.ts",
+    "db:run": "tsx scripts/run-sql.ts",
+    "db:display-order": "tsx scripts/apply-display-order.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.75.0",
+    "next": "^15.5.0",
+    "pg": "^8.21.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "supabase": "^2.100.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}
