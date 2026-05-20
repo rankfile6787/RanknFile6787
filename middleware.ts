@@ -6,7 +6,9 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", request.nextUrl.pathname);
 
-  if (host.startsWith("admin.") && !url.pathname.startsWith("/admin")) {
+  const isApiRoute = url.pathname.startsWith("/api");
+
+  if (host.startsWith("admin.") && !isApiRoute && !url.pathname.startsWith("/admin")) {
     url.pathname = `/admin${url.pathname === "/" ? "" : url.pathname}`;
     return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
@@ -15,5 +17,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|.*\\..*).*)"],
+  matcher: ["/((?!_next|api|favicon.ico|.*\\..*).*)"],
 };
