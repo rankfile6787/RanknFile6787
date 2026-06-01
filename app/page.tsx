@@ -24,13 +24,6 @@ export default function HomePage() {
             </Link>
           </article>
           <article className="panel">
-            <h2>Admin</h2>
-            <p className="muted">Approve comments, update data, and replace the Sheet/App Script workflow.</p>
-            <Link className="btn" href="/admin">
-              Admin
-            </Link>
-          </article>
-          <article className="panel">
             <h2>Incentive</h2>
             <p className="muted">Production bonus data will move from static JSON into Supabase.</p>
             <Link className="btn" href="/production-bonus">
