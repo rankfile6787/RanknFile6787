@@ -18,8 +18,13 @@ const navItems = [
   ["Pay Calculator", "/paycalc"],
 ];
 
+const publicSiteOrigin = "https://www.rankandfile6787.com";
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const pathname = (await headers()).get("x-pathname") || "";
+  const requestHeaders = await headers();
+  const pathname = requestHeaders.get("x-pathname") || "";
+  const host = requestHeaders.get("host") || "";
+  const navOrigin = host.startsWith("admin.") ? publicSiteOrigin : "";
   const hideNav = pathname.startsWith("/paycalc");
 
   return (
@@ -27,12 +32,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         {!hideNav ? (
           <nav className="site-nav">
-            <Link className="brand" href="/">
+            <Link className="brand" href={`${navOrigin}/`}>
               Rank & File 6787
             </Link>
             <div className="nav-links">
               {navItems.map(([label, href]) => (
-                <Link href={href} key={href}>
+                <Link href={`${navOrigin}${href}`} key={href}>
                   {label}
                 </Link>
               ))}
