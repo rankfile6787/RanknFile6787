@@ -192,6 +192,24 @@ h2 {
   gap: 18px;
 }
 
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+  justify-content: center;
+  gap: 18px;
+}
+
+.home-card {
+  display: flex;
+  min-height: 210px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-card .btn {
+  margin-top: auto;
+}
+
 .panel,
 .card {
   background:
