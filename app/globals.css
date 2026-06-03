@@ -199,6 +199,43 @@ h2 {
   gap: 18px;
 }
 
+.install-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto 22px;
+  padding: 16px;
+  border: 1px solid rgba(209, 58, 58, 0.32);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(209, 58, 58, 0.10), rgba(255, 255, 255, 0.02)),
+    var(--card);
+  box-shadow: var(--shadow);
+}
+
+.install-card img {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.install-card h2 {
+  margin-bottom: 6px;
+}
+
+.install-card p {
+  margin: 0;
+}
+
+.install-help {
+  margin-top: 8px !important;
+  color: #ffd2d2;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
 .home-card {
   display: flex;
   min-height: 210px;
@@ -654,6 +691,21 @@ th {
   .nav-links {
     justify-content: flex-start;
     gap: 12px;
+  }
+
+  .install-card {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .install-card img {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+  }
+
+  .install-card .btn {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 
   .composer-row {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import InstallAppCard from "./components/InstallAppCard";
 
 export default function HomePage() {
   return (
@@ -6,7 +7,7 @@ export default function HomePage() {
       <header className="hero">
         <img src="/solidarity.jpg" alt="Solidarity banner" />
         <div className="hero-content">
-          <p className="eyebrow">Union Solidarity • Independent Information • Free Speech</p>
+          <p className="eyebrow">Union Solidarity | Independent Information | Free Speech</p>
           <h1>Rank & File 6787</h1>
           <p className="lead">
             A member-run space for discussion, resources, workplace information, and rank-and-file voice.
@@ -15,6 +16,8 @@ export default function HomePage() {
       </header>
 
       <main className="container">
+        <InstallAppCard />
+
         <section className="home-grid">
           <article className="panel home-card">
             <h2>Forum</h2>

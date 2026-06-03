@@ -4,8 +4,28 @@ import { headers } from "next/headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.rankandfile6787.com"),
   title: "Rank & File 6787",
   description: "Independent member information, discussion, and rank-and-file resources.",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Rank & File 6787",
+    statusBarStyle: "black-translucent",
+  },
+  applicationName: "Rank & File 6787",
+  other: {
+    "mobile-web-app-capable": "yes",
+    "theme-color": "#b22222",
+  },
 };
 
 const navItems = [
