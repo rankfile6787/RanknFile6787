@@ -33,6 +33,11 @@ export default function ForumClient() {
     return comments.filter((comment) => comment.parent_id === parentId);
   }
 
+  function openReply(commentId: string) {
+    setReplyTo(commentId);
+    setReplyForm({ display_name: "", comment: "", website: "" });
+  }
+
   async function submitPost(event: React.FormEvent) {
     event.preventDefault();
     setStatus("Sending...");
@@ -76,6 +81,73 @@ export default function ForumClient() {
     setReplyForm({ display_name: "", comment: "", website: "" });
     setReplyTo(null);
     setStatus("Reply submitted for approval.");
+  }
+
+  function renderComment(comment: ForumComment, isRoot = false): React.ReactNode {
+    const children = childrenFor(comment.id);
+    const content = (
+      <>
+        <div className="post-meta">
+          <strong>{comment.display_name}</strong>
+          <span>{new Date(comment.created_at).toLocaleString()}</span>
+          {isRoot ? <span className="badge">{comment.category}</span> : null}
+        </div>
+        <p>{comment.body}</p>
+        <button className="reply-button" type="button" onClick={() => openReply(comment.id)}>
+          Reply
+        </button>
+
+        {replyTo === comment.id ? (
+          <form className="reply-composer" onSubmit={(event) => submitReply(event, comment)}>
+            <input
+              aria-label="Name optional"
+              value={replyForm.display_name}
+              maxLength={80}
+              onChange={(event) => setReplyForm({ ...replyForm, display_name: event.target.value })}
+              placeholder="Rank & File"
+            />
+            <textarea
+              aria-label="Reply"
+              required
+              maxLength={3000}
+              value={replyForm.comment}
+              onChange={(event) => setReplyForm({ ...replyForm, comment: event.target.value })}
+              placeholder={`Reply to ${comment.display_name}...`}
+            />
+            <div className="hp-field" aria-hidden="true">
+              <label htmlFor={`website-${comment.id}`}>Website</label>
+              <input
+                id={`website-${comment.id}`}
+                tabIndex={-1}
+                autoComplete="off"
+                value={replyForm.website}
+                onChange={(event) => setReplyForm({ ...replyForm, website: event.target.value })}
+              />
+            </div>
+            <div className="composer-actions">
+              <button className="btn" type="button" onClick={() => setReplyTo(null)}>
+                Cancel
+              </button>
+              <button className="btn primary" type="submit">
+                Reply
+              </button>
+            </div>
+          </form>
+        ) : null}
+
+        {children.map((reply) => renderComment(reply))}
+      </>
+    );
+
+    return isRoot ? (
+      <article className="card forum-post" key={comment.id}>
+        {content}
+      </article>
+    ) : (
+      <div className="reply-card" key={comment.id}>
+        {content}
+      </div>
+    );
   }
 
   return (
@@ -144,74 +216,7 @@ export default function ForumClient() {
         </div>
 
         <div className="feed">
-          {roots.map((comment) => (
-            <article className="card forum-post" key={comment.id}>
-              <div className="post-meta">
-                <strong>{comment.display_name}</strong>
-                <span>{new Date(comment.created_at).toLocaleString()}</span>
-                <span className="badge">{comment.category}</span>
-              </div>
-              <p>{comment.body}</p>
-              <button
-                className="reply-button"
-                type="button"
-                onClick={() => {
-                  setReplyTo(comment.id);
-                  setReplyForm({ display_name: "", comment: "", website: "" });
-                }}
-              >
-                Reply
-              </button>
-
-              {replyTo === comment.id ? (
-                <form className="reply-composer" onSubmit={(event) => submitReply(event, comment)}>
-                  <input
-                    aria-label="Name optional"
-                    value={replyForm.display_name}
-                    maxLength={80}
-                    onChange={(event) => setReplyForm({ ...replyForm, display_name: event.target.value })}
-                    placeholder="Rank & File"
-                  />
-                  <textarea
-                    aria-label="Reply"
-                    required
-                    maxLength={3000}
-                    value={replyForm.comment}
-                    onChange={(event) => setReplyForm({ ...replyForm, comment: event.target.value })}
-                    placeholder={`Reply to ${comment.display_name}...`}
-                  />
-                  <div className="hp-field" aria-hidden="true">
-                    <label htmlFor={`website-${comment.id}`}>Website</label>
-                    <input
-                      id={`website-${comment.id}`}
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={replyForm.website}
-                      onChange={(event) => setReplyForm({ ...replyForm, website: event.target.value })}
-                    />
-                  </div>
-                  <div className="composer-actions">
-                    <button className="btn" type="button" onClick={() => setReplyTo(null)}>
-                      Cancel
-                    </button>
-                    <button className="btn primary" type="submit">
-                      Reply
-                    </button>
-                  </div>
-                </form>
-              ) : null}
-
-              {childrenFor(comment.id).map((reply) => (
-                <div className="reply-card" key={reply.id}>
-                  <div className="post-meta">
-                    <strong>{reply.display_name}</strong>
-                    <span>{new Date(reply.created_at).toLocaleString()}</span>
-                  </div>
-                  <p>{reply.body}</p>
-                </div>
-              ))}
-            </article>
-          ))}
+          {roots.map((comment) => renderComment(comment, true))}
           {!roots.length ? <div className="panel muted">No approved posts found.</div> : null}
         </div>
       </section>
