@@ -69,7 +69,7 @@ export default function InstallAppCard() {
       <div>
         <h2>Install Rank & File 6787</h2>
         <p className="muted">
-          Add the site to your phone for an app icon, faster access, and future notification options for forum,
+          Add the site to your phone for an app icon, faster access, and notification options for forum,
           incentive, and flyer updates.
         </p>
         {showIosHelp ? (
