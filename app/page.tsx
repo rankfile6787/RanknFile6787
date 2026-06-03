@@ -1,6 +1,5 @@
 import Link from "next/link";
 import InstallAppCard from "./components/InstallAppCard";
-import NotificationSettingsCard from "./components/NotificationSettingsCard";
 
 export default function HomePage() {
   return (
@@ -18,7 +17,6 @@ export default function HomePage() {
 
       <main className="container">
         <InstallAppCard />
-        <NotificationSettingsCard />
 
         <section className="home-grid">
           <article className="panel home-card">
