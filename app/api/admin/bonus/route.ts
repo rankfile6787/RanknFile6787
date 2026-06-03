@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminUser } from "@/lib/admin";
+import { sendPushNotification } from "@/lib/notifications";
 import { createServiceSupabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
@@ -40,6 +41,13 @@ export async function POST(request: NextRequest) {
   const supabase = createServiceSupabase();
   const { error } = await supabase.from("production_bonus_rows").upsert(payload, { onConflict: "week_ending" });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  await sendPushNotification({
+    type: "incentive_updates",
+    title: "Incentive update posted",
+    body: `Production bonus data was updated for week ending ${weekEnding}.`,
+    url: "/production-bonus",
+  });
 
   return NextResponse.json({ ok: true });
 }

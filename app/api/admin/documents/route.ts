@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminUser, slugify } from "@/lib/admin";
+import { sendPushNotification } from "@/lib/notifications";
 import { createServiceSupabase } from "@/lib/supabase";
 
 const sections = new Set(["flyers", "resources"]);
@@ -69,6 +70,16 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  if (status === "published") {
+    await sendPushNotification({
+      type: section === "flyers" ? "new_flyers" : "new_resources",
+      title: section === "flyers" ? "New union leaflet posted" : "New resource posted",
+      body: title,
+      url: section === "flyers" ? "/union-leaflets" : "/resources",
+    });
+  }
+
   return NextResponse.json({ ok: true });
 }
 

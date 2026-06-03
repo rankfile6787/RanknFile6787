@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { excerpt, sendPushNotification } from "@/lib/notifications";
 import { createServiceSupabase, getAdminEmails } from "@/lib/supabase";
 
 async function getAdminUser(request: NextRequest) {
@@ -33,14 +34,16 @@ export async function POST(request: NextRequest) {
   const userColumn = action === "approve" ? "approved_by" : "rejected_by";
 
   const supabase = createServiceSupabase();
-  const { error } = await supabase
+  const { data: comment, error } = await supabase
     .from("comments")
     .update({
       status,
       [timestampColumn]: new Date().toISOString(),
       [userColumn]: user.id,
     })
-    .eq("id", id);
+    .eq("id", id)
+    .select("id, parent_id, display_name, body")
+    .single();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -52,6 +55,16 @@ export async function POST(request: NextRequest) {
     entity_type: "comment",
     entity_id: id,
   });
+
+  if (action === "approve" && comment) {
+    const isReply = Boolean(comment.parent_id);
+    await sendPushNotification({
+      type: isReply ? "forum_replies" : "forum_posts",
+      title: isReply ? "New forum reply" : "New forum post",
+      body: `${comment.display_name || "Rank & File"}: ${excerpt(comment.body || "")}`,
+      url: "/forum",
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

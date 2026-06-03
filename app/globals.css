@@ -236,6 +236,53 @@ h2 {
   font-weight: 700;
 }
 
+.notification-card {
+  display: grid;
+  gap: 16px;
+  margin: 0 auto 22px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    var(--card);
+  box-shadow: var(--shadow);
+}
+
+.notification-card .eyebrow {
+  margin-bottom: 6px;
+}
+
+.notification-card h2,
+.notification-card p {
+  margin-top: 0;
+}
+
+.notification-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.notification-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  color: #d7dee8;
+  font-weight: 800;
+}
+
+.notification-options input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-2);
+}
+
 .home-card {
   display: flex;
   min-height: 210px;
