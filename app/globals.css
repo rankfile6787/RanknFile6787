@@ -326,6 +326,113 @@ h2 {
   margin-top: 20px;
 }
 
+.forum-shell {
+  display: grid;
+  width: min(760px, 100%);
+  margin: 0 auto;
+  gap: 18px;
+}
+
+.forum-composer {
+  padding: 16px;
+}
+
+.forum-composer form,
+.reply-composer {
+  display: grid;
+  gap: 10px;
+}
+
+.composer-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px;
+  gap: 10px;
+}
+
+.forum-composer input,
+.forum-composer select,
+.forum-composer textarea,
+.reply-composer input,
+.reply-composer textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: #0f131a;
+  color: var(--text);
+  padding: 11px 14px;
+  outline: none;
+}
+
+.forum-composer textarea,
+.reply-composer textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.forum-composer input:focus,
+.forum-composer select:focus,
+.forum-composer textarea:focus,
+.reply-composer input:focus,
+.reply-composer textarea:focus {
+  border-color: rgba(209, 58, 58, 0.72);
+  box-shadow: 0 0 0 3px rgba(209, 58, 58, 0.16);
+}
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.composer-actions .muted {
+  margin: 0;
+}
+
+.forum-filters {
+  justify-content: center;
+}
+
+.forum-post {
+  display: grid;
+  gap: 12px;
+}
+
+.forum-post p {
+  margin: 0;
+}
+
+.reply-button {
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  color: #d7dee8;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0;
+}
+
+.reply-button:hover {
+  color: #fff;
+}
+
+.reply-composer,
+.reply-card {
+  margin-left: 22px;
+  border-left: 2px solid var(--line-strong);
+}
+
+.reply-composer {
+  padding: 12px 0 4px 16px;
+}
+
+.reply-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0 4px 16px;
+  background: transparent;
+}
+
 .post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -547,6 +654,21 @@ th {
   .nav-links {
     justify-content: flex-start;
     gap: 12px;
+  }
+
+  .composer-row {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reply-composer,
+  .reply-card {
+    margin-left: 8px;
+    padding-left: 12px;
   }
 
   .grid,

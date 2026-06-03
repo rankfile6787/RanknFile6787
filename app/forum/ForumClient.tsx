@@ -10,7 +10,8 @@ export default function ForumClient() {
   const [status, setStatus] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [replyTo, setReplyTo] = useState<string | null>(null);
-  const [form, setForm] = useState({ display_name: "", category: "general", comment: "", website: "" });
+  const [postForm, setPostForm] = useState({ display_name: "", category: "general", comment: "", website: "" });
+  const [replyForm, setReplyForm] = useState({ display_name: "", comment: "", website: "" });
 
   async function loadComments() {
     const response = await fetch("/api/comments", { cache: "no-store" });
@@ -32,14 +33,14 @@ export default function ForumClient() {
     return comments.filter((comment) => comment.parent_id === parentId);
   }
 
-  async function submitComment(event: React.FormEvent) {
+  async function submitPost(event: React.FormEvent) {
     event.preventDefault();
     setStatus("Sending...");
 
     const response = await fetch("/api/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, parent_id: replyTo }),
+      body: JSON.stringify({ ...postForm, parent_id: null }),
     });
 
     if (!response.ok) {
@@ -48,33 +49,51 @@ export default function ForumClient() {
       return;
     }
 
-    setForm({ display_name: "", category: "general", comment: "", website: "" });
-    setReplyTo(null);
+    setPostForm({ display_name: "", category: "general", comment: "", website: "" });
     setStatus("Submitted for approval.");
   }
 
+  async function submitReply(event: React.FormEvent, parent: ForumComment) {
+    event.preventDefault();
+    setStatus("Sending reply...");
+
+    const response = await fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...replyForm,
+        category: parent.category,
+        parent_id: parent.id,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      setStatus(data.error || "Could not submit reply.");
+      return;
+    }
+
+    setReplyForm({ display_name: "", comment: "", website: "" });
+    setReplyTo(null);
+    setStatus("Reply submitted for approval.");
+  }
+
   return (
-    <div className="split">
-      <aside className="panel">
-        <h2>{replyTo ? "Submit Reply" : "Submit Post"}</h2>
-        <form onSubmit={submitComment}>
-          <div className="field">
-            <label htmlFor="display_name">Name optional</label>
+    <div className="forum-shell">
+      <section className="panel forum-composer">
+        <form onSubmit={submitPost}>
+          <div className="composer-row">
             <input
-              id="display_name"
-              value={form.display_name}
+              aria-label="Name optional"
+              value={postForm.display_name}
               maxLength={80}
-              onChange={(event) => setForm({ ...form, display_name: event.target.value })}
+              onChange={(event) => setPostForm({ ...postForm, display_name: event.target.value })}
               placeholder="Rank & File"
             />
-          </div>
-          <div className="field">
-            <label htmlFor="category">Category</label>
             <select
-              id="category"
-              value={form.category}
-              disabled={Boolean(replyTo)}
-              onChange={(event) => setForm({ ...form, category: event.target.value })}
+              aria-label="Category"
+              value={postForm.category}
+              onChange={(event) => setPostForm({ ...postForm, category: event.target.value })}
             >
               {categories.map((category) => (
                 <option value={category} key={category}>
@@ -83,42 +102,35 @@ export default function ForumClient() {
               ))}
             </select>
           </div>
-          <div className="field">
-            <label htmlFor="comment">Comment</label>
-            <textarea
-              id="comment"
-              required
-              maxLength={3000}
-              value={form.comment}
-              onChange={(event) => setForm({ ...form, comment: event.target.value })}
-            />
-          </div>
+          <textarea
+            aria-label="Post"
+            required
+            maxLength={3000}
+            value={postForm.comment}
+            onChange={(event) => setPostForm({ ...postForm, comment: event.target.value })}
+            placeholder="Write a post..."
+          />
           <div className="hp-field" aria-hidden="true">
             <label htmlFor="website">Website</label>
             <input
               id="website"
               tabIndex={-1}
               autoComplete="off"
-              value={form.website}
-              onChange={(event) => setForm({ ...form, website: event.target.value })}
+              value={postForm.website}
+              onChange={(event) => setPostForm({ ...postForm, website: event.target.value })}
             />
           </div>
-          <div className="button-row">
+          <div className="composer-actions">
+            {status ? <p className="muted">{status}</p> : <span />}
             <button className="btn primary" type="submit">
-              Send
+              Post
             </button>
-            {replyTo ? (
-              <button className="btn" type="button" onClick={() => setReplyTo(null)}>
-                Cancel Reply
-              </button>
-            ) : null}
           </div>
-          {status ? <p className="muted">{status}</p> : null}
         </form>
-      </aside>
+      </section>
 
       <section>
-        <div className="button-row">
+        <div className="button-row forum-filters">
           {["all", ...categories].map((category) => (
             <button
               className={category === activeCategory ? "btn primary" : "btn"}
@@ -133,18 +145,64 @@ export default function ForumClient() {
 
         <div className="feed">
           {roots.map((comment) => (
-            <article className="card" key={comment.id}>
+            <article className="card forum-post" key={comment.id}>
               <div className="post-meta">
                 <strong>{comment.display_name}</strong>
                 <span>{new Date(comment.created_at).toLocaleString()}</span>
                 <span className="badge">{comment.category}</span>
               </div>
               <p>{comment.body}</p>
-              <button className="btn" type="button" onClick={() => setReplyTo(comment.id)}>
+              <button
+                className="reply-button"
+                type="button"
+                onClick={() => {
+                  setReplyTo(comment.id);
+                  setReplyForm({ display_name: "", comment: "", website: "" });
+                }}
+              >
                 Reply
               </button>
+
+              {replyTo === comment.id ? (
+                <form className="reply-composer" onSubmit={(event) => submitReply(event, comment)}>
+                  <input
+                    aria-label="Name optional"
+                    value={replyForm.display_name}
+                    maxLength={80}
+                    onChange={(event) => setReplyForm({ ...replyForm, display_name: event.target.value })}
+                    placeholder="Rank & File"
+                  />
+                  <textarea
+                    aria-label="Reply"
+                    required
+                    maxLength={3000}
+                    value={replyForm.comment}
+                    onChange={(event) => setReplyForm({ ...replyForm, comment: event.target.value })}
+                    placeholder={`Reply to ${comment.display_name}...`}
+                  />
+                  <div className="hp-field" aria-hidden="true">
+                    <label htmlFor={`website-${comment.id}`}>Website</label>
+                    <input
+                      id={`website-${comment.id}`}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={replyForm.website}
+                      onChange={(event) => setReplyForm({ ...replyForm, website: event.target.value })}
+                    />
+                  </div>
+                  <div className="composer-actions">
+                    <button className="btn" type="button" onClick={() => setReplyTo(null)}>
+                      Cancel
+                    </button>
+                    <button className="btn primary" type="submit">
+                      Reply
+                    </button>
+                  </div>
+                </form>
+              ) : null}
+
               {childrenFor(comment.id).map((reply) => (
-                <div className="card" key={reply.id} style={{ marginTop: 12, marginLeft: 18 }}>
+                <div className="reply-card" key={reply.id}>
                   <div className="post-meta">
                     <strong>{reply.display_name}</strong>
                     <span>{new Date(reply.created_at).toLocaleString()}</span>
