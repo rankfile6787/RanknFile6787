@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { BonusRow, CommentStatus, ElectionMaterial, ForumComment, ManagedDocument } from "@/lib/types";
+import type { BonusRow, CommentStatus, ContactSubmission, ElectionMaterial, ForumComment, ManagedDocument } from "@/lib/types";
 
-type AdminSection = "comments" | "incentive" | "flyers" | "election" | "resources" | "settings";
+type AdminSection = "comments" | "contact" | "incentive" | "flyers" | "election" | "resources" | "settings";
+type ContactStatus = ContactSubmission["status"];
 
 const commentStatuses: CommentStatus[] = ["pending", "approved", "rejected"];
+const contactStatuses: ContactStatus[] = ["new", "reviewed", "archived"];
 const adminSections: Array<[AdminSection, string]> = [
   ["comments", "Comments"],
+  ["contact", "Contact"],
   ["incentive", "Incentive"],
   ["flyers", "Flyers"],
   ["election", "Election"],
@@ -65,7 +68,9 @@ export default function AdminClient() {
   const [status, setStatus] = useState("");
   const [section, setSection] = useState<AdminSection>("comments");
   const [commentStatus, setCommentStatus] = useState<CommentStatus>("pending");
+  const [contactStatus, setContactStatus] = useState<ContactStatus>("new");
   const [comments, setComments] = useState<ForumComment[]>([]);
+  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [bonusRows, setBonusRows] = useState<BonusRow[]>([]);
   const [documents, setDocuments] = useState<ManagedDocument[]>([]);
   const [materials, setMaterials] = useState<ElectionMaterial[]>([]);
@@ -87,6 +92,10 @@ export default function AdminClient() {
   const materialCounts = useMemo(() => {
     return Object.fromEntries(commentStatuses.map((item) => [item, materials.filter((row) => row.status === item).length]));
   }, [materials]);
+
+  const visibleContactSubmissions = useMemo(() => {
+    return contactSubmissions.filter((submission) => submission.status === contactStatus);
+  }, [contactSubmissions, contactStatus]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -126,6 +135,7 @@ export default function AdminClient() {
       if (!needsPasswordChange) {
         await Promise.all([
           loadComments(data.access_token),
+          loadContactSubmissions(data.access_token),
           loadBonusRows(data.access_token),
           loadDocuments("flyers", data.access_token),
           loadElectionMaterials(data.access_token),
@@ -201,7 +211,7 @@ export default function AdminClient() {
     setNewPassword("");
     setMustChangePassword(false);
     setStatus("Password updated.");
-    await Promise.all([loadComments(), loadBonusRows(), loadDocuments("flyers"), loadElectionMaterials()]);
+    await Promise.all([loadComments(), loadContactSubmissions(), loadBonusRows(), loadDocuments("flyers"), loadElectionMaterials()]);
   }
 
   async function loadComments(accessToken = token) {
@@ -214,6 +224,12 @@ export default function AdminClient() {
     if (!accessToken) return;
     const data = await authedFetch("/api/admin/bonus", {}, accessToken);
     setBonusRows(data.rows || []);
+  }
+
+  async function loadContactSubmissions(accessToken = token) {
+    if (!accessToken) return;
+    const data = await authedFetch("/api/contact?status=all", {}, accessToken);
+    setContactSubmissions(data.submissions || []);
   }
 
   async function loadDocuments(nextSection: "flyers" | "resources", accessToken = token) {
@@ -248,6 +264,24 @@ export default function AdminClient() {
     });
     await loadElectionMaterials();
     setStatus("Election material updated.");
+  }
+
+  async function updateContactSubmission(id: string, nextStatus: ContactStatus) {
+    setStatus("Updating contact submission...");
+    await authedFetch("/api/contact", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status: nextStatus }),
+    });
+    await loadContactSubmissions();
+    setStatus("Contact submission updated.");
+  }
+
+  async function deleteContactSubmission(id: string) {
+    setStatus("Deleting contact submission...");
+    await authedFetch(`/api/contact?id=${id}`, { method: "DELETE" });
+    await loadContactSubmissions();
+    setStatus("Contact submission deleted.");
   }
 
   async function updateElectionMaterial(id: string, formData: FormData) {
@@ -309,6 +343,7 @@ export default function AdminClient() {
     if (nextSection === "resources") loadDocuments("resources").catch((error) => setStatus(error.message));
     if (nextSection === "election") loadElectionMaterials().catch((error) => setStatus(error.message));
     if (nextSection === "incentive") loadBonusRows().catch((error) => setStatus(error.message));
+    if (nextSection === "contact") loadContactSubmissions().catch((error) => setStatus(error.message));
   }
 
   return (
@@ -397,6 +432,19 @@ export default function AdminClient() {
             setStatus={setCommentStatus}
             moderate={moderateComment}
             refresh={loadComments}
+          />
+        ) : null}
+        {token && !mustChangePassword && section === "contact" ? (
+          <ContactPanel
+            submissions={visibleContactSubmissions}
+            counts={Object.fromEntries(contactStatuses.map((item) => [item, contactSubmissions.filter((row) => row.status === item).length]))}
+            status={contactStatus}
+            setStatus={(nextStatus) => {
+              setContactStatus(nextStatus);
+            }}
+            refresh={() => loadContactSubmissions()}
+            update={updateContactSubmission}
+            remove={deleteContactSubmission}
           />
         ) : null}
         {token && !mustChangePassword && section === "incentive" ? (
@@ -494,7 +542,7 @@ function AdminSettingsPanel({ token, setStatus }: { token: string; setStatus: (s
       body: JSON.stringify({
         audience: "admin",
         subscription,
-        preferences: { pending_comments: true },
+        preferences: { pending_comments: true, contact_submissions: true },
       }),
     });
     const data = await response.json().catch(() => ({}));
@@ -547,6 +595,85 @@ function AdminSettingsPanel({ token, setStatus }: { token: string; setStatus: (s
       </div>
       {!supported ? <p className="install-help">Use a browser or installed app that supports web push notifications.</p> : null}
     </section>
+  );
+}
+
+function ContactPanel({
+  submissions,
+  counts,
+  status,
+  setStatus,
+  refresh,
+  update,
+  remove,
+}: {
+  submissions: ContactSubmission[];
+  counts: Record<string, number>;
+  status: ContactStatus;
+  setStatus: (status: ContactStatus) => void;
+  refresh: () => void;
+  update: (id: string, status: ContactStatus) => void;
+  remove: (id: string) => void;
+}) {
+  return (
+    <>
+      <div className="admin-head">
+        <div>
+          <p className="eyebrow">Contact</p>
+          <h2>Contact Submissions</h2>
+        </div>
+        <button className="btn" type="button" onClick={refresh}>
+          Refresh
+        </button>
+      </div>
+      <div className="tab-row">
+        {contactStatuses.map((item) => (
+          <button className={status === item ? "btn primary" : "btn"} type="button" key={item} onClick={() => setStatus(item)}>
+            {item} ({counts[item] || 0})
+          </button>
+        ))}
+      </div>
+      <div className="feed">
+        {submissions.map((submission) => (
+          <article className="card contact-submission-card" key={submission.id}>
+            <div className="post-meta">
+              <strong>{submission.name || "Anonymous"}</strong>
+              <span>{new Date(submission.created_at).toLocaleString()}</span>
+              <span className="badge">{submission.topic}</span>
+              <span className={`status-${submission.status}`}>{submission.status}</span>
+            </div>
+            {submission.contact ? <p className="muted">Contact: {submission.contact}</p> : null}
+            <p>{submission.message}</p>
+            {submission.image_url ? (
+              <a className="document-preview contact-preview" href={submission.image_url} target="_blank" rel="noreferrer">
+                <img src={submission.image_url} alt="Contact submission upload" />
+              </a>
+            ) : null}
+            <div className="button-row">
+              {submission.status !== "reviewed" ? (
+                <button className="btn primary" type="button" onClick={() => update(submission.id, "reviewed")}>
+                  Mark Reviewed
+                </button>
+              ) : null}
+              {submission.status !== "archived" ? (
+                <button className="btn" type="button" onClick={() => update(submission.id, "archived")}>
+                  Archive
+                </button>
+              ) : null}
+              {submission.status !== "new" ? (
+                <button className="btn" type="button" onClick={() => update(submission.id, "new")}>
+                  Move To New
+                </button>
+              ) : null}
+              <button className="btn danger" type="button" onClick={() => remove(submission.id)}>
+                Delete
+              </button>
+            </div>
+          </article>
+        ))}
+        {!submissions.length ? <div className="panel muted">No {status} contact submissions.</div> : null}
+      </div>
+    </>
   );
 }
 

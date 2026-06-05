@@ -14,6 +14,7 @@ const preferenceKeys: NotificationPreferenceKey[] = [
   "new_flyers",
   "new_resources",
   "pending_comments",
+  "contact_submissions",
 ];
 
 function normalizePreferences(value: unknown): NotificationPreferences {

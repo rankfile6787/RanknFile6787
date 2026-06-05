@@ -88,11 +88,27 @@ create index if not exists election_materials_public_order_idx
 create unique index if not exists election_materials_unique_seed_idx
   on public.election_materials(candidate_name, position, material_kind);
 
+create table if not exists public.contact_submissions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  name text,
+  contact text,
+  topic text not null default 'other' check (topic in ('flyer', 'suggestion', 'site-issue', 'other')),
+  message text not null,
+  image_url text,
+  image_path text,
+  status text not null default 'new' check (status in ('new', 'reviewed', 'archived'))
+);
+
+create index if not exists contact_submissions_status_created_at_idx
+  on public.contact_submissions(status, created_at desc);
+
 alter table public.comments enable row level security;
 alter table public.production_bonus_rows enable row level security;
 alter table public.admin_audit_log enable row level security;
 alter table public.managed_documents enable row level security;
 alter table public.election_materials enable row level security;
+alter table public.contact_submissions enable row level security;
 
 drop policy if exists "Approved comments are public" on public.comments;
 create policy "Approved comments are public"

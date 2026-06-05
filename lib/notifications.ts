@@ -7,7 +7,8 @@ export type NotificationPreferenceKey =
   | "incentive_updates"
   | "new_flyers"
   | "new_resources"
-  | "pending_comments";
+  | "pending_comments"
+  | "contact_submissions";
 
 export type NotificationPreferences = Record<NotificationPreferenceKey, boolean>;
 
@@ -18,6 +19,7 @@ export const defaultNotificationPreferences: NotificationPreferences = {
   new_flyers: true,
   new_resources: false,
   pending_comments: false,
+  contact_submissions: false,
 };
 
 type StoredSubscription = {

@@ -36,6 +36,7 @@ const navItems = [
   ["Union Leaflets", "/union-leaflets"],
   ["Incentive", "/production-bonus"],
   ["Notifications", "/notifications"],
+  ["Contact Us", "/contact"],
   ["Pay Calculator", "/paycalc"],
 ];
 

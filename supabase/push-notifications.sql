@@ -12,7 +12,8 @@ create table if not exists push_subscriptions (
     "incentive_updates": true,
     "new_flyers": true,
     "new_resources": false,
-    "pending_comments": false
+    "pending_comments": false,
+    "contact_submissions": false
   }'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),

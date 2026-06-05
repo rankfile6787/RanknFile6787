@@ -283,6 +283,20 @@ h2 {
   accent-color: var(--accent-2);
 }
 
+.contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.contact-form .field {
+  margin: 0;
+}
+
+.contact-message {
+  grid-column: 1 / -1;
+}
+
 .home-card {
   display: flex;
   min-height: 210px;
@@ -549,6 +563,35 @@ h2 {
   color: var(--danger);
 }
 
+.status-new {
+  color: #f0c36a;
+}
+
+.status-reviewed {
+  color: var(--success);
+}
+
+.status-archived {
+  color: var(--muted);
+}
+
+.contact-submission-card {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-preview {
+  width: fit-content;
+  max-width: min(360px, 100%);
+  margin: 0;
+}
+
+.contact-preview img {
+  display: block;
+  max-height: 360px;
+  object-fit: contain;
+}
+
 .split {
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
@@ -782,6 +825,7 @@ th {
   .split,
   .admin-shell,
   .compact-form,
+  .contact-form,
   .candidate-grid {
     grid-template-columns: 1fr;
   }

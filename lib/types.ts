@@ -52,3 +52,15 @@ export type ElectionMaterial = {
   created_at: string;
   updated_at: string;
 };
+
+export type ContactSubmission = {
+  id: string;
+  created_at: string;
+  name: string | null;
+  contact: string | null;
+  topic: "flyer" | "suggestion" | "site-issue" | "other";
+  message: string;
+  image_url: string | null;
+  image_path: string | null;
+  status: "new" | "reviewed" | "archived";
+};
