@@ -3,13 +3,16 @@ create table if not exists push_subscriptions (
   endpoint text not null unique,
   p256dh text not null,
   auth text not null,
+  audience text not null default 'public' check (audience in ('public', 'admin')),
+  user_email text,
   user_agent text,
   preferences jsonb not null default '{
     "forum_posts": true,
     "forum_replies": true,
     "incentive_updates": true,
     "new_flyers": true,
-    "new_resources": false
+    "new_resources": false,
+    "pending_comments": false
   }'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -19,9 +22,13 @@ create table if not exists push_subscriptions (
 create index if not exists push_subscriptions_updated_at_idx
   on push_subscriptions (updated_at desc);
 
+create index if not exists push_subscriptions_audience_idx
+  on push_subscriptions (audience);
+
 create table if not exists push_notification_events (
   id uuid primary key default gen_random_uuid(),
   notification_type text not null,
+  audience text not null default 'public' check (audience in ('public', 'admin')),
   title text not null,
   body text,
   url text not null,

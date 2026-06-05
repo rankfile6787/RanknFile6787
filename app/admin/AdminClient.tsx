@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { BonusRow, CommentStatus, ElectionMaterial, ForumComment, ManagedDocument } from "@/lib/types";
 
-type AdminSection = "comments" | "incentive" | "flyers" | "election" | "resources";
+type AdminSection = "comments" | "incentive" | "flyers" | "election" | "resources" | "settings";
 
 const commentStatuses: CommentStatus[] = ["pending", "approved", "rejected"];
 const adminSections: Array<[AdminSection, string]> = [
@@ -12,6 +12,7 @@ const adminSections: Array<[AdminSection, string]> = [
   ["flyers", "Flyers"],
   ["election", "Election"],
   ["resources", "Resources"],
+  ["settings", "Settings"],
 ];
 
 const positions = [
@@ -35,6 +36,22 @@ const positions = [
 ];
 const materialKinds = ["incumbent", "candidate", "campaign-material"];
 
+function urlBase64ToUint8Array(value: string) {
+  const padding = "=".repeat((4 - (value.length % 4)) % 4);
+  const base64 = `${value}${padding}`.replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+}
+
+function supportsPush() {
+  return (
+    typeof window !== "undefined" &&
+    "Notification" in window &&
+    "serviceWorker" in navigator &&
+    "PushManager" in window
+  );
+}
+
 export default function AdminClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -43,6 +60,8 @@ export default function AdminClient() {
   const [token, setToken] = useState("");
   const [mustChangePassword, setMustChangePassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
   const [status, setStatus] = useState("");
   const [section, setSection] = useState<AdminSection>("comments");
   const [commentStatus, setCommentStatus] = useState<CommentStatus>("pending");
@@ -68,6 +87,22 @@ export default function AdminClient() {
   const materialCounts = useMemo(() => {
     return Object.fromEntries(commentStatuses.map((item) => [item, materials.filter((row) => row.status === item).length]));
   }, [materials]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get("access_token");
+    const type = params.get("type");
+    if (accessToken && type === "recovery") {
+      setToken(accessToken);
+      setMustChangePassword(true);
+      setStatus("Choose a new password to finish the reset.");
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  }, []);
 
   async function signIn(event: React.FormEvent) {
     event.preventDefault();
@@ -113,6 +148,29 @@ export default function AdminClient() {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || "Request failed.");
     return data;
+  }
+
+  async function requestPasswordReset(event: React.FormEvent) {
+    event.preventDefault();
+    const targetEmail = (resetEmail || email).trim();
+    if (!targetEmail) {
+      setStatus("Enter the admin email address first.");
+      return;
+    }
+
+    setStatus("Sending password reset email...");
+    const response = await fetch("/api/admin/password-reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: targetEmail }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      setStatus(data.error || "Could not send password reset email.");
+      return;
+    }
+    setStatus("If that email is an admin account, a reset link has been sent.");
+    setShowResetForm(false);
   }
 
   async function changePassword(event: React.FormEvent) {
@@ -258,24 +316,46 @@ export default function AdminClient() {
       <aside className="panel admin-sidebar">
         <h2>Admin</h2>
         {!token ? (
-          <form onSubmit={signIn}>
-            <div className="field">
-              <label htmlFor="admin-email">Email</label>
-              <input id="admin-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
-            </div>
-            <div className="field">
-              <label htmlFor="admin-password">Password</label>
-              <input
-                id="admin-password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <button className="btn primary" type="submit">
-              Sign In
-            </button>
-          </form>
+          <>
+            <form onSubmit={signIn}>
+              <div className="field">
+                <label htmlFor="admin-email">Email</label>
+                <input id="admin-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+              </div>
+              <div className="field">
+                <label htmlFor="admin-password">Password</label>
+                <input
+                  id="admin-password"
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </div>
+              <button className="btn primary" type="submit">
+                Sign In
+              </button>
+              <button className="reply-button" type="button" onClick={() => setShowResetForm((value) => !value)}>
+                Forgot password?
+              </button>
+            </form>
+            {showResetForm ? (
+              <form className="reset-form" onSubmit={requestPasswordReset}>
+                <div className="field">
+                  <label htmlFor="reset-email">Reset Email</label>
+                  <input
+                    id="reset-email"
+                    type="email"
+                    value={resetEmail || email}
+                    onChange={(event) => setResetEmail(event.target.value)}
+                    required
+                  />
+                </div>
+                <button className="btn" type="submit">
+                  Send Reset Link
+                </button>
+              </form>
+            ) : null}
+          </>
         ) : mustChangePassword ? (
           <form onSubmit={changePassword}>
             <p className="muted">Set a new password before using the admin tools.</p>
@@ -351,8 +431,122 @@ export default function AdminClient() {
             update={updateElectionMaterial}
           />
         ) : null}
+        {token && !mustChangePassword && section === "settings" ? (
+          <AdminSettingsPanel token={token} setStatus={setStatus} />
+        ) : null}
       </section>
     </div>
+  );
+}
+
+function AdminSettingsPanel({ token, setStatus }: { token: string; setStatus: (status: string) => void }) {
+  const [supported, setSupported] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  useEffect(() => {
+    setSupported(supportsPush());
+    if (supportsPush()) {
+      navigator.serviceWorker.ready
+        .then((registration) => registration.pushManager.getSubscription())
+        .then((subscription) => setSubscribed(Boolean(subscription)))
+        .catch(() => null);
+    }
+  }, []);
+
+  async function enableAdminNotifications() {
+    if (!supported) {
+      setStatus("This browser does not support web push notifications.");
+      return;
+    }
+
+    setStatus("Requesting notification permission...");
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      setStatus("Admin notifications were not enabled.");
+      return;
+    }
+
+    if ("serviceWorker" in navigator) {
+      await navigator.serviceWorker.register("/sw.js").catch(() => null);
+    }
+
+    const [{ publicKey }, registration] = await Promise.all([
+      fetch("/api/push/vapid-public-key").then((response) => response.json()),
+      navigator.serviceWorker.ready,
+    ]);
+
+    if (!publicKey) {
+      setStatus("Notification keys are not configured yet.");
+      return;
+    }
+
+    const existing = await registration.pushManager.getSubscription();
+    const subscription =
+      existing ||
+      (await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicKey),
+      }));
+
+    const response = await fetch("/api/push/subscriptions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        audience: "admin",
+        subscription,
+        preferences: { pending_comments: true },
+      }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      setStatus(data.error || "Could not save admin notifications.");
+      return;
+    }
+
+    setSubscribed(true);
+    setStatus("Admin notifications enabled for pending forum comments.");
+  }
+
+  async function disableAdminNotifications() {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+      setSubscribed(false);
+      setStatus("Admin notifications are already off.");
+      return;
+    }
+
+    await fetch("/api/push/subscriptions", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ endpoint: subscription.endpoint }),
+    }).catch(() => null);
+    await subscription.unsubscribe();
+    setSubscribed(false);
+    setStatus("Admin notifications disabled.");
+  }
+
+  return (
+    <section className="panel">
+      <div className="admin-head">
+        <div>
+          <p className="eyebrow">Settings</p>
+          <h2>Admin Notifications</h2>
+          <p className="muted">Get an alert when a new forum comment or reply is waiting for approval.</p>
+        </div>
+      </div>
+      <div className="button-row">
+        <button className="btn primary" type="button" onClick={enableAdminNotifications}>
+          {subscribed ? "Update Admin Notifications" : "Enable Admin Notifications"}
+        </button>
+        {subscribed ? (
+          <button className="btn" type="button" onClick={disableAdminNotifications}>
+            Disable
+          </button>
+        ) : null}
+      </div>
+      {!supported ? <p className="install-help">Use a browser or installed app that supports web push notifications.</p> : null}
+    </section>
   );
 }
 

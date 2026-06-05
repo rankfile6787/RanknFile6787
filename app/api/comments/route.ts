@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { excerpt, sendPushNotification } from "@/lib/notifications";
 import backupComments from "@/public/comments.backup.json";
 import { createServiceSupabase, getAdminEmails, isSupabaseConfigured, normalizeCategory, normalizeComment } from "@/lib/supabase";
 
@@ -69,6 +70,14 @@ export async function POST(request: NextRequest) {
   const supabase = createServiceSupabase();
   const { error } = await supabase.from("comments").insert(payload);
   if (error) return jsonError(error.message, 500);
+
+  await sendPushNotification({
+    type: "pending_comments",
+    title: "Forum comment needs review",
+    body: `${payload.display_name}: ${excerpt(payload.body)}`,
+    url: "/admin",
+    audience: "admin",
+  });
 
   return NextResponse.json({ ok: true, id: payload.id });
 }

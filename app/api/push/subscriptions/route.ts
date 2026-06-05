@@ -4,6 +4,7 @@ import {
   type NotificationPreferenceKey,
   type NotificationPreferences,
 } from "@/lib/notifications";
+import { getAdminUser } from "@/lib/admin";
 import { createServiceSupabase } from "@/lib/supabase";
 
 const preferenceKeys: NotificationPreferenceKey[] = [
@@ -12,6 +13,7 @@ const preferenceKeys: NotificationPreferenceKey[] = [
   "incentive_updates",
   "new_flyers",
   "new_resources",
+  "pending_comments",
 ];
 
 function normalizePreferences(value: unknown): NotificationPreferences {
@@ -38,9 +40,15 @@ function parseSubscription(value: unknown) {
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const subscription = parseSubscription(body?.subscription);
+  const audience = body?.audience === "admin" ? "admin" : "public";
 
   if (!subscription) {
     return NextResponse.json({ error: "A valid push subscription is required." }, { status: 400 });
+  }
+
+  const adminUser = audience === "admin" ? await getAdminUser(request) : null;
+  if (audience === "admin" && !adminUser) {
+    return NextResponse.json({ error: "Admin access is required." }, { status: 401 });
   }
 
   const preferences = normalizePreferences(body?.preferences);
@@ -48,6 +56,8 @@ export async function POST(request: NextRequest) {
   const { error } = await supabase.from("push_subscriptions").upsert(
     {
       ...subscription,
+      audience,
+      user_email: adminUser?.email?.toLowerCase() || null,
       preferences,
       user_agent: request.headers.get("user-agent") || null,
       updated_at: new Date().toISOString(),
