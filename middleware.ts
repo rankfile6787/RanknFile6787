@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 const publicSiteOrigin = "https://www.rankandfile6787.com";
 
 export function middleware(request: NextRequest) {
-  const host = request.headers.get("host") || "";
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
   const url = request.nextUrl.clone();
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", request.nextUrl.pathname);

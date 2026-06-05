@@ -40,26 +40,37 @@ const navItems = [
   ["Pay Calculator", "/paycalc"],
 ];
 
-const publicSiteOrigin = "https://www.rankandfile6787.com";
+const adminNavItems = [
+  ["Comments", "/admin#comments"],
+  ["Contact", "/admin#contact"],
+  ["Incentive", "/admin#incentive"],
+  ["Flyers", "/admin#flyers"],
+  ["Election", "/admin#election"],
+  ["Resources", "/admin#resources"],
+  ["Settings", "/admin#settings"],
+];
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const requestHeaders = await headers();
   const pathname = requestHeaders.get("x-pathname") || "";
-  const host = requestHeaders.get("host") || "";
-  const navOrigin = host.startsWith("admin.") ? publicSiteOrigin : "";
-  const hideNav = pathname.startsWith("/paycalc");
+  const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "";
+  const isAdminHost = host.startsWith("admin.");
+  const activeNavItems = isAdminHost ? adminNavItems : navItems;
+  const brandHref = isAdminHost ? "/admin" : "/";
+  const brandLabel = isAdminHost ? "Rank & File Admin" : "Rank & File 6787";
+  const hideNav = !isAdminHost && pathname.startsWith("/paycalc");
 
   return (
     <html lang="en">
       <body>
         {!hideNav ? (
           <nav className="site-nav">
-            <Link className="brand" href={`${navOrigin}/`}>
-              Rank & File 6787
+            <Link className="brand" href={brandHref}>
+              {brandLabel}
             </Link>
             <div className="nav-links">
-              {navItems.map(([label, href]) => (
-                <Link href={`${navOrigin}${href}`} key={href}>
+              {activeNavItems.map(([label, href]) => (
+                <Link href={href} key={href}>
                   {label}
                 </Link>
               ))}

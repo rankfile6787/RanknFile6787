@@ -18,6 +18,12 @@ const adminSections: Array<[AdminSection, string]> = [
   ["settings", "Settings"],
 ];
 
+function normalizeAdminSection(value: string | null): AdminSection {
+  const section = String(value || "").replace(/^#/, "");
+  if (adminSections.some(([key]) => key === section)) return section as AdminSection;
+  return "comments";
+}
+
 const positions = [
   "president",
   "vice-president",
@@ -96,6 +102,25 @@ export default function AdminClient() {
   const visibleContactSubmissions = useMemo(() => {
     return contactSubmissions.filter((submission) => submission.status === contactStatus);
   }, [contactSubmissions, contactStatus]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setSection(normalizeAdminSection(window.location.hash));
+
+    function syncSectionFromHash() {
+      const nextSection = normalizeAdminSection(window.location.hash);
+      setSection(nextSection);
+      if (!token || mustChangePassword) return;
+      if (nextSection === "flyers") loadDocuments("flyers").catch((error) => setStatus(error.message));
+      if (nextSection === "resources") loadDocuments("resources").catch((error) => setStatus(error.message));
+      if (nextSection === "election") loadElectionMaterials().catch((error) => setStatus(error.message));
+      if (nextSection === "incentive") loadBonusRows().catch((error) => setStatus(error.message));
+      if (nextSection === "contact") loadContactSubmissions().catch((error) => setStatus(error.message));
+    }
+
+    window.addEventListener("hashchange", syncSectionFromHash);
+    return () => window.removeEventListener("hashchange", syncSectionFromHash);
+  }, [mustChangePassword, token]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -337,15 +362,6 @@ export default function AdminClient() {
     setStatus("Deleted.");
   }
 
-  function openSection(nextSection: AdminSection) {
-    setSection(nextSection);
-    if (nextSection === "flyers") loadDocuments("flyers").catch((error) => setStatus(error.message));
-    if (nextSection === "resources") loadDocuments("resources").catch((error) => setStatus(error.message));
-    if (nextSection === "election") loadElectionMaterials().catch((error) => setStatus(error.message));
-    if (nextSection === "incentive") loadBonusRows().catch((error) => setStatus(error.message));
-    if (nextSection === "contact") loadContactSubmissions().catch((error) => setStatus(error.message));
-  }
-
   return (
     <div className="admin-shell">
       <aside className="panel admin-sidebar">
@@ -410,12 +426,9 @@ export default function AdminClient() {
             </button>
           </form>
         ) : (
-          <div className="admin-nav">
-            {adminSections.map(([key, label]) => (
-              <button className={section === key ? "btn primary" : "btn"} key={key} type="button" onClick={() => openSection(key)}>
-                {label}
-              </button>
-            ))}
+          <div className="admin-session">
+            <p className="eyebrow">Signed In</p>
+            <p className="muted">Use the admin navigation above to manage each section.</p>
           </div>
         )}
         {status ? <p className="muted">{status}</p> : null}
