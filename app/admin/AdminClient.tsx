@@ -103,6 +103,16 @@ export default function AdminClient() {
     return contactSubmissions.filter((submission) => submission.status === contactStatus);
   }, [contactSubmissions, contactStatus]);
 
+  function loadSectionData(nextSection: AdminSection) {
+    if (!token || mustChangePassword) return;
+    if (nextSection === "flyers") loadDocuments("flyers").catch((error) => setStatus(error.message));
+    if (nextSection === "resources") loadDocuments("resources").catch((error) => setStatus(error.message));
+    if (nextSection === "election") loadElectionMaterials().catch((error) => setStatus(error.message));
+    if (nextSection === "incentive") loadBonusRows().catch((error) => setStatus(error.message));
+    if (nextSection === "contact") loadContactSubmissions().catch((error) => setStatus(error.message));
+    if (nextSection === "comments") loadComments().catch((error) => setStatus(error.message));
+  }
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     setSection(normalizeAdminSection(window.location.hash));
@@ -110,16 +120,30 @@ export default function AdminClient() {
     function syncSectionFromHash() {
       const nextSection = normalizeAdminSection(window.location.hash);
       setSection(nextSection);
-      if (!token || mustChangePassword) return;
-      if (nextSection === "flyers") loadDocuments("flyers").catch((error) => setStatus(error.message));
-      if (nextSection === "resources") loadDocuments("resources").catch((error) => setStatus(error.message));
-      if (nextSection === "election") loadElectionMaterials().catch((error) => setStatus(error.message));
-      if (nextSection === "incentive") loadBonusRows().catch((error) => setStatus(error.message));
-      if (nextSection === "contact") loadContactSubmissions().catch((error) => setStatus(error.message));
+      loadSectionData(nextSection);
+    }
+
+    function handleAdminNavClick(event: MouseEvent) {
+      const target = event.target instanceof Element ? event.target : null;
+      const link = target?.closest<HTMLAnchorElement>('a[href*="/admin#"]');
+      if (!link) return;
+
+      const url = new URL(link.href, window.location.href);
+      if (url.pathname !== "/admin") return;
+
+      event.preventDefault();
+      const nextSection = normalizeAdminSection(url.hash);
+      window.history.pushState(null, "", `${url.pathname}${url.hash}`);
+      setSection(nextSection);
+      loadSectionData(nextSection);
     }
 
     window.addEventListener("hashchange", syncSectionFromHash);
-    return () => window.removeEventListener("hashchange", syncSectionFromHash);
+    document.addEventListener("click", handleAdminNavClick);
+    return () => {
+      window.removeEventListener("hashchange", syncSectionFromHash);
+      document.removeEventListener("click", handleAdminNavClick);
+    };
   }, [mustChangePassword, token]);
 
   useEffect(() => {
