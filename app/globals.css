@@ -500,6 +500,27 @@ h2 {
   margin: 0;
 }
 
+.forum-image {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.image-picker {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.image-picker input {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .reply-button {
   width: fit-content;
   border: 0;

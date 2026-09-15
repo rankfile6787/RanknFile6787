@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ForumComment } from "@/lib/types";
 
 const categories = ["general", "news", "questions"] as const;
@@ -10,6 +10,11 @@ export default function ForumClient() {
   const [status, setStatus] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [replyStatus, setReplyStatus] = useState("");
+  const [replyConfirmation, setReplyConfirmation] = useState<string | null>(null);
+  const replyEditor = useRef<HTMLTextAreaElement>(null);
+  const postImage = useRef<HTMLInputElement>(null);
+  const replyImage = useRef<HTMLInputElement>(null);
   const [postForm, setPostForm] = useState({ display_name: "", category: "general", comment: "", website: "" });
   const [replyForm, setReplyForm] = useState({ display_name: "", comment: "", website: "" });
 
@@ -35,7 +40,24 @@ export default function ForumClient() {
 
   function openReply(commentId: string) {
     setReplyTo(commentId);
+    setReplyStatus("");
+    setReplyConfirmation(null);
     setReplyForm({ display_name: "", comment: "", website: "" });
+  }
+
+  useEffect(() => {
+    if (replyTo) replyEditor.current?.focus();
+  }, [replyTo]);
+
+  function submission(form: { display_name: string; comment: string; website: string }, category: string, parentId: string | null, image: File | undefined) {
+    const data = new FormData();
+    data.set("display_name", form.display_name);
+    data.set("comment", form.comment);
+    data.set("website", form.website);
+    data.set("category", category);
+    if (parentId) data.set("parent_id", parentId);
+    if (image) data.set("image", image);
+    return data;
   }
 
   async function submitPost(event: React.FormEvent) {
@@ -44,8 +66,7 @@ export default function ForumClient() {
 
     const response = await fetch("/api/comments", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...postForm, parent_id: null }),
+      body: submission(postForm, postForm.category, null, postImage.current?.files?.[0]),
     });
 
     if (!response.ok) {
@@ -55,32 +76,30 @@ export default function ForumClient() {
     }
 
     setPostForm({ display_name: "", category: "general", comment: "", website: "" });
+    if (postImage.current) postImage.current.value = "";
     setStatus("Submitted for approval.");
   }
 
   async function submitReply(event: React.FormEvent, parent: ForumComment) {
     event.preventDefault();
-    setStatus("Sending reply...");
+    setReplyStatus("Sending reply...");
 
     const response = await fetch("/api/comments", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...replyForm,
-        category: parent.category,
-        parent_id: parent.id,
-      }),
+      body: submission(replyForm, parent.category, parent.id, replyImage.current?.files?.[0]),
     });
 
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
-      setStatus(data.error || "Could not submit reply.");
+      setReplyStatus(data.error || "Could not submit reply.");
       return;
     }
 
     setReplyForm({ display_name: "", comment: "", website: "" });
+    if (replyImage.current) replyImage.current.value = "";
     setReplyTo(null);
-    setStatus("Reply submitted for approval.");
+    setReplyStatus("");
+    setReplyConfirmation(parent.id);
   }
 
   function renderComment(comment: ForumComment, isRoot = false): React.ReactNode {
@@ -92,10 +111,12 @@ export default function ForumClient() {
           <span>{new Date(comment.created_at).toLocaleString()}</span>
           {isRoot ? <span className="badge">{comment.category}</span> : null}
         </div>
-        <p>{comment.body}</p>
+        {comment.body ? <p>{comment.body}</p> : null}
+        {comment.image_url ? <img className="forum-image" src={comment.image_url} alt={`Image posted by ${comment.display_name}`} loading="lazy" /> : null}
         <button className="reply-button" type="button" onClick={() => openReply(comment.id)}>
           Reply
         </button>
+        {replyConfirmation === comment.id ? <p className="muted" role="status">Reply submitted for approval.</p> : null}
 
         {replyTo === comment.id ? (
           <form className="reply-composer" onSubmit={(event) => submitReply(event, comment)}>
@@ -107,13 +128,16 @@ export default function ForumClient() {
               placeholder="Rank & File"
             />
             <textarea
+              ref={replyEditor}
               aria-label="Reply"
-              required
               maxLength={3000}
               value={replyForm.comment}
               onChange={(event) => setReplyForm({ ...replyForm, comment: event.target.value })}
               placeholder={`Reply to ${comment.display_name}...`}
             />
+            <label className="image-picker">Upload picture optional
+              <input ref={replyImage} name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+            </label>
             <div className="hp-field" aria-hidden="true">
               <label htmlFor={`website-${comment.id}`}>Website</label>
               <input
@@ -125,6 +149,7 @@ export default function ForumClient() {
               />
             </div>
             <div className="composer-actions">
+              {replyStatus ? <p className="muted" role="status">{replyStatus}</p> : null}
               <button className="btn" type="button" onClick={() => setReplyTo(null)}>
                 Cancel
               </button>
@@ -176,12 +201,14 @@ export default function ForumClient() {
           </div>
           <textarea
             aria-label="Post"
-            required
             maxLength={3000}
             value={postForm.comment}
             onChange={(event) => setPostForm({ ...postForm, comment: event.target.value })}
             placeholder="Write a post..."
           />
+          <label className="image-picker">Upload picture optional
+            <input ref={postImage} name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+          </label>
           <div className="hp-field" aria-hidden="true">
             <label htmlFor="website">Website</label>
             <input

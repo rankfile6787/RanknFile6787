@@ -8,7 +8,7 @@ export default function ForumPage() {
         <div className="hero-content">
           <p className="eyebrow">Independent Member Information Board</p>
           <h1>Forum</h1>
-          <p className="lead">Posts now flow toward Supabase moderation instead of Google Sheets and Apps Script.</p>
+          <p className="lead">Share questions, news, and conversation with fellow members. Posts are reviewed before they appear.</p>
         </div>
       </header>
       <main className="container">

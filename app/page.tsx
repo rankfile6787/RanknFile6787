@@ -49,7 +49,7 @@ export default function HomePage() {
           </article>
           <article className="panel home-card">
             <h2>Incentive</h2>
-            <p className="muted">Production bonus data will move from static JSON into Supabase.</p>
+            <p className="muted">View production bonus information.</p>
             <Link className="btn" href="/production-bonus">
               View Incentive
             </Link>

@@ -756,7 +756,8 @@ function CommentModeration({
               <span className={`status-${comment.status}`}>{comment.status}</span>
               <span className="badge">{comment.category}</span>
             </div>
-            <p>{comment.body}</p>
+            {comment.body ? <p>{comment.body}</p> : null}
+            {comment.image_url ? <img className="forum-image" src={comment.image_url} alt={`Image submitted by ${comment.display_name}`} loading="lazy" /> : null}
             <div className="button-row">
               {comment.status !== "approved" ? (
                 <button className="btn primary" type="button" onClick={() => moderate(comment.id, "approve")}>

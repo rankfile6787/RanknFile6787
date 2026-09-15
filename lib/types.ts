@@ -9,6 +9,8 @@ export type ForumComment = {
   display_name: string;
   category: CommentCategory;
   body: string;
+  image_url?: string | null;
+  image_path?: string | null;
   status: CommentStatus;
   website?: string | null;
   ip_hash?: string | null;

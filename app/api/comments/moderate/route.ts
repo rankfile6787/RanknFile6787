@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     await sendPushNotification({
       type: isReply ? "forum_replies" : "forum_posts",
       title: isReply ? "New forum reply" : "New forum post",
-      body: `${comment.display_name || "Rank & File"}: ${excerpt(comment.body || "")}`,
+      body: `${comment.display_name || "Rank & File"}: ${excerpt(comment.body || "Image post")}`,
       url: "/forum",
     });
   }

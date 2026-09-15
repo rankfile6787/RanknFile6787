@@ -37,6 +37,8 @@ export function normalizeComment(row: Record<string, unknown>): ForumComment {
     display_name: String(row.display_name || "Rank & File"),
     category: normalizeCategory(row.category),
     body: String(row.body || row.comment || ""),
+    image_url: row.image_url ? String(row.image_url) : null,
+    image_path: row.image_path ? String(row.image_path) : null,
     status: normalizeStatus(row.status),
     website: row.website ? String(row.website) : null,
     ip_hash: row.ip_hash ? String(row.ip_hash) : null,

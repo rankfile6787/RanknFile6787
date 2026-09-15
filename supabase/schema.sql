@@ -7,6 +7,8 @@ create table if not exists public.comments (
   display_name text not null default 'Rank & File',
   category text not null default 'general' check (category in ('general', 'news', 'questions')),
   body text not null,
+  image_url text,
+  image_path text,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
   website text,
   ip_hash text,
