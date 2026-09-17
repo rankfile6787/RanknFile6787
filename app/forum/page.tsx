@@ -1,8 +1,10 @@
 import ForumClient from "./ForumClient";
+import ForumViewTracker from "./ForumViewTracker";
 
 export default function ForumPage() {
   return (
     <>
+      <ForumViewTracker />
       <header className="hero">
         <img src="/solidarity.jpg" alt="Solidarity banner" />
         <div className="hero-content">
