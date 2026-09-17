@@ -42,6 +42,7 @@ const navItems = [
 
 const adminNavItems = [
   ["Comments", "/admin#comments"],
+  ["Analytics", "/admin/analytics"],
   ["Contact", "/admin#contact"],
   ["Incentive", "/admin#incentive"],
   ["Flyers", "/admin#flyers"],
