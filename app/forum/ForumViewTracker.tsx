@@ -6,9 +6,11 @@ const visitorKey = "rankfile_forum_visitor_id";
 const sessionKey = "rankfile_forum_session_id";
 
 function makeId() {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
-  if (typeof crypto !== "undefined" && "getRandomValues" in crypto) {
-    const bytes = crypto.getRandomValues(new Uint8Array(16));
+  const browserCrypto = globalThis.crypto;
+  if (browserCrypto?.randomUUID) return browserCrypto.randomUUID();
+  if (browserCrypto) {
+    const bytes = new Uint8Array(16);
+    browserCrypto.getRandomValues(bytes);
     return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
   }
   return `${Date.now()}_${Math.random().toString(36).slice(2)}_${Math.random().toString(36).slice(2)}`;
